@@ -2,25 +2,50 @@ package ua.notion.utils;
 
 public final class OsUtils {
 
-  private static final String OS = System.getProperty("os.name", "generic").toLowerCase();
+  public enum OS {
+    WINDOWS,
+    LINUX,
+    MAC,
+    OTHER
+  }
 
-  public static final boolean IS_WINDOWS = OS.contains("win");
-  public static final boolean IS_LINUX = OS.contains("nix") || OS.contains("nux") || OS.contains("aix");
-  public static final boolean IS_MAC = OS.contains("mac");
+  private static final OS CURRENT_OS = determineOS();
 
   private OsUtils() {
     throw new UnsupportedOperationException("Utility class cannot be instantiated");
   }
 
-  public static boolean isWindows() {
-    return IS_WINDOWS;
+  private static OS determineOS() {
+    String osName = System.getProperty("os.name", "generic").toLowerCase();
+
+    if (osName.contains("win")) {
+      return OS.WINDOWS;
+    } else if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix")) {
+      return OS.LINUX;
+    } else if (osName.contains("mac")) {
+      return OS.MAC;
+    } else {
+      return OS.OTHER;
+    }
   }
 
-  public static boolean isLinux() {
-    return IS_LINUX;
+  public static OS getCurrentOs() {
+    return CURRENT_OS;
+  }
+
+  public static boolean isWindows() {
+    return CURRENT_OS == OS.WINDOWS;
   }
 
   public static boolean isMac() {
-    return IS_MAC;
+    return CURRENT_OS == OS.MAC;
+  }
+
+  public static boolean isLinux() {
+    return CURRENT_OS == OS.LINUX;
+  }
+
+  public static boolean isOther() {
+    return CURRENT_OS == OS.OTHER;
   }
 }
