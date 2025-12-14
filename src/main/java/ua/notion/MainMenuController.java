@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -12,19 +13,27 @@ public class MainMenuController {
 
   private double xOffset = 0;
   private double yOffset = 0;
+  private final static String PATH_CSS = "/css/styles.css";
 
   @FXML
   private BorderPane rootPane;
-
   @FXML
   private Button buttonFull;
   @FXML
   private Button buttonMin;
   @FXML
   private Button buttonClose;
-
   @FXML
   private Pane topPane;
+  @FXML
+  private Button addButton;
+  @FXML
+  private Button settingsButton;
+  @FXML
+  private Button supportButton;
+  @FXML
+  private HBox bottomHboxStyle;
+
 
   @FXML
   protected void handleCloseAction(ActionEvent e) {
@@ -45,10 +54,10 @@ public class MainMenuController {
 
     if (stage.isFullScreen()) {
       stage.setFullScreen(false);
-      rootPane.setStyle("-fx-background-color: #3D3D3D; -fx-background-radius: 20;");
+      rootPane.getStyleClass().remove("fullscreen");
     } else {
       stage.setFullScreen(true);
-      rootPane.setStyle("-fx-background-color: #3D3D3D; -fx-background-radius: 0;");
+      rootPane.getStyleClass().add("fullscreen");
     }
   }
 
@@ -70,5 +79,11 @@ public class MainMenuController {
       stage.setX(e.getScreenX() + xOffset);
       stage.setY(e.getScreenY() + yOffset);
     }
+  }
+
+
+  @FXML
+  private void initialize() {
+    rootPane.getStylesheets().add(getClass().getResource(PATH_CSS).toExternalForm());
   }
 }
