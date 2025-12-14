@@ -78,34 +78,42 @@
 }
 
 .full-btn {
-    -fx-background-color: #00FF09;
-    -fx-cursor: hand;
+    -fx-background-color: #28C840;
+}
+
+.full-btn:hover {
+    -fx-background-color: #22B737;
 }
 
 .full-btn:pressed {
-    -fx-background-color: #008607;
+    -fx-background-color: #1EA231;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.35), 6, 0.2, 0, 1);
 }
 
 .min-btn {
-    -fx-background-color: #C88142;
-    -fx-cursor: hand;
+    -fx-background-color: #FFBD2E;
+}
+
+.min-btn:hover {
+    -fx-background-color: #d39b20;
 }
 
 .min-btn:pressed {
-    -fx-background-color: #7b4c22;
+    -fx-background-color: #D99A1E;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.35), 6, 0.2, 0, 1);
 }
 
 .close-btn {
-    -fx-background-color: #FF0000;
-    -fx-cursor: hand;
+    -fx-background-color: #FF5F57;
+}
+
+.close-btn:hover {
+    -fx-background-color: #F0534B;
 }
 
 .close-btn:pressed {
-    -fx-background-color: #7a0202;
-}
-
-.top-segmented .button:hover {
-    -fx-opacity: 0.85;
+    -fx-background-color: #D9463F;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.35), 6, 0.2, 0, 1);
 }
 
 .top-segmented .button:pressed {
