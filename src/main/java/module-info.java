@@ -8,6 +8,8 @@ module ua.notion {
 
   opens ua.notion to javafx.fxml;
 
+  opens ua.notion.controller to javafx.fxml;
+
   opens ua.notion.components to com.google.gson;
 
   exports ua.notion;

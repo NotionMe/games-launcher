@@ -1,4 +1,4 @@
-package ua.notion;
+package ua.notion.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
