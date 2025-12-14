@@ -8,12 +8,21 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import ua.notion.components.User;
+import ua.notion.data.UserData;
+import ua.notion.services.GameService;
 
 public class MainMenuController {
 
   private double xOffset = 0;
   private double yOffset = 0;
+
+  private User user;
+
   private final static String PATH_CSS = "/css/styles.css";
+
+  private final UserData userData = new UserData();
+  private final GameService gameService = new GameService(userData);
 
   @FXML
   private BorderPane rootPane;
@@ -81,9 +90,18 @@ public class MainMenuController {
     }
   }
 
+  @FXML
+  private void onAddGameButtonPressed(ActionEvent e) {
+
+    Stage stage = (Stage) rootPane.getScene().getWindow();
+
+    gameService.addGameFromFile(user, stage);
+  }
 
   @FXML
   private void initialize() {
     rootPane.getStylesheets().add(getClass().getResource(PATH_CSS).toExternalForm());
+
+    user = userData.read();
   }
 }
