@@ -1,32 +1,31 @@
-package ua.notion.controller;
+package ua.notion;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.services.GameService;
 
-public class MainMenuController implements Initializable {
+public class MainMenuController {
 
   private double xOffset = 0;
   private double yOffset = 0;
 
   private User user;
 
+  private final static String PATH_CSS = "/css/styles.css";
+
   private final UserData userData = new UserData();
   private final GameService gameService = new GameService(userData);
 
   @FXML
   private BorderPane rootPane;
-
   @FXML
   private Button buttonFull;
   @FXML
@@ -34,14 +33,16 @@ public class MainMenuController implements Initializable {
   @FXML
   private Button buttonClose;
   @FXML
-  private Button buttonAddGame;
-  @FXML
-  private Button buttonSettings;
-  @FXML
-  private Button buttonSupport;
-
-  @FXML
   private Pane topPane;
+  @FXML
+  private Button addButton;
+  @FXML
+  private Button settingsButton;
+  @FXML
+  private Button supportButton;
+  @FXML
+  private HBox bottomHboxStyle;
+
 
   @FXML
   protected void handleCloseAction(ActionEvent e) {
@@ -62,10 +63,10 @@ public class MainMenuController implements Initializable {
 
     if (stage.isFullScreen()) {
       stage.setFullScreen(false);
-      rootPane.setStyle("-fx-background-color: #3D3D3D; -fx-background-radius: 20;");
+      rootPane.getStyleClass().remove("fullscreen");
     } else {
       stage.setFullScreen(true);
-      rootPane.setStyle("-fx-background-color: #3D3D3D; -fx-background-radius: 0;");
+      rootPane.getStyleClass().add("fullscreen");
     }
   }
 
@@ -97,8 +98,10 @@ public class MainMenuController implements Initializable {
     gameService.addGameFromFile(user, stage);
   }
 
-  @Override
-  public void initialize(URL url, ResourceBundle resourceBundle) {
+  @FXML
+  private void initialize() {
+    rootPane.getStylesheets().add(getClass().getResource(PATH_CSS).toExternalForm());
+
     user = userData.read();
   }
 }

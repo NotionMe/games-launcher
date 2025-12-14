@@ -18,20 +18,18 @@ public class App extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    BorderPane root = new FXMLLoader().load(
-        getClass().getResource("main-menu.fxml")); // orig PARENT, main scene
+    BorderPane root = new FXMLLoader().load(getClass().getResource("main-menu.fxml")); // orig PARENT
     primaryStage.initStyle(StageStyle.TRANSPARENT);
     Scene scene = new Scene(root);
     scene.setFill(Color.TRANSPARENT);
-    primaryStage.getIcons().addAll(  // all variables logo
-        new Image("icon_16x16.png"),
-        new Image("icon_32x32.png"),
-        new Image("icon_64x64.png"),
-        new Image("icon_128x128.png"),
-        new Image("icon_256x256.png"),
-        new Image("icon_1024x1024.png")
+    primaryStage.getIcons().addAll(
+        new Image(getClass().getResource("/icons/icon_16x16.png").toString()),
+        new Image(getClass().getResource("/icons/icon_32x32.png").toString()),
+        new Image(getClass().getResource("/icons/icon_64x64.png").toString()),
+        new Image(getClass().getResource("/icons/icon_128x128.png").toString()),
+        new Image(getClass().getResource("/icons/icon_256x256.png").toString()),
+        new Image(getClass().getResource("/icons/icon_1024x1024.png").toString())
     );
-
     primaryStage.setTitle("Games launcher");
 
     primaryStage.setScene(scene);

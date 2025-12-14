@@ -11,6 +11,5 @@ module ua.notion {
   opens ua.notion.components to com.google.gson;
 
   exports ua.notion;
-  exports ua.notion.controller;
-  opens ua.notion.controller to javafx.fxml;
+
 }

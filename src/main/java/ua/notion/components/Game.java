@@ -3,18 +3,18 @@ package ua.notion.components;
 public class Game {
 
   private final String title;
-  private final String exePath;
+  private final String targetPath;
   private String iconPath; // can be null
 
-  public Game(String title, String exePath) {
+  public Game(String title, String targetPath) {
     this.title = title;
-    this.exePath = exePath;
-    this.iconPath = "default_photo_512x512.png";
+    this.targetPath = targetPath;  // path to our game
+    this.iconPath = "/icons/default_photo_512x512.png";
   }
 
-  public Game(String title, String exePath, String iconPath) {
+  public Game(String title, String targetPath, String iconPath) {
     this.title = title;
-    this.exePath = exePath;
+    this.targetPath = targetPath;
     this.iconPath = iconPath;
   }
 
@@ -22,8 +22,8 @@ public class Game {
     return title;
   }
 
-  public String getExePath() {
-    return exePath;
+  public String getTargetPath() {
+    return targetPath;
   }
 
   public String getIconPath() {

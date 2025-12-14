@@ -8,19 +8,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #3D3D3D; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controller.MainMenuController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.MainMenuController">
   <top>
     <AnchorPane fx:id="topPane" onMouseDragged="#handleMovementAction" onMousePressed="#handlePressAction" prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
       <children>
-        <HBox alignment="CENTER" spacing="12.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
+        <HBox alignment="CENTER" styleClass="top-segmented" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
           <children>
-            <Button fx:id="buttonFull" onAction="#handleFullAction" prefHeight="15.0" prefWidth="9.0" style="-fx-background-color: #00FF09; -fx-background-radius: 50%; -fx-min-width: 15; -fx-min-height: 15; -fx-max-width: 15; -fx-max-height: 15; -fx-padding: 0; -fx-background-insets: 0" />
-            <Button fx:id="buttonMin" onAction="#handleMinAction" prefHeight="15.0" prefWidth="9.0" style="-fx-background-color: #C88142; -fx-background-radius: 50%; -fx-min-width: 15; -fx-min-height: 15; -fx-max-width: 15; -fx-max-height: 15; -fx-padding: 0; -fx-background-insets: 0;" />
-            <Button fx:id="buttonClose" onAction="#handleCloseAction" prefHeight="15.0" prefWidth="9.0" style="-fx-background-color: #FF0000; -fx-background-radius: 50%; -fx-min-width: 15; -fx-min-height: 15; -fx-max-width: 15; -fx-max-height: 15; -fx-padding: 0; -fx-background-insets: 0;">
+            <Button fx:id="buttonFull" onAction="#handleFullAction" prefHeight="15.0" prefWidth="9.0" styleClass="full-btn" />
+            <Button fx:id="buttonMin" onAction="#handleMinAction" prefHeight="15.0" prefWidth="9.0" styleClass="min-btn" />
+            <Button fx:id="buttonClose" onAction="#handleCloseAction" prefHeight="15.0" prefWidth="9.0" styleClass="close-btn">
               <cursor>
                 <Cursor fx:constant="DEFAULT" />
               </cursor>
@@ -30,74 +30,59 @@
       </children>
     </AnchorPane>
   </top>
+
   <bottom>
     <AnchorPane prefHeight="86.0" prefWidth="800.0" BorderPane.alignment="CENTER">
       <children>
-
-        <Button fx:id="buttonAddGame" graphicTextGap="5.0" mnemonicParsing="false" onAction="#onAddGameButtonPressed" prefHeight="39.0" prefWidth="104.0" style="-fx-background-radius: 32.5; -fx-background-color: #FF753A;" text="Add a game" textFill="WHITE" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="35.0">
-          <font>
-            <Font name="Arial Black" size="10.0" />
-          </font>
+        <Button fx:id="addButton" graphicTextGap="5.0" mnemonicParsing="false" onAction="#onAddGameButtonPressed" prefHeight="36.0" prefWidth="115.0" styleClass="add-game-btn" text="Add a game" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="35.0">
           <graphic>
             <ImageView fitHeight="17.0" fitWidth="17.0">
               <image>
-                <Image url="@../../icon_plus_80x80.png" />
+                <Image url="@../../icons/icon_plus_80x80.png" />
               </image>
             </ImageView>
           </graphic>
         </Button>
-
-        <HBox alignment="CENTER_LEFT" spacing="1.0" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="54.0">
-          <children>
-            <Button fx:id="buttonSupport" mnemonicParsing="false" prefHeight="32.0" prefWidth="96.0" style="-fx-background-color: #353535; -fx-background-radius: 18 0 0 18;" text="Support" textFill="WHITE">
-              <font>
-                <Font name="Arial Black" size="9.0" />
-              </font>
-              <graphic>
-                <ImageView fitHeight="30.0" fitWidth="30.0">
-                  <image>
-                    <Image url="@../../icon_piggy_bank_120x120.png" />
-                  </image>
-                </ImageView>
-              </graphic>
-            </Button>
-
-            <Button fx:id="buttonSettings" mnemonicParsing="false" prefHeight="36.0" prefWidth="96.0" style="-fx-background-color: #353535; -fx-background-radius: 0 18 18 0;" text="Settings" textFill="WHITE">
-              <font>
-                <Font name="Arial Black" size="9.0" />
-              </font>
-              <graphic>
-                <ImageView fitHeight="19.0" fitWidth="20.0">
-                  <image>
-                    <Image url="@../../icon_settings_20x19.png" />
-                  </image>
-                </ImageView>
-              </graphic>
-            </Button>
-          </children>
+        <HBox fx:id="bottomHboxStyle" alignment="CENTER_LEFT" spacing="0" styleClass="bottom-segmented" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="54.0">
+          <Button fx:id="supportButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-left" text="Support">
+            <graphic>
+              <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
+                <image>
+                  <Image url="@../../icons/icon_piggy_bank_120x120.png" />
+                </image>
+              </ImageView>
+            </graphic>
+          </Button>
+          <Region prefWidth="1.0" styleClass="seg-sep" />
+          <Button fx:id="settingsButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-right" text="Settings">
+            <graphic>
+              <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                <image>
+                  <Image url="@../../icons/icon_settings_20x19.png" />
+                </image>
+              </ImageView>
+            </graphic>
+          </Button>
         </HBox>
       </children>
     </AnchorPane>
   </bottom>
+
   <center>
     <StackPane prefHeight="213.0" prefWidth="407.0">
       <children>
-        <AnchorPane fx:id="centerDropPane" prefHeight="60.0" prefWidth="573.0" style="-fx-background-color: #3D3D3D; -fx-background-radius: 32.5;">
+        <AnchorPane fx:id="centerDropPane" prefHeight="60.0" prefWidth="573.0" styleClass="center-drop-pane">
           <children>
-            <AnchorPane prefHeight="320.0" prefWidth="573.0" style="-fx-background-color: #595959; -fx-background-radius: 32.5;" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="27.0">
+            <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="27.0">
               <children>
                 <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <children>
                     <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                       <image>
-                        <Image url="@../../icon_joystick_273x273.png" />
+                        <Image url="@../../icons/icon_joystick_273x273.png" />
                       </image>
                     </ImageView>
-                    <Label style="-fx-opacity: 0.1;" text="Drag a drop" textFill="WHITE">
-                      <font>
-                        <Font name="Arial Black" size="24.0" />
-                      </font>
-                    </Label>
+                    <Label styleClass="drag-drop-label" text="Drag a drop" />
                   </children>
                 </VBox>
               </children>
