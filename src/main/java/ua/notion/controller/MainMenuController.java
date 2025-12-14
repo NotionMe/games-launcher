@@ -1,17 +1,28 @@
-package ua.notion;
+package ua.notion.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import ua.notion.components.User;
+import ua.notion.data.UserData;
+import ua.notion.services.GameService;
 
-public class MainMenuController {
+public class MainMenuController implements Initializable {
 
   private double xOffset = 0;
   private double yOffset = 0;
+
+  private User user;
+
+  private final UserData userData = new UserData();
+  private final GameService gameService = new GameService(userData);
 
   @FXML
   private BorderPane rootPane;
@@ -22,6 +33,12 @@ public class MainMenuController {
   private Button buttonMin;
   @FXML
   private Button buttonClose;
+  @FXML
+  private Button buttonAddGame;
+  @FXML
+  private Button buttonSettings;
+  @FXML
+  private Button buttonSupport;
 
   @FXML
   private Pane topPane;
@@ -70,5 +87,18 @@ public class MainMenuController {
       stage.setX(e.getScreenX() + xOffset);
       stage.setY(e.getScreenY() + yOffset);
     }
+  }
+
+  @FXML
+  private void onAddGameButtonPressed(ActionEvent e) {
+
+    Stage stage = (Stage) rootPane.getScene().getWindow();
+
+    gameService.addGameFromFile(user, stage);
+  }
+
+  @Override
+  public void initialize(URL url, ResourceBundle resourceBundle) {
+    user = userData.read();
   }
 }
