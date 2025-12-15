@@ -54,7 +54,7 @@ public class IconService {
 
       ImageIO.write(bufferedImage, "png", destinationPath.toFile());
 
-      return destinationPath.toUri().toString();
+      return "images/" + file.getName() + ".png";
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
