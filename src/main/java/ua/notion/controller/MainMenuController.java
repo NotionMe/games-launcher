@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -13,6 +14,8 @@ import ua.notion.data.UserData;
 import ua.notion.services.GameService;
 
 public class MainMenuController {
+
+
 
   private double xOffset = 0;
   private double yOffset = 0;
@@ -42,6 +45,10 @@ public class MainMenuController {
   private Button supportButton;
   @FXML
   private HBox bottomHboxStyle;
+  @FXML
+  private AnchorPane centerDropPane;
+  @FXML
+  private HBox cardContainer;
 
 
   @FXML

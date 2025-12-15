@@ -11,6 +11,9 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.shape.Rectangle?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controller.MainMenuController">
   <top>
@@ -18,11 +21,11 @@
       <children>
         <HBox alignment="CENTER" styleClass="top-segmented" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
           <children>
-            <Button fx:id="buttonFull" onAction="#handleFullAction" prefHeight="15.0" prefWidth="9.0" styleClass="full-btn" />
-            <Button fx:id="buttonMin" onAction="#handleMinAction" prefHeight="15.0" prefWidth="9.0" styleClass="min-btn" />
+            <Button fx:id="buttonFull" onAction="#handleFullAction" prefHeight="15.0" prefWidth="9.0" styleClass="full-btn"/>
+            <Button fx:id="buttonMin" onAction="#handleMinAction" prefHeight="15.0" prefWidth="9.0" styleClass="min-btn"/>
             <Button fx:id="buttonClose" onAction="#handleCloseAction" prefHeight="15.0" prefWidth="9.0" styleClass="close-btn">
               <cursor>
-                <Cursor fx:constant="DEFAULT" />
+                <Cursor fx:constant="DEFAULT"/>
               </cursor>
             </Button>
           </children>
@@ -38,7 +41,7 @@
           <graphic>
             <ImageView fitHeight="17.0" fitWidth="17.0">
               <image>
-                <Image url="@../../icons/icon_plus_80x80.png" />
+                <Image url="@../../icons/icon_plus_80x80.png"/>
               </image>
             </ImageView>
           </graphic>
@@ -48,17 +51,17 @@
             <graphic>
               <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
                 <image>
-                  <Image url="@../../icons/icon_piggy_bank_120x120.png" />
+                  <Image url="@../../icons/icon_piggy_bank_120x120.png"/>
                 </image>
               </ImageView>
             </graphic>
           </Button>
-          <Region prefWidth="1.0" styleClass="seg-sep" />
+          <Region prefWidth="1.0" styleClass="seg-sep"/>
           <Button fx:id="settingsButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-right" text="Settings">
             <graphic>
               <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
                 <image>
-                  <Image url="@../../icons/icon_settings_20x19.png" />
+                  <Image url="@../../icons/icon_settings_20x19.png"/>
                 </image>
               </ImageView>
             </graphic>
@@ -69,7 +72,7 @@
   </bottom>
 
   <center>
-    <StackPane prefHeight="213.0" prefWidth="407.0">
+    <StackPane prefHeight="213.0" prefWidth="407.0" visible="false">
       <children>
         <AnchorPane fx:id="centerDropPane" prefHeight="60.0" prefWidth="573.0" styleClass="center-drop-pane">
           <children>
@@ -79,10 +82,10 @@
                   <children>
                     <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                       <image>
-                        <Image url="@../../icons/icon_joystick_273x273.png" />
+                        <Image url="@../../icons/icon_joystick_273x273.png"/>
                       </image>
                     </ImageView>
-                    <Label styleClass="drag-drop-label" text="Drag a drop" />
+                    <Label styleClass="drag-drop-label" text="Drag a drop"/>
                   </children>
                 </VBox>
               </children>
@@ -92,4 +95,30 @@
       </children>
     </StackPane>
   </center>
+
+  <HBox fx:id="cardContainer" prefHeight="200" prefWidth="150" styleClass="card-container" spacing="20" alignment="CENTER_LEFT">
+    <children>
+      <StackPane fx:id="card" prefWidth="220" prefHeight="150" styleClass="game-card">
+        <ImageView fx:id="cover" fitWidth="220" fitHeight="150" preserveRatio="false" smooth="true">
+          <image>
+            <Image url="@../../icons/test_Image_background.jpg"/>
+          </image>
+          <clip>
+            <Rectangle width="220" height="150" arcWidth="20" arcHeight="20"/>
+          </clip>
+        </ImageView>
+        <VBox pickOnBounds="false" styleClass="card-content">
+          <Region VBox.vgrow="ALWAYS" prefHeight="20"/>
+          <HBox spacing="10" alignment="CENTER_LEFT" styleClass="card-footer">
+            <ImageView fx:id="icon" fitWidth="20" fitHeight="20" smooth="true" styleClass="game-icon">
+              <image>
+                <Image url="@../../icons/test_image_game_icon.png"/>
+              </image>
+            </ImageView>
+            <Label fx:id="title" text="Grounded" styleClass="card-title"/>
+          </HBox>
+        </VBox>
+      </StackPane>
+    </children>
+  </HBox>
 </BorderPane>
