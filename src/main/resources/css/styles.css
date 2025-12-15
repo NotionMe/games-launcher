@@ -157,3 +157,39 @@
     -fx-font-family: "Fira Sans Medium";
     -fx-font-size: 12px;
 }
+
+.game-card {
+    -fx-padding: 0;
+    -fx-background-radius: 120;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 12, 0.25, 0, 6);
+    -fx-background-insets: 0;
+    -fx-translate-y: 100;
+    -fx-translate-x: 5;
+}
+
+.card-container {
+    -fx-background-color: transparent;
+    -fx-padding: 40 20 20 20;
+    -fx-spacing: 20;
+}
+
+.card-content {
+    -fx-padding: 0 0 0 0;
+}
+
+.card-footer {
+    -fx-padding: 12 16 12 16;
+    -fx-background-color: rgba(87, 87, 87, 0.623);
+    -fx-background-radius: 0 0 10 10;
+}
+
+.card-title {
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+    -fx-font-family: "Fira Sans Medium";
+}
+
+.game-icon {
+    -fx-effect: color-adjust(0, 1, 0, 1); /* Make icon appear green */
+}
