@@ -37,3 +37,6 @@ replay_pid*
 
 # Local User Data 
 user.json
+
+# User images
+/images/

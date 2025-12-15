@@ -4,6 +4,8 @@ import java.io.File;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
+import javax.swing.Icon;
+import javax.swing.filechooser.FileSystemView;
 import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.data.UserRepository;
@@ -11,9 +13,11 @@ import ua.notion.data.UserRepository;
 public class GameService {
 
   private final UserRepository repository;
+  private final IconService iconService;
 
-  public GameService(UserRepository repository) {
+  public GameService(UserRepository repository, IconService iconService) {
     this.repository = repository;
+    this.iconService = iconService;
   }
 
   public void addGameFromFile(User user, Window parentWindow) {
@@ -27,9 +31,20 @@ public class GameService {
       String path = file.getPath();
       String name = file.getName();
 
-      Game newGame = new Game(name, path);
-      user.addGame(newGame);
+      if (name.contains(".")) {
+        name = name.substring(0, name.lastIndexOf('.'));
+      }
 
+      String iconPath = iconService.extractAndSaveIcon(file);
+
+      Game newGame;
+      if (iconPath != null) {
+        newGame = new Game(name, path, iconPath);
+      } else {
+        newGame = new Game(name, path);
+      }
+
+      user.addGame(newGame);
       repository.write(user);
     }
   }
