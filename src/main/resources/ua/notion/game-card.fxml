@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-  <!-- need implement game card >
 <StackPane fx:id="card" prefWidth="220" prefHeight="150" styleClass="game-card" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controller.GameCardController">
   <ImageView fx:id="cover" fitWidth="220" fitHeight="150" preserveRatio="false" smooth="true">
     <clip>
@@ -24,4 +23,3 @@
     </HBox>
   </VBox>
 </StackPane>
-<!-->

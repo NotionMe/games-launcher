@@ -164,8 +164,12 @@
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 12, 0.25, 0, 6);
     -fx-background-insets: 0;
-    -fx-translate-y: 100;
     -fx-translate-x: 5;
+}
+.game-card:pressed {
+    -fx-scale-x: 0.96;
+    -fx-scale-y: 0.96;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.25, 0, 2);
 }
 
 .card-container {
@@ -191,5 +195,10 @@
 }
 
 .game-icon {
-    -fx-effect: color-adjust(0, 1, 0, 1); /* Make icon appear green */
+    -fx-effect: color-adjust(0, 1, 0, 1);
+}
+
+.games-scroll,
+.games-scroll>.viewport {
+    -fx-background-color: transparent;
 }
