@@ -9,6 +9,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
+import javax.swing.Icon;
+import javax.swing.filechooser.FileSystemView;
 import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.controller.GameCardController;
@@ -17,9 +19,11 @@ import ua.notion.data.UserRepository;
 public class GameService {
 
   private final UserRepository repository;
+  private final IconService iconService;
 
-  public GameService(UserRepository repository) {
+  public GameService(UserRepository repository, IconService iconService) {
     this.repository = repository;
+    this.iconService = iconService;
   }
 
   public Optional<Game> addGameFromFile(User user, Window parentWindow) {

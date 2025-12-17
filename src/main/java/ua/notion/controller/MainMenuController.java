@@ -20,6 +20,7 @@ import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.services.GameService;
+import ua.notion.services.IconService;
 
 public class MainMenuController {
 
@@ -33,7 +34,8 @@ public class MainMenuController {
   private final static String PATH_CSS = "/css/styles.css";
 
   private final UserData userData = new UserData();
-  private final GameService gameService = new GameService(userData);
+  private final IconService iconService = new IconService();
+  private final GameService gameService = new GameService(userData, iconService);
 
   @FXML
   private BorderPane rootPane;
