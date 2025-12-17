@@ -38,7 +38,7 @@ public class App extends Application {
     primaryStage.setTitle("Games launcher");
 
     primaryStage.setScene(scene);
-    StageUtils.configurateStage(primaryStage);
+    StageUtils.configureScreenSize(primaryStage);
     primaryStage.show();
   }
 }
