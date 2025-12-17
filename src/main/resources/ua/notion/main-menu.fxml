@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.FlowPane?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controller.MainMenuController">
   <top>
@@ -96,29 +97,35 @@
     </StackPane>
   </center>
 
-  <HBox fx:id="cardContainer" prefHeight="200" prefWidth="150" styleClass="card-container" spacing="20" alignment="CENTER_LEFT">
-    <children>
-      <StackPane fx:id="card" prefWidth="220" prefHeight="150" styleClass="game-card">
-        <ImageView fx:id="cover" fitWidth="220" fitHeight="150" preserveRatio="false" smooth="true">
-          <image>
-            <Image url="@../../icons/test_Image_background.jpg"/>
-          </image>
-          <clip>
-            <Rectangle width="220" height="150" arcWidth="20" arcHeight="20"/>
-          </clip>
-        </ImageView>
-        <VBox pickOnBounds="false" styleClass="card-content">
-          <Region VBox.vgrow="ALWAYS" prefHeight="20"/>
-          <HBox spacing="10" alignment="CENTER_LEFT" styleClass="card-footer">
-            <ImageView fx:id="icon" fitWidth="20" fitHeight="20" smooth="true" styleClass="game-icon">
-              <image>
-                <Image url="@../../icons/test_image_game_icon.png"/>
-              </image>
-            </ImageView>
-            <Label fx:id="title" text="Grounded" styleClass="card-title"/>
-          </HBox>
-        </VBox>
-      </StackPane>
-    </children>
-  </HBox>
+  <center>
+    <ScrollPane fx:id="gamesScroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="games-scroll">
+      <content>
+        <FlowPane fx:id="cardContainer" styleClass="card-container" hgap="20" vgap="20" alignment="TOP_LEFT">
+          <children>
+            <StackPane fx:id="card" prefWidth="220" prefHeight="150" styleClass="game-card">
+              <ImageView fx:id="cover" fitWidth="220" fitHeight="150" preserveRatio="false" smooth="true">
+                <image>
+                  <Image url="@../../icons/test_Image_background.jpg"/>
+                </image>
+                <clip>
+                  <Rectangle width="220" height="150" arcWidth="20" arcHeight="20"/>
+                </clip>
+              </ImageView>
+              <VBox pickOnBounds="false" styleClass="card-content">
+                <Region VBox.vgrow="ALWAYS" prefHeight="20"/>
+                <HBox spacing="10" alignment="CENTER_LEFT" styleClass="card-footer">
+                  <ImageView fx:id="icon" fitWidth="20" fitHeight="20" smooth="true" styleClass="game-icon">
+                    <image>
+                      <Image url="@../../icons/test_image_game_icon.png"/>
+                    </image>
+                  </ImageView>
+                  <Label fx:id="title" text="Grounded" styleClass="card-title"/>
+                </HBox>
+              </VBox>
+            </StackPane>
+          </children>
+        </FlowPane>
+      </content>
+    </ScrollPane>
+  </center>
 </BorderPane>

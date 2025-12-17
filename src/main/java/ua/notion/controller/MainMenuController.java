@@ -1,14 +1,22 @@
 package ua.notion.controller;
 
+import java.io.IOException;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.services.GameService;
@@ -48,7 +56,17 @@ public class MainMenuController {
   @FXML
   private AnchorPane centerDropPane;
   @FXML
-  private HBox cardContainer;
+  private FlowPane cardContainer;
+  @FXML
+  private StackPane card;
+  @FXML
+  private ImageView cover;
+  @FXML
+  private ImageView icon;
+  @FXML
+  private Label title;
+  @FXML
+  private ScrollPane gamesScroll;
 
 
   @FXML
@@ -98,12 +116,17 @@ public class MainMenuController {
   }
 
   @FXML
-  private void onAddGameButtonPressed(ActionEvent e) {
+  private void onAddGameButtonPressed(ActionEvent e) throws IOException {
 
     Stage stage = (Stage) rootPane.getScene().getWindow();
 
-    gameService.addGameFromFile(user, stage);
+    Optional<Game> game = gameService.addGameFromFile(user, stage);
+
+    if (game.isPresent()) {
+      gameService.createGameCard(game.get(), cardContainer);
+    }
   }
+
 
   @FXML
   private void initialize() {
