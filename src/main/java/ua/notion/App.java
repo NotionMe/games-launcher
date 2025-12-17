@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import ua.notion.utils.StageUtils;
 
 public class App extends Application {
 
@@ -18,10 +19,13 @@ public class App extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    BorderPane root = new FXMLLoader().load(getClass().getResource("main-menu.fxml")); // orig PARENT
+    BorderPane root = FXMLLoader.load(getClass().getResource("main-menu.fxml"));
+
     primaryStage.initStyle(StageStyle.TRANSPARENT);
+
     Scene scene = new Scene(root);
     scene.setFill(Color.TRANSPARENT);
+
     primaryStage.getIcons().addAll(
         new Image(getClass().getResource("/icons/icon_16x16.png").toString()),
         new Image(getClass().getResource("/icons/icon_32x32.png").toString()),
@@ -30,10 +34,11 @@ public class App extends Application {
         new Image(getClass().getResource("/icons/icon_256x256.png").toString()),
         new Image(getClass().getResource("/icons/icon_1024x1024.png").toString())
     );
+
     primaryStage.setTitle("Games launcher");
 
     primaryStage.setScene(scene);
+    StageUtils.configureScreenSize(primaryStage);
     primaryStage.show();
-
   }
 }
