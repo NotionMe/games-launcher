@@ -48,9 +48,22 @@ public class GameService {
     return Optional.of(newGame);
   }
 
+  public Optional<Game> addGameFromArchive(User user, File file) {
+    if (file == null)
+      return Optional.empty();
 
-  public void createGameCard(Game game, FlowPane cardContainer)
-      throws IOException {
+    String name = file.getName();
+    String path = file.getPath();
+
+    Game game = new Game(name, path);
+    user.addGame(game);
+
+    repository.write(user);
+    return Optional.of(game);
+  }
+
+
+  public void createGameCard(Game game, FlowPane cardContainer) throws IOException {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ua/notion/game-card.fxml"));
     Node card = fxmlLoader.load();
     GameCardController gameCardController = fxmlLoader.getController();
