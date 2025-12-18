@@ -24,8 +24,6 @@ import ua.notion.services.IconService;
 
 public class MainMenuController {
 
-
-
   private double xOffset = 0;
   private double yOffset = 0;
 
@@ -69,7 +67,6 @@ public class MainMenuController {
   private Label title;
   @FXML
   private ScrollPane gamesScroll;
-
 
   @FXML
   protected void handleCloseAction(ActionEvent e) {
@@ -128,7 +125,6 @@ public class MainMenuController {
       gameService.createGameCard(game.get(), cardContainer);
     }
   }
-
 
   @FXML
   private void initialize() {
