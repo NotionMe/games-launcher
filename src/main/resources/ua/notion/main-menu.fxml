@@ -88,9 +88,9 @@
         </content>
       </ScrollPane>
       <!-- Drag and Drop -->
-      <AnchorPane fx:id="centerDropPane" styleClass="center-drop-pane" StackPane.alignment="CENTER" prefWidth="573.0" prefHeight="320.0" visible="true" managed="true">
+      <AnchorPane styleClass="center-drop-pane" StackPane.alignment="CENTER" managed="true">
         <children>
-          <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane" AnchorPane.topAnchor="27.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0">
+          <AnchorPane fx:id="centerDropPane" prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane" AnchorPane.topAnchor="27.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0" onDragDropped="#fileViewDragDropped" onDragOver="#fileViewDragOver">
             <children>
               <VBox alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                 <children>
