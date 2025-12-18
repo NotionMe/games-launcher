@@ -29,6 +29,7 @@ import ua.notion.services.GameService;
 import ua.notion.services.IconService;
 
 public class MainMenuController {
+
   @FXML
   private StackPane centerLayer;
 
@@ -131,38 +132,45 @@ public class MainMenuController {
 
   @FXML
   private void fileViewDragDropped(DragEvent event) throws IOException {
-    
-    System.out.println(event.getDragboard().getFiles());
 
+    Dragboard db = event.getDragboard();
 
+    System.out.println(event.getDragboard());
+    if (db.hasFiles()) {
+      List<File> files = db.getFiles();
 
-    // if (db.hasFiles()) {
-    // File file = db.getFiles().get(0);
+      for (File file : files) {
+        System.out.println(file.getPath());
+      }
+    }
 
-    // if (file.isFile()) {
-    // Optional<Game> game = gameService.addGameFromArchive(user, file);
-    // game.ifPresent(g -> {
-    // try {
-    // gameService.createGameCard(g, cardContainer);
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
-    // });
-    // centerDropPane.setVisible(false);
-    // System.out.println("da");
-    // System.out.println("file: " + file);
-    // event.setDropCompleted(true);
-    // } else {
-    // centerDropPane.setVisible(true);
-    // System.out.println("file: " + file);
-    // System.out.println("nea - not a file");
-    // event.setDropCompleted(false);
-    // }
-    // } else {
-    // centerDropPane.setVisible(true);
-    // System.out.println("nea - no files");
-    // event.setDropCompleted(false);
-    // }
+//     if (db.hasFiles()) {
+//     File file = db.getFiles().get(0);
+//
+//     if (file.isFile()) {
+//     Optional<Game> game = gameService.addGameFromArchive(user, file);
+//     game.ifPresent(g -> {
+//     try {
+//     gameService.createGameCard(g, cardContainer);
+//     } catch (IOException e) {
+//     e.printStackTrace();
+//     }
+//     });
+//     centerDropPane.setVisible(false);
+//     System.out.println("da");
+//     System.out.println("file: " + file);
+//     event.setDropCompleted(true);
+//     } else {
+//     centerDropPane.setVisible(true);
+//     System.out.println("file: " + file);
+//     System.out.println("nea - not a file");
+//     event.setDropCompleted(false);
+//     }
+//     } else {
+//     centerDropPane.setVisible(true);
+//     System.out.println("nea - no files");
+//     event.setDropCompleted(false);
+//     }
 
     event.consume();
   }
