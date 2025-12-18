@@ -22,8 +22,11 @@
       <children>
         <HBox alignment="CENTER" styleClass="top-segmented" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
           <children>
+            <!-- App deployment button -->
             <Button fx:id="buttonFull" onAction="#handleFullAction" prefHeight="15.0" prefWidth="9.0" styleClass="full-btn"/>
+            <!-- Minimize app button -->
             <Button fx:id="buttonMin" onAction="#handleMinAction" prefHeight="15.0" prefWidth="9.0" styleClass="min-btn"/>
+            <!-- Close app button -->
             <Button fx:id="buttonClose" onAction="#handleCloseAction" prefHeight="15.0" prefWidth="9.0" styleClass="close-btn">
               <cursor>
                 <Cursor fx:constant="DEFAULT"/>
@@ -38,9 +41,10 @@
   <bottom>
     <AnchorPane prefHeight="86.0" prefWidth="800.0" BorderPane.alignment="CENTER">
       <children>
-        <Button fx:id="addButton" graphicTextGap="5.0" mnemonicParsing="false" onAction="#onAddGameButtonPressed" prefHeight="36.0" prefWidth="115.0" styleClass="add-game-btn" text="Add a game" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="35.0">
+        <!-- Add game button -->
+        <Button fx:id="addButton" graphicTextGap="5.0" mnemonicParsing="false" onAction="#onAddGameButtonPressed" prefHeight="45.0" prefWidth="125.0" styleClass="add-game-btn" text="Add a game" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="35.0">
           <graphic>
-            <ImageView fitHeight="17.0" fitWidth="17.0">
+            <ImageView fitHeight="20.0" fitWidth="20.0">
               <image>
                 <Image url="@../../icons/icon_plus_80x80.png"/>
               </image>
@@ -48,6 +52,7 @@
           </graphic>
         </Button>
         <HBox fx:id="bottomHboxStyle" alignment="CENTER_LEFT" spacing="0" styleClass="bottom-segmented" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="54.0">
+          <!-- Support button -->
           <Button fx:id="supportButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-left" text="Support">
             <graphic>
               <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
@@ -58,6 +63,7 @@
             </graphic>
           </Button>
           <Region prefWidth="1.0" styleClass="seg-sep"/>
+          <!-- Settings button  -->
           <Button fx:id="settingsButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-right" text="Settings">
             <graphic>
               <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
@@ -73,59 +79,33 @@
   </bottom>
 
   <center>
-    <StackPane prefHeight="213.0" prefWidth="407.0" visible="false">
-      <children>
-        <AnchorPane fx:id="centerDropPane" prefHeight="60.0" prefWidth="573.0" styleClass="center-drop-pane">
-          <children>
-            <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="27.0">
-              <children>
-                <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  <children>
-                    <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                      <image>
-                        <Image url="@../../icons/icon_joystick_273x273.png"/>
-                      </image>
-                    </ImageView>
-                    <Label styleClass="drag-drop-label" text="Drag a drop"/>
-                  </children>
-                </VBox>
-              </children>
-            </AnchorPane>
-          </children>
-        </AnchorPane>
-      </children>
-    </StackPane>
-  </center>
-
-  <center>
-    <ScrollPane fx:id="gamesScroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="games-scroll">
-      <content>
-        <FlowPane fx:id="cardContainer" styleClass="card-container" hgap="20" vgap="20" alignment="TOP_LEFT">
-          <children>
-            <StackPane fx:id="card" prefWidth="220" prefHeight="150" styleClass="game-card">
-              <ImageView fx:id="cover" fitWidth="220" fitHeight="150" preserveRatio="false" smooth="true">
-                <image>
-                  <Image url="@../../icons/test_Image_background.jpg"/>
-                </image>
-                <clip>
-                  <Rectangle width="220" height="150" arcWidth="20" arcHeight="20"/>
-                </clip>
-              </ImageView>
-              <VBox pickOnBounds="false" styleClass="card-content">
-                <Region VBox.vgrow="ALWAYS" prefHeight="20"/>
-                <HBox spacing="10" alignment="CENTER_LEFT" styleClass="card-footer">
-                  <ImageView fx:id="icon" fitWidth="20" fitHeight="20" smooth="true" styleClass="game-icon">
+    <!-- Game Card -->
+    <StackPane fx:id="centerLayer" BorderPane.alignment="CENTER">
+      <ScrollPane fx:id="gamesScroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="games-scroll">
+        <content>
+          <FlowPane fx:id="cardContainer" styleClass="card-container" hgap="20" vgap="20" alignment="TOP_LEFT">
+          </FlowPane>
+        </content>
+      </ScrollPane>
+      <!-- Drag and Drop -->
+      <AnchorPane fx:id="centerDropPane" styleClass="center-drop-pane" StackPane.alignment="CENTER" prefWidth="573.0" prefHeight="320.0" visible="true" managed="true">
+        <children>
+          <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane" AnchorPane.topAnchor="27.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0">
+            <children>
+              <VBox alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                <children>
+                  <ImageView fitHeight="200.0" fitWidth="200.0" preserveRatio="true" pickOnBounds="true">
                     <image>
-                      <Image url="@../../icons/test_image_game_icon.png"/>
+                      <Image url="@../../icons/icon_joystick_273x273.png"/>
                     </image>
                   </ImageView>
-                  <Label fx:id="title" text="Grounded" styleClass="card-title"/>
-                </HBox>
+                  <Label styleClass="drag-drop-label" text="Drag a drop"/>
+                </children>
               </VBox>
-            </StackPane>
-          </children>
-        </FlowPane>
-      </content>
-    </ScrollPane>
+            </children>
+          </AnchorPane>
+        </children>
+      </AnchorPane>
+    </StackPane>
   </center>
 </BorderPane>
