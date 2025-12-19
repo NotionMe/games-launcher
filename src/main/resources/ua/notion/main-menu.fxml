@@ -3,18 +3,16 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.layout.FlowPane?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controller.MainMenuController">
   <top>
@@ -23,13 +21,13 @@
         <HBox alignment="CENTER" styleClass="top-segmented" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
           <children>
             <!-- App deployment button -->
-            <Button fx:id="buttonFull" onAction="#handleFullAction" prefHeight="15.0" prefWidth="9.0" styleClass="full-btn"/>
+            <Button fx:id="buttonFull" onAction="#handleFullAction" prefHeight="15.0" prefWidth="9.0" styleClass="full-btn" />
             <!-- Minimize app button -->
-            <Button fx:id="buttonMin" onAction="#handleMinAction" prefHeight="15.0" prefWidth="9.0" styleClass="min-btn"/>
+            <Button fx:id="buttonMin" onAction="#handleMinAction" prefHeight="15.0" prefWidth="9.0" styleClass="min-btn" />
             <!-- Close app button -->
             <Button fx:id="buttonClose" onAction="#handleCloseAction" prefHeight="15.0" prefWidth="9.0" styleClass="close-btn">
               <cursor>
-                <Cursor fx:constant="DEFAULT"/>
+                <Cursor fx:constant="DEFAULT" />
               </cursor>
             </Button>
           </children>
@@ -46,7 +44,7 @@
           <graphic>
             <ImageView fitHeight="20.0" fitWidth="20.0">
               <image>
-                <Image url="@../../icons/icon_plus_80x80.png"/>
+                <Image url="@../../icons/icon_plus_80x80.png" />
               </image>
             </ImageView>
           </graphic>
@@ -57,18 +55,18 @@
             <graphic>
               <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
                 <image>
-                  <Image url="@../../icons/icon_piggy_bank_120x120.png"/>
+                  <Image url="@../../icons/icon_piggy_bank_120x120.png" />
                 </image>
               </ImageView>
             </graphic>
           </Button>
-          <Region prefWidth="1.0" styleClass="seg-sep"/>
+          <Region prefWidth="1.0" styleClass="seg-sep" />
           <!-- Settings button  -->
           <Button fx:id="settingsButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-right" text="Settings">
             <graphic>
               <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
                 <image>
-                  <Image url="@../../icons/icon_settings_20x19.png"/>
+                  <Image url="@../../icons/icon_settings_20x19.png" />
                 </image>
               </ImageView>
             </graphic>
@@ -80,26 +78,26 @@
 
   <center>
     <!-- Game Card -->
-    <StackPane fx:id="centerLayer" BorderPane.alignment="CENTER" onDragDropped="#fileViewDragDropped" onDragOver="#fileViewDragOver">
-      <ScrollPane fx:id="gamesScroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="games-scroll">
+    <StackPane fx:id="centerLayer" onDragDropped="#fileViewDragDropped" onDragOver="#fileViewDragOver" onDragExited="#onFileDragExited" BorderPane.alignment="CENTER">
+      <ScrollPane fx:id="gamesScroll" fitToWidth="true" hbarPolicy="NEVER" styleClass="games-scroll" vbarPolicy="AS_NEEDED">
         <content>
-          <FlowPane fx:id="cardContainer" styleClass="card-container" hgap="20" vgap="20" alignment="TOP_LEFT">
+          <FlowPane fx:id="cardContainer" alignment="TOP_LEFT" hgap="20" styleClass="card-container" vgap="20">
           </FlowPane>
         </content>
       </ScrollPane>
       <!-- Drag and Drop -->
-      <AnchorPane fx:id="centerDropPane" styleClass="center-drop-pane" StackPane.alignment="CENTER" managed="true">
+      <AnchorPane fx:id="centerDropPane" managed="true" styleClass="center-drop-pane" StackPane.alignment="CENTER">
         <children>
-          <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane" AnchorPane.topAnchor="27.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0">
+          <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="27.0">
             <children>
-              <VBox alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+              <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <children>
-                  <ImageView fitHeight="200.0" fitWidth="200.0" preserveRatio="true" pickOnBounds="true">
+                  <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                      <Image url="@../../icons/icon_joystick_273x273.png"/>
+                      <Image url="@../../icons/icon_joystick_273x273.png" />
                     </image>
                   </ImageView>
-                  <Label styleClass="drag-drop-label" text="Drag a drop"/>
+                  <Label styleClass="drag-drop-label" text="Drag a drop" />
                 </children>
               </VBox>
             </children>
@@ -107,13 +105,13 @@
         </children>
       </AnchorPane>
       <!-- information panel -->
-      <AnchorPane fx:id="dropFileInfo" StackPane.alignment="CENTER" styleClass="drop-file-information" managed="true" visible="false">
+      <AnchorPane fx:id="dropFileInfo" managed="true" styleClass="drop-file-information" visible="false" StackPane.alignment="CENTER">
         <children>
-          <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane-info" AnchorPane.topAnchor="27.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0">
+          <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane-info" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="27.0">
             <children>
-              <VBox alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+              <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <children>
-                  <Label styleClass="drag-drop-label-info" text="Drop files here"/>
+                  <Label styleClass="drag-drop-label-info" text="Drop files here" />
                 </children>
               </VBox>
             </children>

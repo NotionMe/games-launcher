@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -23,7 +24,6 @@ import ua.notion.services.GameService;
 import ua.notion.services.IconService;
 
 public class MainMenuController {
-
 
 
   @FXML
@@ -149,13 +149,24 @@ public class MainMenuController {
 
   @FXML
   private void fileViewDragOver(DragEvent event) {
-
     if (event.getDragboard().hasFiles()) {
       event.acceptTransferModes(TransferMode.COPY);
     }
     gameService.showPanelVisible(dropFileInfo);
     gameService.hidePanelVisible(centerDropPane);
 
+    event.consume();
+  }
+
+  @FXML
+  private void onFileDragExited(DragEvent event) {
+    gameService.hidePanelVisible(dropFileInfo);
+
+    if (cardContainer.getChildren().isEmpty()) {
+      gameService.showPanelVisible(centerDropPane);
+    } else {
+      gameService.hidePanelVisible(centerDropPane);
+    }
     event.consume();
   }
 
