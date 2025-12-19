@@ -80,7 +80,7 @@
 
   <center>
     <!-- Game Card -->
-    <StackPane fx:id="centerLayer" BorderPane.alignment="CENTER">
+    <StackPane fx:id="centerLayer" BorderPane.alignment="CENTER" onDragDropped="#fileViewDragDropped" onDragOver="#fileViewDragOver">
       <ScrollPane fx:id="gamesScroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="games-scroll">
         <content>
           <FlowPane fx:id="cardContainer" styleClass="card-container" hgap="20" vgap="20" alignment="TOP_LEFT">
@@ -88,9 +88,9 @@
         </content>
       </ScrollPane>
       <!-- Drag and Drop -->
-      <AnchorPane styleClass="center-drop-pane" StackPane.alignment="CENTER" managed="true">
+      <AnchorPane fx:id="centerDropPane" styleClass="center-drop-pane" StackPane.alignment="CENTER" managed="true">
         <children>
-          <AnchorPane fx:id="centerDropPane" prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane" AnchorPane.topAnchor="27.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0" onDragDropped="#fileViewDragDropped" onDragOver="#fileViewDragOver">
+          <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane" AnchorPane.topAnchor="27.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0">
             <children>
               <VBox alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                 <children>
@@ -100,6 +100,20 @@
                     </image>
                   </ImageView>
                   <Label styleClass="drag-drop-label" text="Drag a drop"/>
+                </children>
+              </VBox>
+            </children>
+          </AnchorPane>
+        </children>
+      </AnchorPane>
+      <!-- information panel -->
+      <AnchorPane fx:id="dropFileInfo" StackPane.alignment="CENTER" styleClass="drop-file-information" managed="true" visible="false">
+        <children>
+          <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane-info" AnchorPane.topAnchor="27.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0">
+            <children>
+              <VBox alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                <children>
+                  <Label styleClass="drag-drop-label-info" text="Drop files here"/>
                 </children>
               </VBox>
             </children>

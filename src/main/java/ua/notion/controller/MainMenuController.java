@@ -2,8 +2,11 @@ package ua.notion.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,6 +24,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ua.notion.components.Game;
 import ua.notion.components.User;
@@ -29,6 +33,8 @@ import ua.notion.services.GameService;
 import ua.notion.services.IconService;
 
 public class MainMenuController {
+
+
 
   @FXML
   private StackPane centerLayer;
@@ -69,20 +75,9 @@ public class MainMenuController {
   private FlowPane cardContainer;
   @FXML
   private ScrollPane gamesScroll;
+  @FXML
+  private AnchorPane dropFileInfo;
 
-  private void hidePanelVisible() {
-    if (centerDropPane.visibleProperty().get()) {
-      centerDropPane.setVisible(false);
-      centerDropPane.setManaged(false);
-    }
-  }
-
-  private void showPanelVisible() {
-    if (!centerDropPane.visibleProperty().get()) {
-      centerDropPane.setVisible(true);
-      centerDropPane.setManaged(true);
-    }
-  }
 
   @FXML
   protected void handleCloseAction(ActionEvent e) {
@@ -139,7 +134,7 @@ public class MainMenuController {
     game.ifPresent(g -> {
       try {
         gameService.createGameCard(g, cardContainer);
-        hidePanelVisible();
+        gameService.hidePanelVisible(centerDropPane);
       } catch (IOException e1) {
       }
     });
@@ -147,25 +142,10 @@ public class MainMenuController {
 
   @FXML
   private void fileViewDragDropped(DragEvent event) throws IOException {
-    Dragboard db = event.getDragboard();
-    boolean hasFile = db.hasFiles();
-    File file = db.getFiles().get(0);
-
-    if (hasFile) {
-      if (file.isFile()) {
-        Optional<Game> game = gameService.addGameFromArchive(user, file);
-        game.ifPresent(g -> {
-          try {
-            gameService.createGameCard(g, cardContainer);
-            hidePanelVisible();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        });
-      }
-    }
-    event.consume();
-    event.isDropCompleted();
+    gameService.createCardsOnFiles(event, user, cardContainer, centerDropPane);
+    gameService.hidePanelVisible(dropFileInfo);
+    if (!UserData.fileIsExists())
+      gameService.showPanelVisible(centerDropPane);
   }
 
   @FXML
@@ -173,6 +153,8 @@ public class MainMenuController {
     if (event.getDragboard().hasFiles()) {
       event.acceptTransferModes(TransferMode.COPY);
     }
+    gameService.showPanelVisible(dropFileInfo);
+    gameService.hidePanelVisible(centerDropPane);
     event.consume();
   }
 

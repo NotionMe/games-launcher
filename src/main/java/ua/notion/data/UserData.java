@@ -31,9 +31,8 @@ public class UserData implements UserRepository {
 
   @Override
   public User read() {
-    File file = new File(PATH);
 
-    if (!file.exists()) {
+    if (!fileIsExists()) {
       return new User();
     }
 
@@ -49,5 +48,14 @@ public class UserData implements UserRepository {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+
+  public static boolean fileIsExists() {
+    File file = new File(PATH);
+    if (file.exists())
+      return true;
+
+    return false;
   }
 }

@@ -2,12 +2,19 @@ package ua.notion.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.util.Duration;
 import javafx.stage.Window;
 import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
@@ -60,6 +67,55 @@ public class GameService {
 
     repository.write(user);
     return Optional.of(game);
+  }
+
+  public void createCardsOnFiles(DragEvent event, User user, FlowPane cardContainer,
+      AnchorPane centerDropPane) {
+    Dragboard db = event.getDragboard();
+    boolean hasFile = db.hasFiles();
+
+    List<File> archives = db.getFiles().stream().filter(File::isFile).filter(f -> {
+      String n = f.getName().toLowerCase();
+      return n.endsWith(".zip") || n.endsWith(".rar") || n.endsWith(".exe");
+    }).collect(Collectors.toList());
+
+
+    if (hasFile && !db.getFiles().isEmpty()) {
+      if (!archives.isEmpty()) {
+        Optional<Game> game = addGameFromArchive(user, archives.get(0));
+        game.ifPresent(g -> {
+          try {
+            createGameCard(g, cardContainer);
+            hidePanelVisible(centerDropPane);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+      }
+    }
+    event.consume();
+    event.setDropCompleted(hasFile);
+  }
+
+  public void hidePanelVisible(AnchorPane anchorPane) {
+    if (anchorPane.visibleProperty().get()) {
+      anchorPane.setVisible(false);
+      anchorPane.setManaged(false);
+    }
+  }
+
+  public void showPanelVisible(AnchorPane anchorPane) {
+    if (anchorPane.isVisible())
+      return;
+
+    anchorPane.setOpacity(0);
+    anchorPane.setVisible(true);
+    anchorPane.setManaged(true);
+
+    FadeTransition ft = new FadeTransition(Duration.millis(250), anchorPane);
+    ft.setFromValue(0);
+    ft.setToValue(1);
+    ft.play();
   }
 
 
