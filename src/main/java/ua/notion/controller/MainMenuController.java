@@ -1,21 +1,12 @@
 package ua.notion.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -24,7 +15,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ua.notion.components.Game;
 import ua.notion.components.User;
@@ -142,19 +132,30 @@ public class MainMenuController {
 
   @FXML
   private void fileViewDragDropped(DragEvent event) throws IOException {
+    var files = gameService.extractArchiveFiles(event);
+
     gameService.createCardsOnFiles(event, user, cardContainer, centerDropPane);
     gameService.hidePanelVisible(dropFileInfo);
-    if (!UserData.fileIsExists())
+    if (!UserData.fileIsExists()) {
       gameService.showPanelVisible(centerDropPane);
+    }
+
+    if (!files.isEmpty() && files.get(0).exists()) {
+      gameService.hidePanelVisible(centerDropPane);
+    } else {
+      gameService.showPanelVisible(centerDropPane); // if 'files' not 'rar','zip','exe'
+    }
   }
 
   @FXML
   private void fileViewDragOver(DragEvent event) {
+
     if (event.getDragboard().hasFiles()) {
       event.acceptTransferModes(TransferMode.COPY);
     }
     gameService.showPanelVisible(dropFileInfo);
     gameService.hidePanelVisible(centerDropPane);
+
     event.consume();
   }
 

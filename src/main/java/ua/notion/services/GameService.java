@@ -2,10 +2,12 @@ package ua.notion.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javafx.animation.FadeTransition;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
@@ -74,15 +76,9 @@ public class GameService {
     Dragboard db = event.getDragboard();
     boolean hasFile = db.hasFiles();
 
-    List<File> archives = db.getFiles().stream().filter(File::isFile).filter(f -> {
-      String n = f.getName().toLowerCase();
-      return n.endsWith(".zip") || n.endsWith(".rar") || n.endsWith(".exe");
-    }).collect(Collectors.toList());
-
-
     if (hasFile && !db.getFiles().isEmpty()) {
-      if (!archives.isEmpty()) {
-        Optional<Game> game = addGameFromArchive(user, archives.get(0));
+      if (!extractArchiveFiles(event).isEmpty()) {
+        Optional<Game> game = addGameFromArchive(user, extractArchiveFiles(event).get(0));
         game.ifPresent(g -> {
           try {
             createGameCard(g, cardContainer);
@@ -116,6 +112,17 @@ public class GameService {
     ft.setFromValue(0);
     ft.setToValue(1);
     ft.play();
+  }
+
+  // filter for files
+  public List<File> extractArchiveFiles(DragEvent event) {
+    Dragboard db = event.getDragboard();
+    List<File> archives = db.getFiles().stream().filter(File::isFile).filter(f -> {
+      String n = f.getName().toLowerCase();
+      return n.endsWith(".zip") || n.endsWith(".rar") || n.endsWith(".exe");
+    }).collect(Collectors.toList());
+
+    return archives;
   }
 
 
