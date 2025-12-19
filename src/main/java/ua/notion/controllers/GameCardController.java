@@ -1,4 +1,4 @@
-package ua.notion.controller;
+package ua.notion.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

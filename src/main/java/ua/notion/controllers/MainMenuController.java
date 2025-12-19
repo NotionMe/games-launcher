@@ -1,13 +1,16 @@
-package ua.notion.controller;
+package ua.notion.controllers;
 
 import java.io.IOException;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -35,7 +38,7 @@ public class MainMenuController {
 
   private User user;
 
-  private final static String PATH_CSS = "/css/styles.css";
+  private static final String PATH_CSS = "/css/styles.css";
 
   private final UserData userData = new UserData();
   private final IconService iconService = new IconService();
@@ -44,45 +47,48 @@ public class MainMenuController {
   @FXML
   private BorderPane rootPane;
   @FXML
-  private Button buttonFull;
-  @FXML
-  private Button buttonMin;
-  @FXML
-  private Button buttonClose;
-  @FXML
   private Pane topPane;
+  @FXML
+  private AnchorPane centerDropPane;
+  @FXML
+  private AnchorPane dropFileInfo;
+  @FXML
+  private FlowPane cardContainer;
+
+  @FXML
+  private Button fullButton;
+  @FXML
+  private Button minButton;
+  @FXML
+  private Button closeButton;
   @FXML
   private Button addButton;
   @FXML
   private Button settingsButton;
   @FXML
   private Button supportButton;
+
   @FXML
-  private HBox bottomHboxStyle;
-  @FXML
-  private AnchorPane centerDropPane;
-  @FXML
-  private FlowPane cardContainer;
+  private HBox bottomContainer;
+
   @FXML
   private ScrollPane gamesScroll;
-  @FXML
-  private AnchorPane dropFileInfo;
 
 
   @FXML
-  protected void handleCloseAction(ActionEvent e) {
-    Stage stage = (Stage) buttonClose.getScene().getWindow();
+  protected void handleCloseAction(ActionEvent event) {
+    Stage stage = (Stage) closeButton.getScene().getWindow();
     stage.close();
   }
 
   @FXML
-  protected void handleMinAction(ActionEvent e) {
-    Stage stage = (Stage) buttonMin.getScene().getWindow();
+  protected void handleMinAction(ActionEvent event) {
+    Stage stage = (Stage) minButton.getScene().getWindow();
     stage.setIconified(true);
   }
 
   @FXML
-  protected void handleFullAction(ActionEvent e) {
+  protected void handleFullAction(ActionEvent event) {
     Stage stage = (Stage) rootPane.getScene().getWindow();
     stage.setFullScreenExitHint("");
 
@@ -96,27 +102,27 @@ public class MainMenuController {
   }
 
   @FXML
-  protected void handlePressAction(MouseEvent e) {
+  protected void handlePressAction(MouseEvent event) {
     Stage stage = (Stage) rootPane.getScene().getWindow();
 
     if (!stage.isFullScreen()) {
-      xOffset = stage.getX() - e.getScreenX();
-      yOffset = stage.getY() - e.getScreenY();
+      xOffset = stage.getX() - event.getScreenX();
+      yOffset = stage.getY() - event.getScreenY();
     }
   }
 
   @FXML
-  protected void handleMovementAction(MouseEvent e) {
+  protected void handleMovementAction(MouseEvent event) {
     Stage stage = (Stage) rootPane.getScene().getWindow();
 
     if (!stage.isFullScreen()) {
-      stage.setX(e.getScreenX() + xOffset);
-      stage.setY(e.getScreenY() + yOffset);
+      stage.setX(event.getScreenX() + xOffset);
+      stage.setY(event.getScreenY() + yOffset);
     }
   }
 
   @FXML
-  private void onAddGameButtonPressed(ActionEvent e) throws IOException {
+  private void onAddGameButtonPressed(ActionEvent event) {
 
     Stage stage = (Stage) rootPane.getScene().getWindow();
 
@@ -125,13 +131,14 @@ public class MainMenuController {
       try {
         gameService.createGameCard(g, cardContainer);
         gameService.hidePanelVisible(centerDropPane);
-      } catch (IOException e1) {
+      } catch (IOException e) {
+        e.printStackTrace();
       }
     });
   }
 
   @FXML
-  private void fileViewDragDropped(DragEvent event) throws IOException {
+  private void fileViewDragDropped(DragEvent event) {
     var files = gameService.extractArchiveFiles(event);
 
     gameService.createCardsOnFiles(event, user, cardContainer, centerDropPane);

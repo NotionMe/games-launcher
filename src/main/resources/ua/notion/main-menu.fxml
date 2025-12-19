@@ -14,18 +14,18 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controller.MainMenuController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.MainMenuController">
   <top>
     <AnchorPane fx:id="topPane" onMouseDragged="#handleMovementAction" onMousePressed="#handlePressAction" prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
       <children>
         <HBox alignment="CENTER" styleClass="top-segmented" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
           <children>
             <!-- App deployment button -->
-            <Button fx:id="buttonFull" onAction="#handleFullAction" prefHeight="15.0" prefWidth="9.0" styleClass="full-btn" />
+            <Button fx:id="fullButton" onAction="#handleFullAction" prefHeight="15.0" prefWidth="9.0" styleClass="full-btn" />
             <!-- Minimize app button -->
-            <Button fx:id="buttonMin" onAction="#handleMinAction" prefHeight="15.0" prefWidth="9.0" styleClass="min-btn" />
+            <Button fx:id="minButton" onAction="#handleMinAction" prefHeight="15.0" prefWidth="9.0" styleClass="min-btn" />
             <!-- Close app button -->
-            <Button fx:id="buttonClose" onAction="#handleCloseAction" prefHeight="15.0" prefWidth="9.0" styleClass="close-btn">
+            <Button fx:id="closeButton" onAction="#handleCloseAction" prefHeight="15.0" prefWidth="9.0" styleClass="close-btn">
               <cursor>
                 <Cursor fx:constant="DEFAULT" />
               </cursor>
@@ -49,7 +49,7 @@
             </ImageView>
           </graphic>
         </Button>
-        <HBox fx:id="bottomHboxStyle" alignment="CENTER_LEFT" spacing="0" styleClass="bottom-segmented" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="54.0">
+        <HBox fx:id="bottomContainer" alignment="CENTER_LEFT" spacing="0" styleClass="bottom-segmented" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="54.0">
           <!-- Support button -->
           <Button fx:id="supportButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-left" text="Support">
             <graphic>

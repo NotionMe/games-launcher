@@ -2,12 +2,10 @@ package ua.notion.services;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javafx.animation.FadeTransition;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
@@ -18,11 +16,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 import javafx.stage.Window;
-import javax.swing.Icon;
-import javax.swing.filechooser.FileSystemView;
 import ua.notion.components.Game;
 import ua.notion.components.User;
-import ua.notion.controller.GameCardController;
+import ua.notion.controllers.GameCardController;
 import ua.notion.data.UserRepository;
 
 public class GameService {
