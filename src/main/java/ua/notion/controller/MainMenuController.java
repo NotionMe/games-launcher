@@ -70,6 +70,20 @@ public class MainMenuController {
   @FXML
   private ScrollPane gamesScroll;
 
+  private void hidePanelVisible() {
+    if (centerDropPane.visibleProperty().get()) {
+      centerDropPane.setVisible(false);
+      centerDropPane.setManaged(false);
+    }
+  }
+
+  private void showPanelVisible() {
+    if (!centerDropPane.visibleProperty().get()) {
+      centerDropPane.setVisible(true);
+      centerDropPane.setManaged(true);
+    }
+  }
+
   @FXML
   protected void handleCloseAction(ActionEvent e) {
     Stage stage = (Stage) buttonClose.getScene().getWindow();
@@ -125,6 +139,7 @@ public class MainMenuController {
     game.ifPresent(g -> {
       try {
         gameService.createGameCard(g, cardContainer);
+        hidePanelVisible();
       } catch (IOException e1) {
       }
     });
@@ -132,47 +147,25 @@ public class MainMenuController {
 
   @FXML
   private void fileViewDragDropped(DragEvent event) throws IOException {
-
     Dragboard db = event.getDragboard();
+    boolean hasFile = db.hasFiles();
+    File file = db.getFiles().get(0);
 
-    System.out.println(event.getDragboard());
-    if (db.hasFiles()) {
-      List<File> files = db.getFiles();
-
-      for (File file : files) {
-        System.out.println(file.getPath());
+    if (hasFile) {
+      if (file.isFile()) {
+        Optional<Game> game = gameService.addGameFromArchive(user, file);
+        game.ifPresent(g -> {
+          try {
+            gameService.createGameCard(g, cardContainer);
+            hidePanelVisible();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
       }
     }
-
-//     if (db.hasFiles()) {
-//     File file = db.getFiles().get(0);
-//
-//     if (file.isFile()) {
-//     Optional<Game> game = gameService.addGameFromArchive(user, file);
-//     game.ifPresent(g -> {
-//     try {
-//     gameService.createGameCard(g, cardContainer);
-//     } catch (IOException e) {
-//     e.printStackTrace();
-//     }
-//     });
-//     centerDropPane.setVisible(false);
-//     System.out.println("da");
-//     System.out.println("file: " + file);
-//     event.setDropCompleted(true);
-//     } else {
-//     centerDropPane.setVisible(true);
-//     System.out.println("file: " + file);
-//     System.out.println("nea - not a file");
-//     event.setDropCompleted(false);
-//     }
-//     } else {
-//     centerDropPane.setVisible(true);
-//     System.out.println("nea - no files");
-//     event.setDropCompleted(false);
-//     }
-
     event.consume();
+    event.isDropCompleted();
   }
 
   @FXML
@@ -180,7 +173,6 @@ public class MainMenuController {
     if (event.getDragboard().hasFiles()) {
       event.acceptTransferModes(TransferMode.COPY);
     }
-    System.out.println(event.getDragboard().getFiles());
     event.consume();
   }
 
