@@ -19,7 +19,10 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
@@ -135,6 +138,29 @@ public class MainMenuController {
         e.printStackTrace();
       }
     });
+  }
+
+  @FXML
+  private void onSettingsButtonPressed(ActionEvent event) {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ua/notion/settings-menu.fxml"));
+      Parent settingsView = loader.load();
+
+      Stage settingsStage = new Stage();
+      settingsStage.initOwner(rootPane.getScene().getWindow());
+      settingsStage.initModality(Modality.APPLICATION_MODAL); // Block main menu
+
+      settingsStage.initStyle(StageStyle.TRANSPARENT);
+
+      Scene scene = new Scene(settingsView);
+      scene.setFill(Color.TRANSPARENT);
+
+      settingsStage.setScene(scene);
+      settingsStage.showAndWait();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @FXML

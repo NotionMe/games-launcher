@@ -62,7 +62,7 @@
           </Button>
           <Region prefWidth="1.0" styleClass="seg-sep" />
           <!-- Settings button  -->
-          <Button fx:id="settingsButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-right" text="Settings">
+          <Button fx:id="settingsButton" onAction="#onSettingsButtonPressed" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-right" text="Settings">
             <graphic>
               <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
                 <image>
