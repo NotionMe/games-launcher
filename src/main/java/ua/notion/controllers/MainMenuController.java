@@ -1,6 +1,7 @@
 package ua.notion.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,6 +31,7 @@ import ua.notion.services.GameService;
 import ua.notion.services.IconService;
 
 public class MainMenuController {
+
 
 
   @FXML
@@ -78,7 +80,6 @@ public class MainMenuController {
 
   @FXML
   private ScrollPane gamesScroll;
-
 
   @FXML
   protected void handleCloseAction(ActionEvent event) {
@@ -211,5 +212,7 @@ public class MainMenuController {
         getClass().getResource(MAIN_MENU_CSS).toExternalForm());
 
     user = userData.read();
+    // Load game cards
+    gameService.loadGameCards(user, centerDropPane, cardContainer);
   }
 }
