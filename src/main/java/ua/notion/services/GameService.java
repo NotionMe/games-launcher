@@ -126,9 +126,9 @@ public class GameService {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ua/notion/game-card.fxml"));
     Node card = fxmlLoader.load();
     GameCardController gameCardController = fxmlLoader.getController();
-    gameCardController.setCover(game.getCoverPath());
-    gameCardController.setIcon(game.getIconPath());
-    gameCardController.setTitle(game.getTitle());
+    gameCardController.setCover(game.coverPath());
+    gameCardController.setIcon(game.iconPath());
+    gameCardController.setTitle(game.title());
     cardContainer.getChildren().add(card);
   }
 }
