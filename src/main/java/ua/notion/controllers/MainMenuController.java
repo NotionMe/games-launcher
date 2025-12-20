@@ -1,6 +1,7 @@
 package ua.notion.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +20,10 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
@@ -27,6 +31,7 @@ import ua.notion.services.GameService;
 import ua.notion.services.IconService;
 
 public class MainMenuController {
+
 
 
   @FXML
@@ -38,7 +43,9 @@ public class MainMenuController {
 
   private User user;
 
-  private static final String PATH_CSS = "/css/styles.css";
+  private static final String BASE_CSS = "/css/base.css";
+  private static final String MAIN_MENU_CSS = "/css/main-menu.css";
+
 
   private final UserData userData = new UserData();
   private final IconService iconService = new IconService();
@@ -73,7 +80,6 @@ public class MainMenuController {
 
   @FXML
   private ScrollPane gamesScroll;
-
 
   @FXML
   protected void handleCloseAction(ActionEvent event) {
@@ -138,6 +144,29 @@ public class MainMenuController {
   }
 
   @FXML
+  private void onSettingsButtonPressed(ActionEvent event) {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ua/notion/settings-menu.fxml"));
+      Parent settingsView = loader.load();
+
+      Stage settingsStage = new Stage();
+      settingsStage.initOwner(rootPane.getScene().getWindow());
+      settingsStage.initModality(Modality.APPLICATION_MODAL); // Block main menu
+
+      settingsStage.initStyle(StageStyle.TRANSPARENT);
+
+      Scene scene = new Scene(settingsView);
+      scene.setFill(Color.TRANSPARENT);
+
+      settingsStage.setScene(scene);
+      settingsStage.showAndWait();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @FXML
   private void fileViewDragDropped(DragEvent event) {
     var files = gameService.extractArchiveFiles(event);
 
@@ -179,8 +208,11 @@ public class MainMenuController {
 
   @FXML
   private void initialize() {
-    rootPane.getStylesheets().add(getClass().getResource(PATH_CSS).toExternalForm());
+    rootPane.getStylesheets().addAll(getClass().getResource(BASE_CSS).toExternalForm(),
+        getClass().getResource(MAIN_MENU_CSS).toExternalForm());
 
     user = userData.read();
+    // Load game cards
+    gameService.loadGameCards(user, centerDropPane, cardContainer);
   }
 }

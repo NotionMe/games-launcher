@@ -1,0 +1,96 @@
+/* root pane */
+.root-pane {
+    -fx-background-color: #3D3D3D;
+    -fx-background-radius: 20;
+}
+
+.root-pane.fullscreen {
+    -fx-background-radius: 0;
+}
+
+/* center drop area */
+.center-drop-pane {
+    -fx-background-color: transparent;
+}
+
+.center-inner-pane {
+    -fx-background-color: #595959;
+    -fx-background-radius: 32.5;
+}
+
+.drag-drop-label {
+    -fx-opacity: 0.1;
+    -fx-text-fill: white;
+    -fx-font-family: "Fira Sans Medium";
+    -fx-font-size: 24px;
+}
+
+/* info block */
+.drop-file-information {
+    -fx-background-color: transparent;
+    -fx-background-radius: 35;
+}
+
+.center-inner-pane-info {
+    -fx-background-color: rgba(51, 51, 52, 0.869);
+    -fx-background-radius: 32.5;
+}
+
+.drag-drop-label-info {
+    -fx-font-family: "Fira Sans Medium";
+    -fx-font-size: 24;
+    -fx-text-fill: rgb(131, 131, 134);
+}
+
+/* buttons placement tweaks */
+.bottom-segmented {
+    -fx-translate-x: -30;
+}
+
+/* card grid */
+.card-container {
+    -fx-background-color: transparent;
+    -fx-padding: 40 20 20 20;
+    -fx-spacing: 20;
+}
+
+.game-card {
+    -fx-padding: 0;
+    -fx-background-radius: 120;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 12, 0.25, 0, 6);
+    -fx-background-insets: 0;
+    -fx-translate-x: 5;
+}
+
+.game-card:pressed {
+    -fx-scale-x: 0.96;
+    -fx-scale-y: 0.96;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.25, 0, 2);
+}
+
+.card-content {
+    -fx-padding: 0;
+}
+
+.card-footer {
+    -fx-padding: 12 16 12 16;
+    -fx-background-color: rgba(87, 87, 87, 0.623);
+    -fx-background-radius: 0 0 10 10;
+}
+
+.card-title {
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+    -fx-font-family: "Fira Sans Medium";
+}
+
+.game-icon {
+    -fx-effect: color-adjust(0, 1, 0, 1);
+}
+
+/* scroll */
+.games-scroll,
+.games-scroll>.viewport {
+    -fx-background-color: transparent;
+}

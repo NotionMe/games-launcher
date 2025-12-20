@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,12 +20,14 @@ import javafx.stage.Window;
 import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.controllers.GameCardController;
+import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
 
 public class GameService {
 
   private final UserRepository repository;
   private final IconService iconService;
+  private User user;
 
   public GameService(UserRepository repository, IconService iconService) {
     this.repository = repository;
@@ -110,6 +113,20 @@ public class GameService {
     ft.play();
   }
 
+  public void loadGameCards(User user, AnchorPane anchorPane, FlowPane flowPane) {
+    if (UserData.fileIsExists()) {
+      hidePanelVisible(anchorPane);
+      List<Game> games = user.getLibrary();
+      for (Game game : games) {
+        try {
+          createGameCard(game, flowPane);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+  }
+
   // filter for files
   public List<File> extractArchiveFiles(DragEvent event) {
     Dragboard db = event.getDragboard();
@@ -121,14 +138,13 @@ public class GameService {
     return archives;
   }
 
-
   public void createGameCard(Game game, FlowPane cardContainer) throws IOException {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ua/notion/game-card.fxml"));
     Node card = fxmlLoader.load();
     GameCardController gameCardController = fxmlLoader.getController();
-    gameCardController.setCover(game.getCoverPath());
-    gameCardController.setIcon(game.getIconPath());
-    gameCardController.setTitle(game.getTitle());
+    gameCardController.setCover(game.coverPath());
+    gameCardController.setIcon(game.iconPath());
+    gameCardController.setTitle(game.title());
     cardContainer.getChildren().add(card);
   }
 }

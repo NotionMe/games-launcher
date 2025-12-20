@@ -6,9 +6,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<AnchorPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
   xmlns:fx="http://javafx.com/fxml"
   fx:controller="ua.notion.controllers.SettingsMenuController"
-  prefHeight="400.0" prefWidth="600.0">
-
+  prefHeight="400.0" prefWidth="600.0"
+  styleClass="root-pane">
+  <children>
+    <Label text="SETTINGS MENU" textFill="white" layoutX="250.0" layoutY="180.0"/>
+    <Button text="Close" layoutX="280.0" layoutY="220.0"/>
+  </children>
 </AnchorPane>
