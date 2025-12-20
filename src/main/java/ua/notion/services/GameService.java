@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -27,7 +26,6 @@ public class GameService {
 
   private final UserRepository repository;
   private final IconService iconService;
-  private User user;
 
   public GameService(UserRepository repository, IconService iconService) {
     this.repository = repository;
