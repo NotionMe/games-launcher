@@ -41,7 +41,9 @@ public class MainMenuController {
 
   private User user;
 
-  private static final String PATH_CSS = "/css/styles.css";
+  private static final String BASE_CSS = "/css/base.css";
+  private static final String MAIN_MENU_CSS = "/css/main-menu.css";
+
 
   private final UserData userData = new UserData();
   private final IconService iconService = new IconService();
@@ -205,7 +207,8 @@ public class MainMenuController {
 
   @FXML
   private void initialize() {
-    rootPane.getStylesheets().add(getClass().getResource(PATH_CSS).toExternalForm());
+    rootPane.getStylesheets().addAll(getClass().getResource(BASE_CSS).toExternalForm(),
+        getClass().getResource(MAIN_MENU_CSS).toExternalForm());
 
     user = userData.read();
   }

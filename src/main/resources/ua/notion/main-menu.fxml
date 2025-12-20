@@ -40,7 +40,7 @@
     <AnchorPane prefHeight="86.0" prefWidth="800.0" BorderPane.alignment="CENTER">
       <children>
         <!-- Add game button -->
-        <Button fx:id="addButton" graphicTextGap="5.0" mnemonicParsing="false" onAction="#onAddGameButtonPressed" prefHeight="45.0" prefWidth="125.0" styleClass="add-game-btn" text="Add a game" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="35.0">
+        <Button fx:id="addButton" graphicTextGap="5.0" mnemonicParsing="false" onAction="#onAddGameButtonPressed" prefHeight="45.0" prefWidth="125.0" styleClass="btn-primary" text="Add a game" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="35.0">
           <graphic>
             <ImageView fitHeight="20.0" fitWidth="20.0">
               <image>
@@ -49,7 +49,7 @@
             </ImageView>
           </graphic>
         </Button>
-        <HBox fx:id="bottomContainer" alignment="CENTER_LEFT" spacing="0" styleClass="bottom-segmented" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="54.0">
+        <HBox fx:id="bottomContainer" alignment="CENTER_LEFT" spacing="0" styleClass="segmented" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="54.0">
           <!-- Support button -->
           <Button fx:id="supportButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-left" text="Support">
             <graphic>
