@@ -31,13 +31,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
+import ua.notion.utils.Constants.UI;
+import ua.notion.utils.Constants.Views;
 
 public class MainMenuController {
 
-
-
   private SideDrawerController sideDrawerController;
-
 
   private double xOffset = 0;
   private double yOffset = 0;
@@ -46,10 +45,6 @@ public class MainMenuController {
   private ImageView backgroundImageView;
 
   private User user;
-
-  private static final String BASE_CSS = "/css/base.css";
-  private static final String MAIN_MENU_CSS = "/css/main-menu.css";
-
 
   private final UserData userData = new UserData();
   private final IconService iconService = new IconService();
@@ -150,7 +145,7 @@ public class MainMenuController {
   @FXML
   private void onSettingsButtonPressed(ActionEvent event) {
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ua/notion/settings-menu.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.SETTINGS_MENU));
       Parent settingsView = loader.load();
 
       Stage settingsStage = new Stage();
@@ -212,8 +207,8 @@ public class MainMenuController {
 
   @FXML
   private void initialize() {
-    rootPane.getStylesheets().addAll(getClass().getResource(BASE_CSS).toExternalForm(),
-        getClass().getResource(MAIN_MENU_CSS).toExternalForm());
+    rootPane.getStylesheets().addAll(getClass().getResource(UI.BASE_CSS).toExternalForm(),
+        getClass().getResource(UI.MAIN_MENU_CSS).toExternalForm());
 
     user = userData.read();
 

@@ -9,6 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import ua.notion.utils.Constants.Views;
 import ua.notion.utils.StageUtils;
 
 public class App extends Application {
@@ -20,7 +21,7 @@ public class App extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    StackPane root = FXMLLoader.load(getClass().getResource("/ua/notion/main-menu.fxml"));
+    StackPane root = FXMLLoader.load(getClass().getResource(Views.MAIN_MENU));
 
     primaryStage.initStyle(StageStyle.TRANSPARENT);
 

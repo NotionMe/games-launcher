@@ -21,6 +21,8 @@ import ua.notion.components.User;
 import ua.notion.controllers.GameCardController;
 import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
+import ua.notion.utils.Constants.Data;
+import ua.notion.utils.Constants.Views;
 
 public class GameService {
 
@@ -35,7 +37,7 @@ public class GameService {
   public Optional<Game> addGameFromFile(User user, Window parentWindow) {
     FileChooser fileChooser = new FileChooser();
     fileChooser.getExtensionFilters()
-        .addAll(new ExtensionFilter("Game files", "*.exe", "*.zip", "*.rar"));
+        .addAll(new ExtensionFilter("Game files", Data.SUPPORTED_EXTENSIONS));
 
     File file = fileChooser.showOpenDialog(parentWindow);
 
@@ -55,8 +57,9 @@ public class GameService {
   }
 
   public Optional<Game> addGameFromArchive(User user, File file) {
-    if (file == null)
+    if (file == null) {
       return Optional.empty();
+    }
 
     String name = file.getName();
     String path = file.getPath();
@@ -98,8 +101,9 @@ public class GameService {
   }
 
   public void showPanelVisible(AnchorPane anchorPane) {
-    if (anchorPane.isVisible())
+    if (anchorPane.isVisible()) {
       return;
+    }
 
     anchorPane.setOpacity(0);
     anchorPane.setVisible(true);
@@ -137,7 +141,7 @@ public class GameService {
   }
 
   public void createGameCard(Game game, FlowPane cardContainer) throws IOException {
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ua/notion/game-card.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Views.GAME_CARD));
     Node card = fxmlLoader.load();
     GameCardController gameCardController = fxmlLoader.getController();
     gameCardController.setCover(game.coverPath());

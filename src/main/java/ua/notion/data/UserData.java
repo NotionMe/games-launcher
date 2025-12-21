@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import ua.notion.components.User;
+import ua.notion.utils.Constants.Data;
 
 public class UserData implements UserRepository {
 
-  private static final String PATH = "user.json";
   private final Gson gson;
 
   public UserData() {
@@ -22,7 +22,7 @@ public class UserData implements UserRepository {
 
   @Override
   public void write(User user) {
-    try (Writer writer = new FileWriter(PATH)) {
+    try (Writer writer = new FileWriter(Data.USER_DB_FILE)) {
       gson.toJson(user, writer);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -36,7 +36,7 @@ public class UserData implements UserRepository {
       return new User();
     }
 
-    try (Reader reader = new FileReader(PATH)) {
+    try (Reader reader = new FileReader(Data.USER_DB_FILE)) {
       User user = gson.fromJson(reader, User.class);
 
       if (user == null) {
@@ -52,9 +52,10 @@ public class UserData implements UserRepository {
 
 
   public static boolean fileIsExists() {
-    File file = new File(PATH);
-    if (file.exists())
+    File file = new File(Data.USER_DB_FILE);
+    if (file.exists()) {
       return true;
+    }
 
     return false;
   }
