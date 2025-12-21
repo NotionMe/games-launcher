@@ -9,6 +9,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import ua.notion.utils.Constants;
+import ua.notion.utils.Constants.UI;
+import ua.notion.utils.Constants.Views;
 
 public class SideDrawerController {
 
@@ -47,6 +50,7 @@ public class SideDrawerController {
     private static SideDrawerController sDrawerController;
     private static MainMenuController mainMenuController;
 
+
     @FXML
     private AnchorPane drawerRoot;
     @FXML
@@ -58,7 +62,7 @@ public class SideDrawerController {
     private void initialize() {
         sDrawerController = this;
         drawerRoot.getStylesheets()
-                .addAll(getClass().getResource("/css/side-drawer.css").toExternalForm());
+                .addAll(getClass().getResource(UI.SIDE_DRAWER_CSS).toExternalForm());
     }
 
     public void setMainMenuController(MainMenuController mainMenuController) {
@@ -79,7 +83,7 @@ public class SideDrawerController {
         sDrawerController.drawerRoot.setManaged(true);
 
         // hardcode image
-        mainMenuController.transitionToBackground("/icons/test_Image_background.jpg");
+        mainMenuController.transitionToBackground(UI.DEFAULT_COVER_PATH);
 
         TranslateTransition tt =
                 new TranslateTransition(Duration.millis(150), sDrawerController.sideDrawer);

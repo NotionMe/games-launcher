@@ -17,6 +17,7 @@ public final class Constants {
     public static final String BASE_CSS = "/css/base.css";
     public static final String MAIN_MENU_CSS = "/css/main-menu.css";
     public static final String SETTINGS_MENU_CSS = "/css/settings-menu.css";
+    public static final String SIDE_DRAWER_CSS = "/css/side-drawer.css";
 
     // Icons defaults
     public static final String DEFAULT_ICON_PATH = "/icons/default_photo_512x512.png";
