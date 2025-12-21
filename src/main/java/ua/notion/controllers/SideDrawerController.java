@@ -8,6 +8,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import ua.notion.utils.Constants;
 import ua.notion.utils.Constants.UI;
@@ -46,6 +48,9 @@ public class SideDrawerController {
     @FXML
     private ToggleButton nonSteamButton;
 
+    private double xOffset = 0;
+    private double yOffset = 0;
+
 
     private static SideDrawerController sDrawerController;
     private static MainMenuController mainMenuController;
@@ -55,6 +60,8 @@ public class SideDrawerController {
     private AnchorPane drawerRoot;
     @FXML
     private Pane drawerScrim;
+    @FXML
+    private Pane headerDragArea;
     @FXML
     private AnchorPane sideDrawer;
 
@@ -72,6 +79,26 @@ public class SideDrawerController {
     @FXML
     private void scrimPressAction() {
         closeDrawer();
+    }
+
+    @FXML
+    protected void headerPressAction(MouseEvent event) {
+        Stage stage = (Stage) drawerRoot.getScene().getWindow();
+
+        if (!stage.isFullScreen()) {
+            xOffset = stage.getX() - event.getScreenX();
+            yOffset = stage.getY() - event.getScreenY();
+        }
+    }
+
+    @FXML
+    protected void headerMoveAction(MouseEvent event) {
+        Stage stage = (Stage) drawerRoot.getScene().getWindow();
+
+        if (!stage.isFullScreen()) {
+            stage.setX(event.getScreenX() + xOffset);
+            stage.setY(event.getScreenY() + yOffset);
+        }
     }
 
 
