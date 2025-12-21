@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -19,7 +20,7 @@ public class App extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    BorderPane root = FXMLLoader.load(getClass().getResource("main-menu.fxml"));
+    StackPane root = FXMLLoader.load(getClass().getResource("/ua/notion/main-menu.fxml"));
 
     primaryStage.initStyle(StageStyle.TRANSPARENT);
 

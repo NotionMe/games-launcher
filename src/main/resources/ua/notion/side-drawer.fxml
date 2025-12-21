@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<AnchorPane fx:id="drawerRoot"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ua.notion.controllers.SideDrawerController"
+            visible="false" managed="false" pickOnBounds="true">
+  <Pane fx:id="drawerScrim" onMousePressed="#scrimPressAction" styleClass="drawer-scrim" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"/>
+  <!-- right drawer -->
+  <AnchorPane fx:id="sideDrawer" prefWidth="350.0" maxWidth="350.0" styleClass="side-drawer" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+    <children>
+      <VBox spacing="12.0" prefWidth="350.0" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="0.0">
+        <children>
+          <!-- header image -->
+          <ImageView fitWidth="350.0" fitHeight="120.0" preserveRatio="false" smooth="true">
+            <image>
+              <Image url="@../../icons/test_Image_background.jpg"/>
+            </image>
+          </ImageView>
+          <!-- Play + Time -->
+          <VBox spacing="8" prefWidth="320.0">
+            <children>
+              <HBox spacing="10" alignment="CENTER_LEFT" prefWidth="320.0">
+                <children>
+                  <Button fx:id="playButton" onAction="#onPlayAction" text="Play" prefWidth="90" prefHeight="20" styleClass="play-btn"/>
+                  <Region HBox.hgrow="ALWAYS"/>
+                  <VBox alignment="CENTER_RIGHT" spacing="2">
+                    <children>
+                      <Label text="Time in game" styleClass="time-lable"/>
+                      <Label fx:id="timeLable" text="15min" styleClass="time-lable"/>
+                    </children>
+                  </VBox>
+                </children>
+              </HBox>
+              <!-- 3x3 grid under timeGame -->
+              <HBox alignment="TOP_RIGHT" prefWidth="320.0">
+                <children>
+                  <GridPane fx:id="actionsGrid" hgap="8" vgap="8" alignment="TOP_RIGHT" prefWidth="292.0" maxWidth="292.0">
+                    <columnConstraints>
+                      <ColumnConstraints prefWidth="92" hgrow="NEVER"/>
+                      <ColumnConstraints prefWidth="92" hgrow="NEVER"/>
+                      <ColumnConstraints prefWidth="92" hgrow="NEVER"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints prefHeight="47" vgrow="NEVER"/>
+                      <RowConstraints prefHeight="47" vgrow="NEVER"/>
+                      <RowConstraints prefHeight="47" vgrow="NEVER"/>
+                    </rowConstraints>
+                    <children>
+                      <!-- row 0 -->
+                      <Button fx:id="debugButton" onAction="#onDebugAction" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="grid-tile-btn">
+                        <graphic>
+                          <VBox alignment="CENTER" spacing="2">
+                            <children>
+                              <ImageView fitWidth="16" fitHeight="16" preserveRatio="true" smooth="true">
+                                <image>
+                                  <Image url="@../../icons/buttons/debug.png"/>
+                                </image>
+                              </ImageView>
+                              <Label text="Debug" prefWidth="47" prefHeight="22" alignment="CENTER" styleClass="grid-tile-label"/>
+                            </children>
+                          </VBox>
+                        </graphic>
+                      </Button>
+                      <Button fx:id="settingsButton" onAction="#onSettingsAction" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="grid-tile-btn">
+                        <graphic>
+                          <VBox alignment="CENTER" spacing="2">
+                            <children>
+                              <ImageView fitWidth="16" fitHeight="16" preserveRatio="true" smooth="true">
+                                <image>
+                                  <Image url="@../../icons/buttons/settings.png"/>
+                                </image>
+                              </ImageView>
+                              <Label text="Settings" prefWidth="47" prefHeight="22" alignment="CENTER" styleClass="grid-tile-label"/>
+                            </children>
+                          </VBox>
+                        </graphic>
+                      </Button>
+                      <Button fx:id="removeButton" onAction="#onRemoveAction" GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="grid-tile-btn">
+                        <graphic>
+                          <VBox alignment="CENTER" spacing="2">
+                            <children>
+                              <ImageView fitWidth="16" fitHeight="16" preserveRatio="true" smooth="true">
+                                <image>
+                                  <Image url="@../../icons/buttons/remove.png"/>
+                                </image>
+                              </ImageView>
+                              <Label text="Remove" prefWidth="47" prefHeight="22" alignment="CENTER" styleClass="grid-tile-label"/>
+                            </children>
+                          </VBox>
+                        </graphic>
+                      </Button>
+                      <!-- row 1 -->
+                      <Button fx:id="utilButton" onAction="#onUtilAction" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="grid-tile-btn">
+                        <graphic>
+                          <VBox alignment="CENTER" spacing="2">
+                            <children>
+                              <ImageView fitWidth="16" fitHeight="16" preserveRatio="true" smooth="true">
+                                <image>
+                                  <Image url="@../../icons/buttons/wine.png"/>
+                                </image>
+                              </ImageView>
+                              <Label text="Utilities" prefWidth="47" prefHeight="22" alignment="CENTER" styleClass="grid-tile-label"/>
+                            </children>
+                          </VBox>
+                        </graphic>
+                      </Button>
+                      <Button fx:id="runButton" onAction="#onRunAction" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="grid-tile-btn">
+                        <graphic>
+                          <VBox alignment="CENTER" spacing="2">
+                            <children>
+                              <ImageView fitWidth="16" fitHeight="16" preserveRatio="false" smooth="true">
+                                <image>
+                                  <Image url="@../../icons/buttons/run.png"/>
+                                </image>
+                              </ImageView>
+                              <Label text="Run" prefWidth="47" prefHeight="22" alignment="CENTER" styleClass="grid-tile-label"/>
+                            </children>
+                          </VBox>
+                        </graphic>
+                      </Button>
+                      <Button fx:id="foldersButton" onAction="#onFoldersAction" GridPane.rowIndex="1" GridPane.columnIndex="2" styleClass="grid-tile-btn">
+                        <graphic>
+                          <VBox alignment="CENTER" spacing="2">
+                            <children>
+                              <ImageView fitWidth="16" fitHeight="16" preserveRatio="true" smooth="true">
+                                <image>
+                                  <Image url="@../../icons/buttons/folder.png"/>
+                                </image>
+                              </ImageView>
+                              <Label text="Folders" prefWidth="47" prefHeight="22" alignment="CENTER" styleClass="grid-tile-label"/>
+                            </children>
+                          </VBox>
+                        </graphic>
+                      </Button>
+                      <!-- row 2 -->
+                      <Button fx:id="steamdbButton" onAction="#onSteamDbAction" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="grid-tile-btn">
+                        <graphic>
+                          <VBox alignment="CENTER" spacing="2">
+                            <children>
+                              <ImageView fitWidth="70" fitHeight="70" preserveRatio="true" smooth="true">
+                                <image>
+                                  <Image url="@../../icons/buttons/steamDB.png"/>
+                                </image>
+                              </ImageView>
+                            </children>
+                          </VBox>
+                        </graphic>
+                      </Button>
+                      <Button fx:id="protonButton" onAction="#onProtonAction" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="grid-tile-btn">
+                        <graphic>
+                          <VBox alignment="CENTER" spacing="2">
+                            <children>
+                              <ImageView fitWidth="32" fitHeight="32" preserveRatio="true" smooth="true">
+                                <image>
+                                  <Image url="@../../icons/buttons/proton.png"/>
+                                </image>
+                              </ImageView>
+                            </children>
+                          </VBox>
+                        </graphic>
+                      </Button>
+                      <Button fx:id="steamButton" onAction="#onSteamAction" GridPane.rowIndex="2" GridPane.columnIndex="2" styleClass="grid-tile-btn">
+                        <graphic>
+                          <VBox alignment="CENTER" spacing="4">
+                            <children>
+                              <ImageView fitWidth="32" fitHeight="32" preserveRatio="true" smooth="true">
+                                <image>
+                                  <Image url="@../../icons/buttons/steam.png"/>
+                                </image>
+                              </ImageView>
+                            </children>
+                          </VBox>
+                        </graphic>
+                      </Button>
+                    </children>
+                  </GridPane>
+                </children>
+              </HBox>
+            </children>
+          </VBox>
+        </children>
+      </VBox>
+      <VBox spacing="8" prefWidth="320.0" styleClass="side-segmented" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.bottomAnchor="16.0">
+        <children>
+          <HBox spacing="12" alignment="CENTER_LEFT" prefWidth="320.0">
+            <children>
+              <Label text="Desktop shortcut" styleClass="bottom-lable"/>
+              <Region HBox.hgrow="ALWAYS"/>
+              <ToggleButton fx:id="desktopButton" onAction="#onDesktopAction" mnemonicParsing="false" styleClass="side-toggle">
+                <graphic>
+                  <Region styleClass="side-toggle-knob"/>
+                </graphic>
+              </ToggleButton>
+            </children>
+          </HBox>
+          <HBox spacing="12" alignment="CENTER_LEFT" prefWidth="320.0">
+            <children>
+              <Label text="App menu shortcut" styleClass="bottom-lable"/>
+              <Region HBox.hgrow="ALWAYS"/>
+              <ToggleButton fx:id="appMenuButton" onAction="#onAppMenuAction" mnemonicParsing="false" styleClass="side-toggle">
+                <graphic>
+                  <Region styleClass="side-toggle-knob"/>
+                </graphic>
+              </ToggleButton>
+            </children>
+          </HBox>
+          <HBox spacing="12" alignment="CENTER_LEFT" prefWidth="320.0">
+            <children>
+              <Label text="Non-steam shortcut" styleClass="bottom-lable"/>
+              <Region HBox.hgrow="ALWAYS"/>
+              <ToggleButton fx:id="nonSteamButton" onAction="#onNonSteamAction" mnemonicParsing="false" styleClass="side-toggle">
+                <graphic>
+                  <Region styleClass="side-toggle-knob"/>
+                </graphic>
+              </ToggleButton>
+            </children>
+          </HBox>
+        </children>
+      </VBox>
+    </children>
+  </AnchorPane>
+</AnchorPane>

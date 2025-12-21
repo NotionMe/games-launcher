@@ -1,0 +1,146 @@
+.drawer-scrim {
+    -fx-background-color: rgba(0, 0, 0, 0.45);
+}
+
+.side-drawer {
+    -fx-background-color: rgba(78, 78, 78, 0.95);
+
+}
+
+.play-btn {
+    -fx-background-color: #658759;
+    -fx-background-radius: 20;
+    -fx-translate-x: 24;
+
+    -fx-text-fill: white;
+
+    -fx-font-family: "Fira Sans Medium";
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+
+.play-btn:hover {
+    -fx-background-color: #a0c992;
+}
+
+.play-btn:pressed {
+    -fx-background-color: #55724b;
+    -fx-translate-y: 1px;
+}
+
+.time-lable {
+    -fx-font-size: 12px;
+    -fx-font-family: "Fira Sans Medium";
+    -fx-text-fill: white;
+    -fx-translate-x: -15;
+
+}
+
+.grid-tile-btn {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: rgba(255, 255, 255, 0.12);
+    -fx-border-width: 1;
+
+    -fx-padding: 8;
+    -fx-content-display: GRAPHIC_ONLY;
+
+    -fx-min-width: 92px;
+    -fx-pref-width: 92px;
+    -fx-max-width: 92px;
+
+    -fx-min-height: 47;
+    -fx-pref-height: 47px;
+    -fx-max-height: 47px;
+
+    -fx-cursor: hand;
+
+    -fx-translate-x: -33;
+    -fx-translate-y: 20;
+}
+
+.grid-tile-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.14);
+    -fx-border-color: rgba(47, 140, 255, 0.55);
+}
+
+.grid-tile-btn:pressed {
+    -fx-background-color: rgba(47, 140, 255, 0.22);
+    -fx-border-color: rgba(47, 140, 255, 0.85);
+}
+
+
+.grid-tile-label {
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
+
+    -fx-min-width: 47px;
+    -fx-pref-width: 47px;
+    -fx-max-width: 47px;
+
+    -fx-min-height: 22px;
+    -fx-pref-height: 22px;
+    -fx-max-height: 22px;
+
+    -fx-alignment: center;
+}
+
+.grid-tile-btn:hover .grid-tile-label {
+    -fx-text-fill: white;
+}
+
+.side-segmented {
+    -fx-background-color: #5B5B5B;
+    -fx-background-radius: 20;
+    -fx-padding: 12 14;
+
+}
+
+.side-toggle {
+    -fx-background-color: #3f3f3f;
+    -fx-background-radius: 12;
+    -fx-padding: 2;
+
+    -fx-min-width: 44;
+    -fx-min-height: 22;
+    -fx-pref-width: 44;
+    -fx-pref-height: 22;
+    -fx-max-width: 44;
+    -fx-max-height: 22;
+
+    -fx-content-display: GRAPHIC_ONLY;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.side-toggle:selected {
+    -fx-background-color: #84c26d;
+    -fx-alignment: CENTER_RIGHT;
+}
+
+.side-toggle .side-toggle-knob {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+
+    -fx-min-width: 18;
+    -fx-min-height: 18;
+    -fx-pref-width: 18;
+    -fx-pref-height: 18;
+    -fx-max-width: 18;
+    -fx-max-height: 18;
+}
+
+.bottom-lable {
+    -fx-font-family: "Fira Sans Medium";
+    -fx-font-weight: 600;
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+}
