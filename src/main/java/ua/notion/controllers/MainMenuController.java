@@ -27,17 +27,23 @@ import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.services.GameService;
 import ua.notion.services.IconService;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
 
 public class MainMenuController {
 
 
 
-  @FXML
-  private StackPane centerLayer;
+  private SideDrawerController sideDrawerController;
 
 
   private double xOffset = 0;
   private double yOffset = 0;
+
+  @FXML
+  private ImageView backgroundImageView;
 
   private User user;
 
@@ -50,7 +56,7 @@ public class MainMenuController {
   private final GameService gameService = new GameService(userData, iconService);
 
   @FXML
-  private BorderPane rootPane;
+  private StackPane rootPane;
   @FXML
   private Pane topPane;
   @FXML
@@ -72,12 +78,12 @@ public class MainMenuController {
   private Button settingsButton;
   @FXML
   private Button supportButton;
-
   @FXML
   private HBox bottomContainer;
-
   @FXML
   private ScrollPane gamesScroll;
+  @FXML
+  private StackPane centerLayer;
 
   @FXML
   protected void handleCloseAction(ActionEvent event) {
@@ -210,7 +216,51 @@ public class MainMenuController {
         getClass().getResource(MAIN_MENU_CSS).toExternalForm());
 
     user = userData.read();
+
     // Load game cards
     gameService.loadGameCards(user, centerDropPane, cardContainer);
+
+    // init side-drawer fxml
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ua/notion/side-drawer.fxml"));
+      Parent drawerRoot = loader.load();
+
+      sideDrawerController = loader.getController();
+      sideDrawerController.setMainMenuController(this);
+
+      rootPane.getChildren().add(drawerRoot);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public StackPane getRootPane() {
+    return rootPane;
+  }
+
+  public void transitionToBackground(String imagePath) {
+    try {
+      if (imagePath == null) {
+        restoreDefaultBackground();
+        return;
+      }
+
+      backgroundImageView.setImage(new Image(getClass().getResource(imagePath).toExternalForm()));
+
+      FadeTransition ft = new FadeTransition(Duration.millis(200), backgroundImageView);
+      ft.setFromValue(0.0);
+      ft.setToValue(1.0);
+      ft.play();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void restoreDefaultBackground() {
+    FadeTransition ft = new FadeTransition(Duration.millis(300), backgroundImageView);
+    ft.setFromValue(backgroundImageView.getOpacity());
+    ft.setToValue(0.0);
+    ft.play();
   }
 }

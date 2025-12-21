@@ -13,111 +13,117 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.MainMenuController">
-  <top>
-    <AnchorPane fx:id="topPane" onMouseDragged="#handleMovementAction" onMousePressed="#handlePressAction" prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-      <children>
-        <HBox alignment="CENTER" styleClass="top-segmented" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.MainMenuController">
+  <children>
+    <ImageView fx:id="backgroundImageView" managed="false" mouseTransparent="true" preserveRatio="false" opacity="0" fitWidth="${rootPane.width}" fitHeight="${rootPane.height}"/>
+    <BorderPane style="-fx-background-color: transparent;" pickOnBounds="false">
+      <top>
+        <AnchorPane fx:id="topPane" onMouseDragged="#handleMovementAction" onMousePressed="#handlePressAction" prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
           <children>
-            <!-- App deployment button -->
-            <Button fx:id="fullButton" onAction="#handleFullAction" prefHeight="15.0" prefWidth="9.0" styleClass="full-btn" />
-            <!-- Minimize app button -->
-            <Button fx:id="minButton" onAction="#handleMinAction" prefHeight="15.0" prefWidth="9.0" styleClass="min-btn" />
-            <!-- Close app button -->
-            <Button fx:id="closeButton" onAction="#handleCloseAction" prefHeight="15.0" prefWidth="9.0" styleClass="close-btn">
-              <cursor>
-                <Cursor fx:constant="DEFAULT" />
-              </cursor>
-            </Button>
+            <HBox alignment="CENTER" styleClass="top-segmented" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
+              <children>
+                <!-- App deployment button -->
+                <Button fx:id="fullButton" onAction="#handleFullAction" prefHeight="15.0" prefWidth="9.0" styleClass="full-btn"/>
+                <!-- Minimize app button -->
+                <Button fx:id="minButton" onAction="#handleMinAction" prefHeight="15.0" prefWidth="9.0" styleClass="min-btn"/>
+                <!-- Close app button -->
+                <Button fx:id="closeButton" onAction="#handleCloseAction" prefHeight="15.0" prefWidth="9.0" styleClass="close-btn">
+                  <cursor>
+                    <Cursor fx:constant="DEFAULT"/>
+                  </cursor>
+                </Button>
+              </children>
+            </HBox>
           </children>
-        </HBox>
-      </children>
-    </AnchorPane>
-  </top>
+        </AnchorPane>
+      </top>
 
-  <bottom>
-    <AnchorPane prefHeight="86.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-      <children>
-        <!-- Add game button -->
-        <Button fx:id="addButton" graphicTextGap="5.0" mnemonicParsing="false" onAction="#onAddGameButtonPressed" prefHeight="45.0" prefWidth="125.0" styleClass="btn-primary" text="Add a game" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="35.0">
-          <graphic>
-            <ImageView fitHeight="20.0" fitWidth="20.0">
-              <image>
-                <Image url="@../../icons/icon_plus_80x80.png" />
-              </image>
-            </ImageView>
-          </graphic>
-        </Button>
-        <HBox fx:id="bottomContainer" alignment="CENTER_LEFT" spacing="0" styleClass="segmented" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="54.0">
-          <!-- Support button -->
-          <Button fx:id="supportButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-left" text="Support">
-            <graphic>
-              <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
-                <image>
-                  <Image url="@../../icons/icon_piggy_bank_120x120.png" />
-                </image>
-              </ImageView>
-            </graphic>
-          </Button>
-          <Region prefWidth="1.0" styleClass="seg-sep" />
-          <!-- Settings button  -->
-          <Button fx:id="settingsButton" onAction="#onSettingsButtonPressed" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-right" text="Settings">
-            <graphic>
-              <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
-                <image>
-                  <Image url="@../../icons/icon_settings_20x19.png" />
-                </image>
-              </ImageView>
-            </graphic>
-          </Button>
-        </HBox>
-      </children>
-    </AnchorPane>
-  </bottom>
-
-  <center>
-    <!-- Game Card -->
-    <StackPane fx:id="centerLayer" onDragDropped="#fileViewDragDropped" onDragOver="#fileViewDragOver" onDragExited="#onFileDragExited" BorderPane.alignment="CENTER">
-      <ScrollPane fx:id="gamesScroll" fitToWidth="true" hbarPolicy="NEVER" styleClass="games-scroll" vbarPolicy="AS_NEEDED">
-        <content>
-          <FlowPane fx:id="cardContainer" alignment="TOP_LEFT" hgap="20" styleClass="card-container" vgap="20">
-          </FlowPane>
-        </content>
-      </ScrollPane>
-      <!-- Drag and Drop -->
-      <AnchorPane fx:id="centerDropPane" managed="true" styleClass="center-drop-pane" StackPane.alignment="CENTER">
-        <children>
-          <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="27.0">
-            <children>
-              <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <children>
-                  <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+      <bottom>
+        <AnchorPane prefHeight="86.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+          <children>
+            <!-- Add game button -->
+            <Button fx:id="addButton" graphicTextGap="5.0" mnemonicParsing="false" onAction="#onAddGameButtonPressed" prefHeight="45.0" prefWidth="125.0" styleClass="btn-primary" text="Add a game" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="35.0">
+              <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0">
+                  <image>
+                    <Image url="@../../icons/icon_plus_80x80.png"/>
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
+            <HBox fx:id="bottomContainer" alignment="CENTER_LEFT" spacing="0" styleClass="segmented" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="54.0">
+              <!-- Support button -->
+              <Button fx:id="supportButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-left" text="Support">
+                <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
                     <image>
-                      <Image url="@../../icons/icon_joystick_273x273.png" />
+                      <Image url="@../../icons/icon_piggy_bank_120x120.png"/>
                     </image>
                   </ImageView>
-                  <Label styleClass="drag-drop-label" text="Drag a drop" />
-                </children>
-              </VBox>
-            </children>
-          </AnchorPane>
-        </children>
-      </AnchorPane>
-      <!-- information panel -->
-      <AnchorPane fx:id="dropFileInfo" managed="true" styleClass="drop-file-information" visible="false" StackPane.alignment="CENTER">
-        <children>
-          <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane-info" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="27.0">
+                </graphic>
+              </Button>
+              <Region prefWidth="1.0" styleClass="seg-sep"/>
+              <!-- Settings button  -->
+              <Button fx:id="settingsButton" onAction="#onSettingsButtonPressed" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-right" text="Settings">
+                <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                    <image>
+                      <Image url="@../../icons/icon_settings_20x19.png"/>
+                    </image>
+                  </ImageView>
+                </graphic>
+              </Button>
+            </HBox>
+          </children>
+        </AnchorPane>
+      </bottom>
+
+      <center>
+        <!-- Game Card -->
+        <StackPane fx:id="centerLayer" onDragDropped="#fileViewDragDropped" onDragOver="#fileViewDragOver" onDragExited="#onFileDragExited" BorderPane.alignment="CENTER">
+          <ScrollPane fx:id="gamesScroll" fitToWidth="true" hbarPolicy="NEVER" styleClass="games-scroll" vbarPolicy="AS_NEEDED">
+            <content>
+              <FlowPane fx:id="cardContainer" alignment="TOP_LEFT" hgap="20" styleClass="card-container" vgap="20">
+              </FlowPane>
+            </content>
+          </ScrollPane>
+          <!-- Drag and Drop -->
+          <AnchorPane fx:id="centerDropPane" managed="true" styleClass="center-drop-pane" StackPane.alignment="CENTER">
             <children>
-              <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="27.0">
                 <children>
-                  <Label styleClass="drag-drop-label-info" text="Drop files here" />
+                  <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                      <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                          <Image url="@../../icons/icon_joystick_273x273.png"/>
+                        </image>
+                      </ImageView>
+                      <Label styleClass="drag-drop-label" text="Drag a drop"/>
+                    </children>
+                  </VBox>
                 </children>
-              </VBox>
+              </AnchorPane>
             </children>
           </AnchorPane>
-        </children>
-      </AnchorPane>
-    </StackPane>
-  </center>
-</BorderPane>
+          <!-- information panel -->
+          <AnchorPane fx:id="dropFileInfo" managed="true" styleClass="drop-file-information" visible="false" StackPane.alignment="CENTER">
+            <children>
+              <AnchorPane prefHeight="320.0" prefWidth="573.0" styleClass="center-inner-pane-info" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="27.0">
+                <children>
+                  <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                      <Label styleClass="drag-drop-label-info" text="Drop files here"/>
+                    </children>
+                  </VBox>
+                </children>
+              </AnchorPane>
+            </children>
+          </AnchorPane>
+        </StackPane>
+      </center>
+    </BorderPane>
+  </children>
+</StackPane>

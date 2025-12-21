@@ -85,10 +85,6 @@
     -fx-font-family: "Fira Sans Medium";
 }
 
-.game-icon {
-    -fx-effect: color-adjust(0, 1, 0, 1);
-}
-
 /* scroll */
 .games-scroll,
 .games-scroll>.viewport {

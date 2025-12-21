@@ -16,7 +16,7 @@ public class GameCardController {
     private ImageView icon;
     @FXML
     private Label title;
-
+    
     public void setCover(String resourcePath) {
         cover.setImage(new Image(getClass().getResource(resourcePath).toExternalForm()));
     }
@@ -27,6 +27,12 @@ public class GameCardController {
 
     public void setTitle(String text) {
         title.setText(text);
+    }
+
+    @FXML
+    private void cardPressAction() {
+        SideDrawerController.openDrawer();
+
     }
 
     @FXML
