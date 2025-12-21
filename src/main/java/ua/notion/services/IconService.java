@@ -11,11 +11,10 @@ import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
+import ua.notion.utils.Constants.Data;
 
 
 public class IconService {
-
-  private static final String ICONS_DIR = "images";
 
   public IconService() {
     createIconsDirectory();
@@ -23,7 +22,7 @@ public class IconService {
 
   private void createIconsDirectory() {
     try {
-      Files.createDirectories(Paths.get(ICONS_DIR));
+      Files.createDirectories(Paths.get(Data.ICONS_DIR));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -50,7 +49,7 @@ public class IconService {
       graphics2D.dispose();
 
       String iconName = file.getName() + ".png";
-      Path destinationPath = Paths.get(ICONS_DIR, iconName);
+      Path destinationPath = Paths.get(Data.ICONS_DIR, iconName);
 
       ImageIO.write(bufferedImage, "png", destinationPath.toFile());
 

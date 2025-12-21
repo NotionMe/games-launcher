@@ -27,23 +27,19 @@ import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.services.GameService;
 import ua.notion.services.IconService;
+import ua.notion.utils.Constants;
+import ua.notion.utils.Constants.UI;
+import ua.notion.utils.Constants.Views;
 
 public class MainMenuController {
 
-
-
   @FXML
   private StackPane centerLayer;
-
 
   private double xOffset = 0;
   private double yOffset = 0;
 
   private User user;
-
-  private static final String BASE_CSS = "/css/base.css";
-  private static final String MAIN_MENU_CSS = "/css/main-menu.css";
-
 
   private final UserData userData = new UserData();
   private final IconService iconService = new IconService();
@@ -144,7 +140,7 @@ public class MainMenuController {
   @FXML
   private void onSettingsButtonPressed(ActionEvent event) {
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ua/notion/settings-menu.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.SETTINGS_MENU));
       Parent settingsView = loader.load();
 
       Stage settingsStage = new Stage();
@@ -206,8 +202,8 @@ public class MainMenuController {
 
   @FXML
   private void initialize() {
-    rootPane.getStylesheets().addAll(getClass().getResource(BASE_CSS).toExternalForm(),
-        getClass().getResource(MAIN_MENU_CSS).toExternalForm());
+    rootPane.getStylesheets().addAll(getClass().getResource(UI.BASE_CSS).toExternalForm(),
+        getClass().getResource(UI.MAIN_MENU_CSS).toExternalForm());
 
     user = userData.read();
     // Load game cards

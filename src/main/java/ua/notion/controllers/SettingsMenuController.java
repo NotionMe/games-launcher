@@ -2,19 +2,17 @@ package ua.notion.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
+import ua.notion.utils.Constants;
+import ua.notion.utils.Constants.UI;
 
 public class SettingsMenuController {
 
-    private static final String SETTINGS_MENU_CSS = "/css/settings-menu.css";
+  @FXML
+  private AnchorPane rootPane;
 
-    @FXML
-    private AnchorPane rootPane;
-
-    @FXML
-    private void initialize() {
-        rootPane.getStylesheets()
-                .addAll(getClass().getResource(SETTINGS_MENU_CSS).toExternalForm());
-    }
-
-
+  @FXML
+  private void initialize() {
+    rootPane.getStylesheets()
+        .addAll(getClass().getResource(UI.SETTINGS_MENU_CSS).toExternalForm());
+  }
 }
