@@ -62,7 +62,7 @@
           </Button>
           <Region prefWidth="1.0" styleClass="seg-sep" />
           <!-- Settings button  -->
-          <Button fx:id="settingsButton" onAction="#onSettingsButtonPressed" mnemonicParsing="false" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-right" text="Settings">
+          <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#onSettingsButtonPressed" prefHeight="39.0" prefWidth="115.0" styleClass="seg-btn-right" text="Settings">
             <graphic>
               <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
                 <image>
@@ -78,7 +78,7 @@
 
   <center>
     <!-- Game Card -->
-    <StackPane fx:id="centerLayer" onDragDropped="#fileViewDragDropped" onDragOver="#fileViewDragOver" onDragExited="#onFileDragExited" BorderPane.alignment="CENTER">
+    <StackPane fx:id="centerLayer" onDragDropped="#fileViewDragDropped" onDragExited="#onFileDragExited" onDragOver="#fileViewDragOver" BorderPane.alignment="CENTER">
       <ScrollPane fx:id="gamesScroll" fitToWidth="true" hbarPolicy="NEVER" styleClass="games-scroll" vbarPolicy="AS_NEEDED">
         <content>
           <FlowPane fx:id="cardContainer" alignment="TOP_LEFT" hgap="20" styleClass="card-container" vgap="20">

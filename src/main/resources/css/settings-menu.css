@@ -1,8 +1,47 @@
 /* root pane */
 .root-pane {
     -fx-background-color: #3D3D3D;
-    -fx-background-radius: 14;
+    -fx-background-radius: 14 14 14 14;
 }
 .transparent-container {
   -fx-background-color: transparent;
+}
+.default-base-paths{
+  -fx-font-family: "Fira Sans Medium";
+  -fx-text-fill: #FFFFFF;
+  -fx-font-size: 16;
+}
+.bottom-pane {
+  -fx-background-color: #535353;
+  -fx-background-radius: 0 0 14 14;
+}
+.btn-paths{
+  -fx-font-family: "Fira Sans Medium";
+  -fx-text-fill: #FFFF;
+  -fx-font-size: 10;
+  -fx-background-color: rgba(237, 234, 234, 0.2);
+}
+.btn-protons{
+  -fx-font-family: "Fira Sans Medium";
+  -fx-text-fill: #FFFF;
+  -fx-font-size: 10;
+  -fx-background-color: #535353
+}
+.btn-graphics{
+  -fx-font-family: "Fira Sans Medium";
+  -fx-text-fill: #FFFF;
+  -fx-font-size: 10;
+  -fx-background-color: #535353
+}
+.btn-launcher{
+  -fx-font-family: "Fira Sans Medium";
+  -fx-text-fill: #FFFF;
+  -fx-font-size: 10;
+  -fx-background-color: #535353
+}
+.btn-about{
+  -fx-font-family: "Fira Sans Medium";
+  -fx-text-fill: #FFFF;
+  -fx-font-size: 10;
+  -fx-background-color: #535353
 }
