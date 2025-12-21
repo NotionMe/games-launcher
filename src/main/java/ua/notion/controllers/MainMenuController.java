@@ -217,7 +217,7 @@ public class MainMenuController {
 
     // init side-drawer fxml
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ua/notion/side-drawer.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.SIDE_DRAWER));
       Parent drawerRoot = loader.load();
 
       sideDrawerController = loader.getController();

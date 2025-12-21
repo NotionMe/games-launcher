@@ -29,6 +29,7 @@ public final class Constants {
     public static final String MAIN_MENU = "/ua/notion/main-menu.fxml";
     public static final String GAME_CARD = "/ua/notion/game-card.fxml";
     public static final String SETTINGS_MENU = "/ua/notion/settings-menu.fxml";
+    public static final String SIDE_DRAWER = "/ua/notion/side-drawer.fxml";
   }
 
   public static final class Data {
