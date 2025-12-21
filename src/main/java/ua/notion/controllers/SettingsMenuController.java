@@ -25,8 +25,13 @@ public class SettingsMenuController {
   @FXML
   private Button pathButton;
   @FXML
+  private Button protonsButton;
+  @FXML
+  private Button graphicsButton;
+  @FXML
+  private Button launcherButton;
+  @FXML
   private Button aboutButton;
-
 
   @FXML
   private BorderPane rootPane;
@@ -39,22 +44,22 @@ public class SettingsMenuController {
   }
 
   @FXML
-  private void onProtonsButtonPressed(ActionEvent event){
+  private void onProtonsButtonPressed(ActionEvent event) {
     System.out.println("Proton button!");
   }
 
   @FXML
-  private void onGraphicsButtonPressed(ActionEvent event){
+  private void onGraphicsButtonPressed(ActionEvent event) {
     System.out.println("Graphics button!");
   }
 
   @FXML
-  private void onLauncherButtonPressed(ActionEvent event){
+  private void onLauncherButtonPressed(ActionEvent event) {
     System.out.println("Launcher button!");
   }
 
   @FXML
-  private void onAboutButtonPressed(ActionEvent event){
+  private void onAboutButtonPressed(ActionEvent event) {
     System.out.println("About button");
   }
 
