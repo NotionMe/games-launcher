@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
-  xmlns:fx="http://javafx.com/fxml"
-  fx:controller="ua.notion.controllers.SettingsMenuController"
-  prefHeight="400.0" prefWidth="600.0"
-  styleClass="root-pane">
-  <children>
-    <Label text="SETTINGS MENU" textFill="white" layoutX="250.0" layoutY="180.0"/>
-    <Button text="Close" layoutX="280.0" layoutY="220.0"/>
-  </children>
-</AnchorPane>
+<BorderPane fx:id="rootPane" onMouseDragged="#handleMovementAction" onMousePressed="#handlePressAction" styleClass="transparent-container" xmlns="http://javafx.com/javafx/17"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="ua.notion.controllers.SettingsMenuController">
+  <center>
+    <AnchorPane fx:id="topPane"
+      prefHeight="400.0" prefWidth="800.0"
+      styleClass="root-pane">
+      <children>
+        <HBox spacing="12.0" styleClass="top-segmented" AnchorPane.rightAnchor="14.0"
+          AnchorPane.topAnchor="13.0">
+          <children>
+            <Button fx:id="fullButton" onAction="#handleFullAction" styleClass="full-btn"/>
+            <Button fx:id="minButton" onAction="#handleMinAction" styleClass="min-btn"/>
+            <Button fx:id="closeButton" onAction="#handleCloseAction" styleClass="close-btn"/>
+          </children>
+        </HBox>
+      </children>
+    </AnchorPane>
+  </center>
+</BorderPane>

@@ -1,4 +1,8 @@
 /* root pane */
 .root-pane {
     -fx-background-color: #3D3D3D;
+    -fx-background-radius: 14;
+}
+.transparent-container {
+  -fx-background-color: transparent;
 }

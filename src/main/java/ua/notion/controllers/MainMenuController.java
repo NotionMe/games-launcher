@@ -28,6 +28,7 @@ import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.services.GameService;
 import ua.notion.services.IconService;
+import ua.notion.utils.StageUtils;
 
 public class MainMenuController {
 
@@ -154,10 +155,14 @@ public class MainMenuController {
 
       settingsStage.initStyle(StageStyle.TRANSPARENT);
 
+
       Scene scene = new Scene(settingsView);
       scene.setFill(Color.TRANSPARENT);
 
       settingsStage.setScene(scene);
+
+      StageUtils.configureScreenSize(settingsStage);
+
       settingsStage.showAndWait();
 
     } catch (IOException e) {
