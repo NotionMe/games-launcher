@@ -1,0 +1,180 @@
+/* Game Select Popup Styles */
+
+.root-pane {
+    -fx-background-color: #3D3D3D;
+}
+
+/* Left Column: Preview */
+.preview-container {
+    -fx-background-color: #565656;
+}
+
+.preview-icon {
+    -fx-fill: #787878;
+    -fx-scale-x: 5.0;
+    -fx-scale-y: 5.0;
+}
+
+.preview-title-background {
+    -fx-background-color: #4a4a4a;
+}
+
+.preview-title-text {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 0 20;
+}
+
+
+
+/* Right Column: Form */
+.form-header-label {
+    -fx-text-fill: #e0e0e0;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Text Fields */
+.input-field {
+    -fx-background-color: #5a5f62;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-pref-height: 46;
+    -fx-padding: 0 15;
+    -fx-prompt-text-fill: #a0a0a0;
+    -fx-font-size: 14px;
+}
+
+.input-field-with-icon {
+    -fx-padding: 0 45 0 15;
+}
+
+.input-field-disabled {
+    -fx-background-color: #454545;
+    -fx-text-fill: #a0a0a0;
+    -fx-background-radius: 8;
+    -fx-pref-height: 46;
+    -fx-padding: 0 45 0 15;
+    -fx-opacity: 1;
+    -fx-font-size: 14px;
+}
+
+/* Icon Buttons inside fields */
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.icon-svg {
+    -fx-fill: #b0b0b0;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.icon-svg-disabled {
+    -fx-fill: #707070;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+/* Back Button */
+.back-button {
+    -fx-background-color: rgba(90, 95, 98, 0.6);
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-pref-width: 40;
+    -fx-pref-height: 40;
+}
+
+.back-button:hover {
+    -fx-background-color: rgba(95, 147, 255, 0.8);
+}
+
+.back-icon {
+    -fx-fill: white;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+/* ComboBox */
+.platform-combo-box {
+    -fx-background-color: #5a5f62;
+    -fx-background-radius: 8;
+    -fx-pref-height: 46;
+    -fx-font-size: 14px;
+    -fx-base: #5a5f62;
+    -fx-control-inner-background: #5a5f62;
+    -fx-text-base-color: white;
+}
+
+.platform-combo-box .list-cell {
+    -fx-text-fill: white;
+}
+
+/* Titled Pane (Wine Settings) */
+.wine-settings-pane {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-box-border: transparent;
+    -fx-body-color: #2f2f2f;
+}
+
+.wine-settings-pane>.title {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.wine-settings-pane>.content {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.wine-content-vbox {
+    -fx-background-color: transparent;
+}
+
+.wine-checkbox {
+    -fx-text-fill: #eaeaea;
+    -fx-font-size: 14px;
+}
+
+.wine-checkbox .box {
+    -fx-background-color: #5a5f62;
+    -fx-border-color: transparent;
+}
+
+.wine-checkbox:selected .mark {
+    -fx-background-color: white;
+}
+
+/* Action Buttons */
+.action-button-primary {
+    -fx-background-color: #5f93ff;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-pref-height: 46;
+    -fx-font-weight: bold;
+    -fx-padding: 0 20;
+    -fx-font-size: 13px;
+}
+
+.action-button-primary:hover {
+    -fx-background-color: #4a7fe6;
+}
+
+.action-button-secondary {
+    -fx-background-color: #d8893b;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-pref-height: 46;
+    -fx-font-weight: bold;
+    -fx-min-width: 100;
+    -fx-font-size: 13px;
+}
+
+.action-button-secondary:hover {
+    -fx-background-color: #bf7833;
+}

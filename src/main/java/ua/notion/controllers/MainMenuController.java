@@ -27,6 +27,7 @@ import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.services.GameService;
 import ua.notion.services.IconService;
+import ua.notion.services.LauchingServise;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.animation.FadeTransition;
@@ -37,6 +38,7 @@ import ua.notion.utils.Constants.Views;
 public class MainMenuController {
 
   private SideDrawerController sideDrawerController;
+  private GameSelectController gameSelectController;
 
   private double xOffset = 0;
   private double yOffset = 0;
@@ -79,6 +81,10 @@ public class MainMenuController {
   private ScrollPane gamesScroll;
   @FXML
   private StackPane centerLayer;
+
+  public StackPane getCenterLayer() {
+    return centerLayer;
+  }
 
   @FXML
   protected void handleCloseAction(ActionEvent event) {
@@ -129,17 +135,26 @@ public class MainMenuController {
   @FXML
   private void onAddGameButtonPressed(ActionEvent event) {
 
-    Stage stage = (Stage) rootPane.getScene().getWindow();
+    // Stage stage = (Stage) rootPane.getScene().getWindow();
 
-    Optional<Game> game = gameService.addGameFromFile(user, stage);
-    game.ifPresent(g -> {
-      try {
-        gameService.createGameCard(g, cardContainer);
-        gameService.hidePanelVisible(centerDropPane);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    });
+    // Optional<Game> game = gameService.addGameFromFile(user, stage);
+    // game.ifPresent(g -> {
+    // try {
+    // gameService.createGameCard(g, cardContainer);
+    // gameService.hidePanelVisible(centerDropPane);
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // });
+    try {
+      FXMLLoader gameSelect = new FXMLLoader(getClass().getResource(Views.GAME_SELECT));
+      Parent gameSelectRoot = gameSelect.load();
+      gameSelectController = gameSelect.getController();
+      GameSelectController.setMainMenuController(this);
+      centerLayer.getChildren().add(gameSelectRoot);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @FXML
@@ -217,12 +232,11 @@ public class MainMenuController {
 
     // init side-drawer fxml
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.SIDE_DRAWER));
-      Parent drawerRoot = loader.load();
-
-      sideDrawerController = loader.getController();
-      sideDrawerController.setMainMenuController(this);
-
+      FXMLLoader sideDrawer = new FXMLLoader(getClass().getResource(Views.SIDE_DRAWER));
+      Parent drawerRoot = sideDrawer.load();
+      sideDrawerController = sideDrawer.getController();
+      SideDrawerController.setMainMenuController(this);
+      
       rootPane.getChildren().add(drawerRoot);
 
     } catch (Exception e) {

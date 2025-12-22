@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ua.notion.utils.Constants.Views;
+import ua.notion.services.LauchingServise;
 import ua.notion.utils.StageUtils;
 
 public class App extends Application {
@@ -42,5 +43,6 @@ public class App extends Application {
     primaryStage.setScene(scene);
     StageUtils.configureScreenSize(primaryStage);
     primaryStage.show();
+
   }
 }
