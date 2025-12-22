@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1100.0" styleClass="root-pane" stylesheets="@../../css/game-select.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.GameSelectController">
+  <children>
+    <HBox alignment="CENTER" layoutX="50.0" layoutY="50.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <!-- Left Column: Image Preview -->
+        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="420.0" styleClass="preview-container">
+          <children>
+            <VBox alignment="CENTER" spacing="10.0">
+              <children>
+                <SVGPath content="M14 6l-3.75 5 2.85 3.8-1.6 1.2C9.81 13.55 10.04 14 10.04 14c-.03.04-.08.07-.11.1-.03-.03-.08-.06-.11-.1 0 0 .23-.45-1.46 2.05L14 22l6-8-4-4L14 6z" styleClass="preview-icon"/>
+              </children>
+            </VBox>
+            <StackPane alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" styleClass="preview-title-background" StackPane.alignment="BOTTOM_CENTER">
+              <children>
+                <Label styleClass="preview-title-text" text="Title"/>
+              </children>
+            </StackPane>
+          </children>
+        </StackPane>
+        <!-- Right Column: Form -->
+        <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="500.0" spacing="22.0">
+          <children>
+            <!-- Title Input -->
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="form-header-label" text="Game/App Title"/>
+                <TextField fx:id="gameTitleField" promptText="Title" styleClass="input-field"/>
+              </children>
+            </VBox>
+            <!-- Image Input -->
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="form-header-label" text="App Image"/>
+                <StackPane>
+                  <children>
+                    <TextField fx:id="imagePathField" promptText="Paste an URL or an Image one from your computer">
+                      <styleClass>
+                        <String fx:value="input-field"/>
+                        <String fx:value="input-field-with-icon"/>
+                      </styleClass>
+                    </TextField>
+                    <Button onAction="#onBrowseImage" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" styleClass="icon-button" StackPane.alignment="CENTER_RIGHT">
+                      <graphic>
+                        <SVGPath content="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" styleClass="icon-svg"/>
+                      </graphic>
+                      <StackPane.margin>
+                        <Insets right="8.0"/>
+                      </StackPane.margin>
+                    </Button>
+                  </children>
+                </StackPane>
+              </children>
+            </VBox>
+            <!-- Platform Select -->
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="form-header-label" text="Select Platform Version to Install:"/>
+                <ComboBox fx:id="platformComboBox" maxWidth="1.7976931348623157E308" promptText="Select Platform" styleClass="platform-combo-box">
+                  <!-- Items will be loaded by controller -->
+                </ComboBox>
+              </children>
+            </VBox>
+            <!-- Wine Settings Accordion -->
+            <TitledPane fx:id="wineSettingsPane" animated="true" expanded="false" styleClass="wine-settings-pane" text="Show Wine settings">
+              <content>
+                <VBox spacing="15.0" styleClass="wine-content-vbox">
+                  <children>
+                    <CheckBox fx:id="defaultWineSettingsCheckBox" onAction="#onDefaultWineSettingsAction" mnemonicParsing="false" styleClass="wine-checkbox" text="Use Default Wine Settings"/>
+                    <!-- Wine Prefix Field -->
+                    <VBox spacing="8.0">
+                      <children>
+                        <Label styleClass="form-header-label" text="Wine Prefix"/>
+                        <StackPane>
+                          <children>
+                            <TextField fx:id="winePrefixField" promptText="/Path/to/you/prefix/directions">
+                              <styleClass>
+                                <String fx:value="input-field"/>
+                                <String fx:value="input-field-with-icon"/>
+                              </styleClass>
+                            </TextField>
+                            <Button onAction="#onBrowseWinePrefix" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" styleClass="icon-button" StackPane.alignment="CENTER_RIGHT">
+                              <graphic>
+                                <SVGPath content="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" styleClass="icon-svg"/>
+                              </graphic>
+                              <StackPane.margin>
+                                <Insets right="8.0"/>
+                              </StackPane.margin>
+                            </Button>
+                          </children>
+                        </StackPane>
+                      </children>
+                    </VBox>
+                    <!-- Wine Version Field -->
+                    <VBox spacing="8.0">
+                      <children>
+                        <Label styleClass="form-header-label" text="Wine version:"/>
+                        <ComboBox fx:id="wineVersionComboBox" maxWidth="1.7976931348623157E308" promptText="Proton - GE-Proton10-25" styleClass="platform-combo-box" value="Proton - GE-Proton10-25">
+                          <!-- Values would typically be loaded by controller or items list here -->
+                        </ComboBox>
+                      </children>
+                    </VBox>
+                  </children>
+                  <padding>
+                    <Insets top="14.0"/>
+                  </padding>
+                </VBox>
+              </content>
+            </TitledPane>
+            <!-- Executable Select -->
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="form-header-label" text="Select Executable"/>
+                <StackPane>
+                  <children>
+                    <TextField fx:id="executablePathField" disable="true" editable="false" promptText="Select Executable" styleClass="input-field-disabled" text="Select Executable"/>
+                    <Button onAction="#onBrowseExecutable" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" styleClass="icon-button" StackPane.alignment="CENTER_RIGHT">
+                      <graphic>
+                        <SVGPath content="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" styleClass="icon-svg-disabled"/>
+                      </graphic>
+                      <StackPane.margin>
+                        <Insets right="8.0"/>
+                      </StackPane.margin>
+                    </Button>
+                  </children>
+                </StackPane>
+              </children>
+            </VBox>
+            <!-- Action Buttons -->
+            <HBox alignment="CENTER_RIGHT" spacing="16.0">
+              <children>
+                <Button fx:id="runInstallerButton" onAction="#onRunInstaller" mnemonicParsing="false" styleClass="action-button-primary" text="RUN INSTALLER FIRST"/>
+                <Button fx:id="finishButton" onAction="#onFinish" mnemonicParsing="false" styleClass="action-button-secondary" text="FINISH"/>
+              </children>
+              <VBox.margin>
+                <Insets top="10.0"/>
+              </VBox.margin>
+            </HBox>
+          </children>
+        </VBox>
+      </children>
+    </HBox>
+    <!-- Back Button (Arrow Left) at Top-Left -->
+    <Button onAction="#onBackButton" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" styleClass="back-button" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <graphic>
+        <SVGPath content="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" styleClass="back-icon"/>
+      </graphic>
+    </Button>
+  </children>
+</AnchorPane>

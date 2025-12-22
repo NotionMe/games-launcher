@@ -1,19 +1,20 @@
 package ua.notion.controllers;
 
+import java.util.List;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import ua.notion.utils.Constants;
+import ua.notion.services.LauchingServise;
+import ua.notion.utils.Constants.Data;
 import ua.notion.utils.Constants.UI;
-import ua.notion.utils.Constants.Views;
 
 public class SideDrawerController {
 
@@ -72,7 +73,7 @@ public class SideDrawerController {
                 .addAll(getClass().getResource(UI.SIDE_DRAWER_CSS).toExternalForm());
     }
 
-    public void setMainMenuController(MainMenuController mainMenuController) {
+    public static void setMainMenuController(MainMenuController mainMenuController) {
         SideDrawerController.mainMenuController = mainMenuController;
     }
 
@@ -138,7 +139,9 @@ public class SideDrawerController {
 
     @FXML
     private void onPlayAction() {
-        System.out.println("you press button Play");
+        var command = List.of(Data.SCRIPT_PATH.toString(), Data.EXE_PATH.toString(),
+                Data.PREFIX_PATH.toString(), Data.WINEDLLOVERRIDES.toString());
+        LauchingServise.runCommand(command);
     }
 
     @FXML
