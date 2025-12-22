@@ -29,16 +29,13 @@ import ua.notion.data.UserData;
 import ua.notion.services.GameService;
 import ua.notion.services.IconService;
 import ua.notion.utils.StageUtils;
+import ua.notion.utils.WindowHandler;
 
 public class MainMenuController {
 
 
   @FXML
   private StackPane centerLayer;
-
-
-  private double xOffset = 0;
-  private double yOffset = 0;
 
   private User user;
 
@@ -80,51 +77,31 @@ public class MainMenuController {
   @FXML
   private ScrollPane gamesScroll;
 
+  private WindowHandler windowHandler;
 
   @FXML
   protected void handleCloseAction(ActionEvent event) {
-    Stage stage = (Stage) closeButton.getScene().getWindow();
-    stage.close();
+    windowHandler.close((Node) event.getSource());
   }
 
   @FXML
   protected void handleMinAction(ActionEvent event) {
-    Stage stage = (Stage) minButton.getScene().getWindow();
-    stage.setIconified(true);
+    windowHandler.minimize((Node) event.getSource());
   }
 
   @FXML
   protected void handleFullAction(ActionEvent event) {
-    Stage stage = (Stage) rootPane.getScene().getWindow();
-    stage.setFullScreenExitHint("");
-
-    if (stage.isFullScreen()) {
-      stage.setFullScreen(false);
-      rootPane.getStyleClass().remove("fullscreen");
-    } else {
-      stage.setFullScreen(true);
-      rootPane.getStyleClass().add("fullscreen");
-    }
+    windowHandler.toggleFullscreen((Node) event.getSource());
   }
 
   @FXML
   protected void handlePressAction(MouseEvent event) {
-    Stage stage = (Stage) rootPane.getScene().getWindow();
-
-    if (!stage.isFullScreen()) {
-      xOffset = stage.getX() - event.getScreenX();
-      yOffset = stage.getY() - event.getScreenY();
-    }
+    windowHandler.onPress(event);
   }
 
   @FXML
   protected void handleMovementAction(MouseEvent event) {
-    Stage stage = (Stage) rootPane.getScene().getWindow();
-
-    if (!stage.isFullScreen()) {
-      stage.setX(event.getScreenX() + xOffset);
-      stage.setY(event.getScreenY() + yOffset);
-    }
+    windowHandler.onDrag(event);
   }
 
   @FXML
@@ -154,7 +131,6 @@ public class MainMenuController {
       settingsStage.initModality(Modality.APPLICATION_MODAL); // Block main menu
 
       settingsStage.initStyle(StageStyle.TRANSPARENT);
-
 
       Scene scene = new Scene(settingsView);
       scene.setFill(Color.TRANSPARENT);
@@ -212,6 +188,8 @@ public class MainMenuController {
 
   @FXML
   private void initialize() {
+    this.windowHandler = new WindowHandler(rootPane);
+
     rootPane.getStylesheets().addAll(getClass().getResource(BASE_CSS).toExternalForm(),
         getClass().getResource(MAIN_MENU_CSS).toExternalForm());
 

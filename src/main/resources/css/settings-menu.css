@@ -3,6 +3,9 @@
     -fx-background-color: #3D3D3D;
     -fx-background-radius: 14 14 14 14;
 }
+.root-pane.fullscreen {
+  -fx-background-radius: 0;
+}
 .transparent-container {
   -fx-background-color: transparent;
 }

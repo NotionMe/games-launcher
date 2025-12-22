@@ -2,19 +2,17 @@ package ua.notion.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
+import ua.notion.utils.WindowHandler;
 
 public class SettingsMenuController {
 
   private static final String BASE_CSS = "/css/base.css";
   private static final String SETTINGS_MENU_CSS = "/css/settings-menu.css";
-
-  private double xOffset = 0;
-  private double yOffset = 0;
 
   @FXML
   private Button closeButton;
@@ -37,6 +35,8 @@ public class SettingsMenuController {
   private BorderPane rootPane;
   @FXML
   private AnchorPane topPane;
+
+  private WindowHandler windowHandler;
 
   @FXML
   private void onPathButtonPressed(ActionEvent event) {
@@ -65,52 +65,32 @@ public class SettingsMenuController {
 
   @FXML
   protected void handleCloseAction(ActionEvent event) {
-    Stage stage = (Stage) closeButton.getScene().getWindow();
-    stage.close();
+    windowHandler.close((Node) event.getSource());
   }
 
   @FXML
   protected void handleMinAction(ActionEvent event) {
-    Stage stage = (Stage) minButton.getScene().getWindow();
-    stage.setIconified(true);
+    windowHandler.minimize((Node) event.getSource());
   }
 
   @FXML
   protected void handleFullAction(ActionEvent event) {
-    Stage stage = (Stage) rootPane.getScene().getWindow();
-    stage.setFullScreenExitHint("");
-
-    if (stage.isFullScreen()) {
-      stage.setFullScreen(false);
-      rootPane.getStyleClass().remove("fullscreen");
-    } else {
-      stage.setFullScreen(true);
-      rootPane.getStyleClass().add("fullscreen");
-    }
+    windowHandler.toggleFullscreen((Node) event.getSource());
   }
 
   @FXML
   protected void handlePressAction(MouseEvent event) {
-    Stage stage = (Stage) rootPane.getScene().getWindow();
-
-    if (!stage.isFullScreen()) {
-      xOffset = stage.getX() - event.getScreenX();
-      yOffset = stage.getY() - event.getScreenY();
-    }
+    windowHandler.onPress(event);
   }
 
   @FXML
   protected void handleMovementAction(MouseEvent event) {
-    Stage stage = (Stage) rootPane.getScene().getWindow();
-
-    if (!stage.isFullScreen()) {
-      stage.setX(event.getScreenX() + xOffset);
-      stage.setY(event.getScreenY() + yOffset);
-    }
+    windowHandler.onDrag(event);
   }
 
   @FXML
   private void initialize() {
+    this.windowHandler = new WindowHandler(topPane);
 
     rootPane.getStylesheets().addAll(
         getClass().getResource(SETTINGS_MENU_CSS).toExternalForm(),
