@@ -63,6 +63,7 @@ public class GameSelectController {
         LOGGER.log(Level.INFO, "BACK BUTTON PRESSED");
         try {
             if (!mainMenuController.getCenterLayer().getChildren().isEmpty()) {
+                mainMenuController.setGameSelectView(null);
                 mainMenuController.getCenterLayer().getChildren()
                         .remove(mainMenuController.getCenterLayer().getChildren().size() - 1);
             }

@@ -37,8 +37,6 @@ import ua.notion.utils.Constants.Views;
 
 public class MainMenuController {
 
-  private SideDrawerController sideDrawerController;
-  private GameSelectController gameSelectController;
 
   private double xOffset = 0;
   private double yOffset = 0;
@@ -82,8 +80,20 @@ public class MainMenuController {
   @FXML
   private StackPane centerLayer;
 
+
+
+  private Parent gameSelectView;
+
   public StackPane getCenterLayer() {
     return centerLayer;
+  }
+
+  public Parent getGameSelectView() {
+    return gameSelectView;
+  }
+
+  public void setGameSelectView(Parent gameSelectView) {
+    this.gameSelectView = gameSelectView;
   }
 
   @FXML
@@ -146,14 +156,18 @@ public class MainMenuController {
     // e.printStackTrace();
     // }
     // });
-    try {
-      FXMLLoader gameSelect = new FXMLLoader(getClass().getResource(Views.GAME_SELECT));
-      Parent gameSelectRoot = gameSelect.load();
-      gameSelectController = gameSelect.getController();
-      GameSelectController.setMainMenuController(this);
-      centerLayer.getChildren().add(gameSelectRoot);
-    } catch (Exception e) {
-      e.printStackTrace();
+    if (gameSelectView == null) {
+      try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.GAME_SELECT));
+        Parent root = loader.load();
+
+        GameSelectController controller = loader.getController();
+        controller.setMainMenuController(this);
+        setGameSelectView(root);
+        centerLayer.getChildren().add(root);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 
@@ -234,9 +248,9 @@ public class MainMenuController {
     try {
       FXMLLoader sideDrawer = new FXMLLoader(getClass().getResource(Views.SIDE_DRAWER));
       Parent drawerRoot = sideDrawer.load();
-      sideDrawerController = sideDrawer.getController();
+      SideDrawerController controller = sideDrawer.getController();
       SideDrawerController.setMainMenuController(this);
-      
+
       rootPane.getChildren().add(drawerRoot);
 
     } catch (Exception e) {

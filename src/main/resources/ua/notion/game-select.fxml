@@ -8,6 +8,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -21,11 +23,11 @@
         <!-- Left Column: Image Preview -->
         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="420.0" styleClass="preview-container">
           <children>
-            <VBox alignment="CENTER" spacing="10.0">
-              <children>
-                <SVGPath content="M14 6l-3.75 5 2.85 3.8-1.6 1.2C9.81 13.55 10.04 14 10.04 14c-.03.04-.08.07-.11.1-.03-.03-.08-.06-.11-.1 0 0 .23-.45-1.46 2.05L14 22l6-8-4-4L14 6z" styleClass="preview-icon"/>
-              </children>
-            </VBox>
+            <ImageView fitHeight="560.0" fitWidth="420.0" pickOnBounds="true" preserveRatio="false" smooth="true">
+              <image>
+                <Image url="@../../icons/test_Image_background.jpg"/>
+              </image>
+            </ImageView>
             <StackPane alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" styleClass="preview-title-background" StackPane.alignment="BOTTOM_CENTER">
               <children>
                 <Label styleClass="preview-title-text" text="Title"/>
