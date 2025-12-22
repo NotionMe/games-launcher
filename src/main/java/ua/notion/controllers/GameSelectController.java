@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import ua.notion.services.GameService;
 import ua.notion.utils.Constants.Views;
 import javafx.scene.control.CheckBox;
 import javafx.scene.Parent;
@@ -17,34 +18,26 @@ import java.util.List;
 public class GameSelectController {
     private static final Logger LOGGER = System.getLogger(GameSelectController.class.getName());
     private static MainMenuController mainMenuController;
+    private static GameService gameService;
 
     @FXML
     private TextField gameTitleField;
-
     @FXML
     private TextField imagePathField;
-
     @FXML
     private ComboBox<String> platformComboBox;
-
     @FXML
     private TitledPane wineSettingsPane;
-
     @FXML
     private CheckBox defaultWineSettingsCheckBox;
-
     @FXML
     private TextField winePrefixField;
-
     @FXML
     private ComboBox<String> wineVersionComboBox;
-
     @FXML
     private TextField executablePathField;
-
     @FXML
     private Button runInstallerButton;
-
     @FXML
     private Button finishButton;
 
@@ -58,11 +51,17 @@ public class GameSelectController {
         GameSelectController.mainMenuController = mainMenuController;
     }
 
+    public static void setGameService(GameService gameService) {
+        GameSelectController.gameService = gameService;
+    }
+
     @FXML
     public void onBackButton(ActionEvent event) {
         LOGGER.log(Level.INFO, "BACK BUTTON PRESSED");
+        System.out.println(mainMenuController.getGameSelectView());
         try {
-            if (!mainMenuController.getCenterLayer().getChildren().isEmpty()) {
+            if (mainMenuController.getGameSelectView() != null) {
+                gameService.showPanelVisible(mainMenuController.getBottomAnchorGroup());
                 mainMenuController.setGameSelectView(null);
                 mainMenuController.getCenterLayer().getChildren()
                         .remove(mainMenuController.getCenterLayer().getChildren().size() - 1);

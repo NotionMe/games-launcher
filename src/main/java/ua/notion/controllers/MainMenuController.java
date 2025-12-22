@@ -5,6 +5,7 @@ import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -38,6 +39,7 @@ import ua.notion.utils.Constants.Views;
 public class MainMenuController {
 
 
+
   private double xOffset = 0;
   private double yOffset = 0;
 
@@ -49,6 +51,7 @@ public class MainMenuController {
   private final UserData userData = new UserData();
   private final IconService iconService = new IconService();
   private final GameService gameService = new GameService(userData, iconService);
+  private static SideDrawerController sideDrawerController;
 
   @FXML
   private StackPane rootPane;
@@ -60,7 +63,8 @@ public class MainMenuController {
   private AnchorPane dropFileInfo;
   @FXML
   private FlowPane cardContainer;
-
+  @FXML
+  private AnchorPane bottomAnchorGroup;
   @FXML
   private Button fullButton;
   @FXML
@@ -94,6 +98,14 @@ public class MainMenuController {
 
   public void setGameSelectView(Parent gameSelectView) {
     this.gameSelectView = gameSelectView;
+  }
+
+  public AnchorPane getBottomAnchorGroup() {
+    return bottomAnchorGroup;
+  }
+
+  public void setBottomAnchorGroup(AnchorPane bottomAnchorGroup) {
+    this.bottomAnchorGroup = bottomAnchorGroup;
   }
 
   @FXML
@@ -157,41 +169,29 @@ public class MainMenuController {
     // }
     // });
     if (gameSelectView == null) {
-      try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.GAME_SELECT));
-        Parent root = loader.load();
-
-        GameSelectController controller = loader.getController();
-        controller.setMainMenuController(this);
-        setGameSelectView(root);
-        centerLayer.getChildren().add(root);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+      GameSelectController.setMainMenuController(this);
+      gameSelectView = (Parent) initialNode(Views.GAME_SELECT);
+      centerLayer.getChildren().add(gameSelectView);
+      gameService.hidePanelVisible(bottomAnchorGroup);
     }
   }
 
+
   @FXML
   private void onSettingsButtonPressed(ActionEvent event) {
-    try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.SETTINGS_MENU));
-      Parent settingsView = loader.load();
+    Parent settingsView = (Parent) initialNode(Views.SETTINGS_MENU);
 
-      Stage settingsStage = new Stage();
-      settingsStage.initOwner(rootPane.getScene().getWindow());
-      settingsStage.initModality(Modality.APPLICATION_MODAL); // Block main menu
+    Stage settingsStage = new Stage();
+    settingsStage.initOwner(rootPane.getScene().getWindow());
+    settingsStage.initModality(Modality.APPLICATION_MODAL); // Block main menu
 
-      settingsStage.initStyle(StageStyle.TRANSPARENT);
+    settingsStage.initStyle(StageStyle.TRANSPARENT);
 
-      Scene scene = new Scene(settingsView);
-      scene.setFill(Color.TRANSPARENT);
+    Scene scene = new Scene(settingsView);
+    scene.setFill(Color.TRANSPARENT);
 
-      settingsStage.setScene(scene);
-      settingsStage.showAndWait();
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    settingsStage.setScene(scene);
+    settingsStage.showAndWait();
   }
 
   @FXML
@@ -241,21 +241,11 @@ public class MainMenuController {
 
     user = userData.read();
 
+    SideDrawerController.setMainMenuController(this);
+    GameSelectController.setGameService(gameService);
+
     // Load game cards
     gameService.loadGameCards(user, centerDropPane, cardContainer);
-
-    // init side-drawer fxml
-    try {
-      FXMLLoader sideDrawer = new FXMLLoader(getClass().getResource(Views.SIDE_DRAWER));
-      Parent drawerRoot = sideDrawer.load();
-      SideDrawerController controller = sideDrawer.getController();
-      SideDrawerController.setMainMenuController(this);
-
-      rootPane.getChildren().add(drawerRoot);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   public StackPane getRootPane() {
@@ -285,5 +275,16 @@ public class MainMenuController {
     ft.setFromValue(backgroundImageView.getOpacity());
     ft.setToValue(0.0);
     ft.play();
+  }
+
+  public Node initialNode(String path) {
+    Node node = null;
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
+      node = fxmlLoader.load();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return node;
   }
 }
