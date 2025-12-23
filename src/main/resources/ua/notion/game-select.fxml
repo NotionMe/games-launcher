@@ -23,14 +23,10 @@
         <!-- Left Column: Image Preview -->
         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="420.0" styleClass="preview-container">
           <children>
-            <ImageView fitHeight="560.0" fitWidth="420.0" pickOnBounds="true" preserveRatio="false" smooth="true">
-              <image>
-                <Image url="@../../icons/test_Image_background.jpg"/>
-              </image>
-            </ImageView>
+            <ImageView fx:id="imagePreview" fitHeight="560.0" fitWidth="420.0" pickOnBounds="true" preserveRatio="false" smooth="true"/>
             <StackPane alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" styleClass="preview-title-background" StackPane.alignment="BOTTOM_CENTER">
               <children>
-                <Label styleClass="preview-title-text" text="Title"/>
+                <Label fx:id="previewLableText" styleClass="preview-title-text" text="Title"/>
               </children>
             </StackPane>
           </children>

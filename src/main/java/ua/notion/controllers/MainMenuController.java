@@ -28,6 +28,7 @@ import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.services.GameService;
 import ua.notion.services.IconService;
+import ua.notion.services.ImageService;
 import ua.notion.services.LauchingServise;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -243,6 +244,7 @@ public class MainMenuController {
 
     SideDrawerController.setMainMenuController(this);
     GameSelectController.setGameService(gameService);
+    GameService.setMainMenuController(this);
 
     // Load game cards
     gameService.loadGameCards(user, centerDropPane, cardContainer);

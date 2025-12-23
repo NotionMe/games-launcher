@@ -2,6 +2,8 @@ package ua.notion.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,11 +16,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.stage.Window;
 import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.controllers.GameCardController;
+import ua.notion.controllers.GameSelectController;
+import ua.notion.controllers.MainMenuController;
+import ua.notion.controllers.SideDrawerController;
 import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
 import ua.notion.utils.Constants.Data;
@@ -28,32 +34,24 @@ public class GameService {
 
   private final UserRepository repository;
   private final IconService iconService;
+  private static MainMenuController mainMenuController;
+
 
   public GameService(UserRepository repository, IconService iconService) {
     this.repository = repository;
     this.iconService = iconService;
   }
 
-  public Optional<Game> addGameFromFile(User user, Window parentWindow) {
+  public static void setMainMenuController(MainMenuController mainMenuController) {
+    GameService.mainMenuController = mainMenuController;
+  }
+
+
+  public File getFilePath(List<String> data, String description) {
+    Stage stage = (Stage) mainMenuController.getRootPane().getScene().getWindow();
     FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters()
-        .addAll(new ExtensionFilter("Game files", Data.SUPPORTED_EXTENSIONS));
-
-    File file = fileChooser.showOpenDialog(parentWindow);
-
-    if (file == null) {
-      return Optional.empty();
-    }
-
-    // TODO: handle archives (zip, rar) before storing them.
-    String path = file.getPath();
-    String name = file.getName();
-
-    Game newGame = new Game(name, path);
-    user.addGame(newGame);
-
-    repository.write(user);
-    return Optional.of(newGame);
+    fileChooser.getExtensionFilters().addAll(new ExtensionFilter(description, data));
+    return fileChooser.showOpenDialog(stage);
   }
 
   public Optional<Game> addGameFromArchive(User user, File file) {
@@ -148,5 +146,17 @@ public class GameService {
     gameCardController.setIcon(game.iconPath());
     gameCardController.setTitle(game.title());
     cardContainer.getChildren().add(card);
+  }
+
+  public static File[] getProtonVersionHost(String data) {
+    File directory = new File(data);
+    if (!directory.exists() || !directory.isDirectory()) {
+      return new File[0];
+    }
+    File[] files = directory.listFiles((dir, name) -> {
+      File file = new File(dir, name);
+      return file.isDirectory() && name.toLowerCase().startsWith("ge-proton");
+    });
+    return files != null ? files : new File[0];
   }
 }

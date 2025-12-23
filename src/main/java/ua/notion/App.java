@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ua.notion.utils.Constants.Views;
+import ua.notion.services.ImageService;
 import ua.notion.services.LauchingServise;
 import ua.notion.utils.StageUtils;
 
@@ -35,14 +36,12 @@ public class App extends Application {
         new Image(getClass().getResource("/icons/icon_64x64.png").toString()),
         new Image(getClass().getResource("/icons/icon_128x128.png").toString()),
         new Image(getClass().getResource("/icons/icon_256x256.png").toString()),
-        new Image(getClass().getResource("/icons/icon_1024x1024.png").toString())
-    );
+        new Image(getClass().getResource("/icons/icon_1024x1024.png").toString()));
 
     primaryStage.setTitle("Games launcher");
 
     primaryStage.setScene(scene);
     StageUtils.configureScreenSize(primaryStage);
     primaryStage.show();
-
   }
 }

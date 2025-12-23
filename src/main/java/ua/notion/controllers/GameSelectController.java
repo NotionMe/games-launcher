@@ -3,16 +3,28 @@ package ua.notion.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import ua.notion.services.GameService;
+import ua.notion.services.ImageService;
+import ua.notion.utils.Constants.Data;
 import ua.notion.utils.Constants.Views;
 import javafx.scene.control.CheckBox;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
+import javafx.beans.property.SimpleStringProperty;
+import java.io.File;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
+import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameSelectController {
@@ -20,6 +32,8 @@ public class GameSelectController {
     private static MainMenuController mainMenuController;
     private static GameService gameService;
 
+    @FXML
+    private Label previewLableText;
     @FXML
     private TextField gameTitleField;
     @FXML
@@ -40,11 +54,29 @@ public class GameSelectController {
     private Button runInstallerButton;
     @FXML
     private Button finishButton;
+    @FXML
+    private ImageView imagePreview;
 
     @FXML
     public void initialize() {
         platformComboBox.getItems().setAll("Windows", "Linux");
         platformComboBox.getSelectionModel().select("Windows");
+
+        previewLableText.textProperty().bind(gameTitleField.textProperty());
+
+        imagePathField.textProperty().addListener((observable, defaultImage, newImage) -> {
+            URI url = ImageService.checkUriImage(newImage);
+            if (url != null) {
+                try {
+                    imagePreview.setImage(new Image(url.toString(), true));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        //TODO: треба зробити КАЧЕСТВЕНОоооо.
+        addProtonCheckBox();
     }
 
     public static void setMainMenuController(MainMenuController mainMenuController) {
@@ -74,6 +106,9 @@ public class GameSelectController {
     @FXML
     public void onBrowseImage(ActionEvent event) {
         LOGGER.log(Level.INFO, "BROWSE IMAGE");
+        File file = gameService.getFilePath(Data.SUPPORTED_EXTENSIONS_IMAGE, "Choice image");
+        if (file.getPath() != null)
+            imagePathField.setText(file.getPath());
     }
 
     @FXML
@@ -84,6 +119,13 @@ public class GameSelectController {
     @FXML
     public void onBrowseWinePrefix(ActionEvent event) {
         LOGGER.log(Level.INFO, "WINE PREFIX");
+        Stage stage = (Stage) mainMenuController.getRootPane().getScene().getWindow();
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Choice folder");
+        File fileSelect = directoryChooser.showDialog(stage);
+        if (fileSelect.getPath() != null)
+            winePrefixField.setText(fileSelect.getPath());
+
     }
 
     @FXML
@@ -102,9 +144,13 @@ public class GameSelectController {
         LOGGER.log(Level.INFO, "FINISH");
     }
 
-    public void setWineVersions(List<String> versions) {
-        wineVersionComboBox.getItems().setAll(versions);
-        if (!versions.isEmpty()) {
+    // Поки що халтурщіна ну і похер )))
+    private void addProtonCheckBox() {
+        File[] files = GameService.getProtonVersionHost(Data.PROTON_PATH.toString());
+        if (files.length > 0) {
+            for (File file : files) {
+                wineVersionComboBox.getItems().add(file.getName());
+            }
             wineVersionComboBox.getSelectionModel().selectFirst();
         }
     }
