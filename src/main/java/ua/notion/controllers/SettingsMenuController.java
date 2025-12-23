@@ -1,18 +1,29 @@
 package ua.notion.controllers;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import ua.notion.utils.WindowHandler;
 
-public class SettingsMenuController {
+public class SettingsMenuController implements Serializable {
 
   private static final String BASE_CSS = "/css/base.css";
   private static final String SETTINGS_MENU_CSS = "/css/settings-menu.css";
+
+  @FXML
+  private StackPane contentArea;
 
   @FXML
   private Button closeButton;
@@ -21,7 +32,7 @@ public class SettingsMenuController {
   @FXML
   private Button fullButton;
   @FXML
-  private Button pathButton;
+  private Button pathsButton;
   @FXML
   private Button protonsButton;
   @FXML
@@ -39,28 +50,28 @@ public class SettingsMenuController {
   private WindowHandler windowHandler;
 
   @FXML
-  private void onPathButtonPressed(ActionEvent event) {
-    System.out.println("Path button!");
+  private void onPathsButtonPressed(ActionEvent event) {
+    loadPage("paths-page.fxml");
   }
 
   @FXML
   private void onProtonsButtonPressed(ActionEvent event) {
-    System.out.println("Proton button!");
+    loadPage("protons-page.fxml");
   }
 
   @FXML
   private void onGraphicsButtonPressed(ActionEvent event) {
-    System.out.println("Graphics button!");
+    loadPage("graphics-page.fxml");
   }
 
   @FXML
   private void onLauncherButtonPressed(ActionEvent event) {
-    System.out.println("Launcher button!");
+    loadPage("launcher-page.fxml");
   }
 
   @FXML
   private void onAboutButtonPressed(ActionEvent event) {
-    System.out.println("About button");
+    loadPage("about-page.fxml");
   }
 
   @FXML
@@ -92,9 +103,29 @@ public class SettingsMenuController {
   private void initialize() {
     this.windowHandler = new WindowHandler(topPane);
 
-    rootPane.getStylesheets().addAll(
-        getClass().getResource(SETTINGS_MENU_CSS).toExternalForm(),
-        getClass().getResource(BASE_CSS).toExternalForm()
-    );
+      rootPane.getStylesheets().addAll(
+          getClass().getResource(SETTINGS_MENU_CSS).toExternalForm(),
+          getClass().getResource(BASE_CSS).toExternalForm()
+      );
+
+      loadPage("paths-page.fxml");
+  }
+
+  private void loadPage(String fxmlFileName) {
+    try {
+      URL fxmlUrl = getClass().getResource("/ua/notion/settings/" + fxmlFileName);
+      if (fxmlUrl == null) {
+        System.out.println("File not found: " + fxmlFileName);
+        return;
+      }
+
+      Parent view = FXMLLoader.load(fxmlUrl);
+
+      contentArea.getChildren().removeAll();
+      contentArea.getChildren().setAll(view);
+
+    } catch (IOException e) {
+      Logger.getLogger(SettingsMenuController.class.getName()).log(Level.SEVERE, null, e);
+    }
   }
 }

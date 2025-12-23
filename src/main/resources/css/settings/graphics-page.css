@@ -1,0 +1,37 @@
+.wine-switch {
+  -fx-background-color: #535353;
+  -fx-opacity: 100;
+  -fx-background-radius: 14 14 0 0;
+}
+.use-native-wayland {
+  -fx-background-color: #535353;
+  -fx-opacity: 100;
+  -fx-background-radius: 0 0 14 14;
+}
+.setting-label {
+  -fx-text-fill: white;
+  -fx-font-family: "Fira Sans Medium";
+  -fx-font-size: 16;
+}
+.toggle-switch .thumb-area {
+  -fx-background-color: #7B7878;
+  -fx-background-insets: 0;
+  -fx-background-radius: 100;
+}
+.toggle-switch .thumb {
+  -fx-background-color: white;
+  -fx-background-insets: 2;
+  -fx-background-radius: 100;
+
+  -fx-effect: null;
+}
+.toggle-switch:selected .thumb-area {
+  -fx-background-color: #0096FF;
+}
+.toggle-switch:focused .thumb-area {
+  -fx-background-color: #7B7878;
+  -fx-effect: null;
+}
+.toggle-switch:selected:focused .thumb-area {
+  -fx-background-color: #0096FF;
+}

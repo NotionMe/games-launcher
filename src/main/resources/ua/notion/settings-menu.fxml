@@ -10,21 +10,22 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.StackPane?>
 <BorderPane fx:id="rootPane" onMouseDragged="#handleMovementAction" onMousePressed="#handlePressAction" styleClass="transparent-container" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.SettingsMenuController">
   <center>
     <AnchorPane fx:id="topPane" prefHeight="400.0" prefWidth="800.0" styleClass="root-pane">
       <children>
 
-        <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <StackPane fx:id="contentArea" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
           <children>
-            <Label styleClass="default-base-paths" text="Default base paths" />
+            <Label styleClass="default-base-paths" text="Select a setting" />
           </children>
-        </VBox>
+        </StackPane>
 
         <HBox alignment="CENTER" prefHeight="65.0" styleClass="bottom-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
           <children>
 
-            <Button fx:id="pathButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#onPathButtonPressed" prefHeight="65.0" prefWidth="64.0" styleClass="btn-paths" text="Paths">
+            <Button fx:id="pathsButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#onPathsButtonPressed" prefHeight="65.0" prefWidth="64.0" styleClass="btn-paths" text="Paths">
 
               <graphic>
                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">

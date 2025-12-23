@@ -123,7 +123,8 @@ public class MainMenuController {
   @FXML
   private void onSettingsButtonPressed(ActionEvent event) {
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ua/notion/settings-menu.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(
+          "/ua/notion/settings-menu.fxml"));
       Parent settingsView = loader.load();
 
       Stage settingsStage = new Stage();
