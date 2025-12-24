@@ -1,16 +1,13 @@
 package ua.notion.controllers.settings;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
 import org.controlsfx.control.ToggleSwitch;
+import ua.notion.utils.Constants.UI;
 
-public class LauncherPageController implements Initializable {
+public class LauncherPageController {
 
-  private static final String BASE_CSS = "/css/base.css";
-  private static final String LAUNCHER_PAGE_CSS = "/css/settings/launcher-page.css";
+
 
   @FXML
   private StackPane rootPane;
@@ -24,11 +21,10 @@ public class LauncherPageController implements Initializable {
   @FXML
   private ToggleSwitch disableAnimSwitch;
 
-  @Override
-  public void initialize(URL url, ResourceBundle resourceBundle) {
+  public void initialize() {
     rootPane.getStylesheets().addAll(
-        getClass().getResource(LAUNCHER_PAGE_CSS).toExternalForm(),
-        getClass().getResource(BASE_CSS).toExternalForm()
+        getClass().getResource(UI.LAUNCHER_PAGE_CSS).toExternalForm(),
+        getClass().getResource(UI.BASE_CSS).toExternalForm()
     );
   }
 }

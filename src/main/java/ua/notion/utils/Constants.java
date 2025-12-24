@@ -22,9 +22,19 @@ public final class Constants {
     public static final String SETTINGS_MENU_CSS = "/css/settings-menu.css";
     public static final String SIDE_DRAWER_CSS = "/css/side-drawer.css";
 
+    // Settings CSS
+    public static final String GRAPHICS_PAGE_CSS = "/css/settings/graphics-page.css";
+    public static final String LAUNCHER_PAGE_CSS = "/css/settings/launcher-page.css";
+    public static final String PATHS_PAGE_CSS = "/css/settings/paths-page.css";
+    public static final String PROTONS_PAGE_CSS = "/css/settings/protons-page.css";
+
     // Icons defaults
     public static final String DEFAULT_ICON_PATH = "/icons/default_photo_512x512.png";
     public static final String DEFAULT_COVER_PATH = "/icons/test_Image_background.jpg";
+
+    private UI() {
+      throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
   }
 
   public static final class Views {
@@ -34,13 +44,18 @@ public final class Constants {
     public static final String SETTINGS_MENU = "/ua/notion/settings-menu.fxml";
     public static final String SIDE_DRAWER = "/ua/notion/side-drawer.fxml";
     public static final String GAME_SELECT = "/ua/notion/game-select.fxml";
+    public static final String SETTINGS_BASE_DIR = "/ua/notion/settings/";
+
+    private Views() {
+      throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
   }
 
   public static final class Data {
 
     public static final String USER_DB_FILE = "user.json";
     public static final String ICONS_DIR = "images";
-    
+
     // home linux (Поки не трогати недороблено!)
     public static final File HOME_PATH = new File(System.getProperty("user.home"));
     public static final File SCRIPT_PATH = new File("src/main/resources/script/run-games.sh");
@@ -53,5 +68,9 @@ public final class Constants {
 
 
     public static final List<String> SUPPORTED_EXTENSIONS = List.of("*.exe", "*.zip", "*.rar");
+
+    private Data() {
+      throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
   }
 }

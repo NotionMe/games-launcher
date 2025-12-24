@@ -1,14 +1,11 @@
 package ua.notion.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import ua.notion.services.GameService;
-import ua.notion.utils.Constants.Views;
 import javafx.scene.control.CheckBox;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import java.lang.System.Logger;

@@ -5,7 +5,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class WindowHandler {
+public final class WindowHandler {
 
   private final Pane rootPane;
   private double xOffset = 0;

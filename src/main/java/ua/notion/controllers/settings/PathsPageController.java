@@ -1,20 +1,15 @@
 package ua.notion.controllers.settings;
 
 import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import ua.notion.utils.Constants.UI;
 
-public class PathsPageController implements Initializable {
-
-  private static final String BASE_CSS = "/css/base.css";
-  private static final String PATHS_PAGE_CSS = "/css/settings/paths-page.css";
+public class PathsPageController {
 
   @FXML
   private StackPane rootPane;
@@ -28,12 +23,11 @@ public class PathsPageController implements Initializable {
   @FXML
   private Label prefixPathLabel;
 
-  @Override
-  public void initialize(URL url, ResourceBundle resourceBundle) {
+  public void initialize() {
 
       rootPane.getStylesheets().addAll(
-          getClass().getResource(PATHS_PAGE_CSS).toExternalForm(),
-          getClass().getResource(BASE_CSS).toExternalForm()
+          getClass().getResource(UI.PATHS_PAGE_CSS).toExternalForm(),
+          getClass().getResource(UI.BASE_CSS).toExternalForm()
       );
     // something like:
     // downloadPathLabel.setText(config.getDownloadPath());

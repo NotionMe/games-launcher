@@ -1,16 +1,11 @@
 package ua.notion.controllers.settings;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.StackPane;
+import ua.notion.utils.Constants.UI;
 
-public class ProtonsPageController implements Initializable {
-
-  private static final String BASE_CSS = "/css/base.css";
-  private static final String PROTONS_PAGE_CSS = "/css/settings/protons-page.css";
+public class ProtonsPageController {
 
   @FXML
   private StackPane rootPane;
@@ -18,11 +13,10 @@ public class ProtonsPageController implements Initializable {
   @FXML
   private ChoiceBox<String> protonsChoiceBox;
 
-  @Override
-  public void initialize(URL url, ResourceBundle resourceBundle) {
+  public void initialize() {
     rootPane.getStylesheets().addAll(
-        getClass().getResource(PROTONS_PAGE_CSS).toExternalForm(),
-        getClass().getResource(BASE_CSS).toExternalForm()
+        getClass().getResource(UI.PROTONS_PAGE_CSS).toExternalForm(),
+        getClass().getResource(UI.BASE_CSS).toExternalForm()
     );
 
     protonsChoiceBox.getItems().add("GE-Proton Latest");

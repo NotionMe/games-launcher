@@ -1,7 +1,6 @@
 package ua.notion.controllers;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,12 +16,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import ua.notion.utils.Constants.UI;
+import ua.notion.utils.Constants.Views;
 import ua.notion.utils.WindowHandler;
 
-public class SettingsMenuController implements Serializable {
-
-  private static final String BASE_CSS = "/css/base.css";
-  private static final String SETTINGS_MENU_CSS = "/css/settings-menu.css";
+public class SettingsMenuController {
 
   @FXML
   private StackPane contentArea;
@@ -85,8 +83,8 @@ public class SettingsMenuController implements Serializable {
     this.windowHandler = new WindowHandler(topPane);
 
     rootPane.getStylesheets().addAll(
-        getClass().getResource(SETTINGS_MENU_CSS).toExternalForm(),
-        getClass().getResource(BASE_CSS).toExternalForm()
+        getClass().getResource(UI.SETTINGS_MENU_CSS).toExternalForm(),
+        getClass().getResource(UI.BASE_CSS).toExternalForm()
     );
 
     configureNavGroup();
@@ -130,7 +128,7 @@ public class SettingsMenuController implements Serializable {
 
   private void loadPage(String fxmlFileName) {
     try {
-      URL fxmlUrl = getClass().getResource("/ua/notion/settings/" + fxmlFileName);
+      URL fxmlUrl = getClass().getResource(Views.SETTINGS_BASE_DIR + fxmlFileName);
       if (fxmlUrl == null) {
         System.out.println("File not found: " + fxmlFileName);
         return;
