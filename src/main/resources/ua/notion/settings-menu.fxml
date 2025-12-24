@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.StackPane?>
@@ -15,18 +14,14 @@
   <center>
     <AnchorPane fx:id="topPane" prefHeight="400.0" prefWidth="800.0" styleClass="root-pane">
       <children>
-
         <StackPane fx:id="contentArea" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
           <children>
             <Label styleClass="default-base-paths" text="Select a setting" />
           </children>
         </StackPane>
-
         <HBox alignment="CENTER" prefHeight="65.0" styleClass="bottom-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
           <children>
-
             <Button fx:id="pathsButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#onPathsButtonPressed" prefHeight="65.0" prefWidth="64.0" styleClass="btn-paths" text="Paths">
-
               <graphic>
                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -34,7 +29,6 @@
                   </image>
                 </ImageView>
               </graphic>
-
             </Button>
                   <Button fx:id="protonsButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#onProtonsButtonPressed" prefHeight="65.0" prefWidth="64.0" styleClass="btn-protons" text="Protons">
                      <graphic>
@@ -64,11 +58,9 @@
                      </graphic>
                   </Button>
                   <Button fx:id="aboutButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#onAboutButtonPressed" prefHeight="65.0" prefWidth="64.0" styleClass="btn-about" text="About">
-
                     <HBox.margin>
                       <Insets left = "16.0" />
                     </HBox.margin>
-
                      <graphic>
                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -77,10 +69,8 @@
                         </ImageView>
                      </graphic>
                   </Button>
-
           </children>
         </HBox>
-
         <HBox spacing="10.0" styleClass="top-segmented" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
           <children>
             <Button fx:id="fullButton" onAction="#handleFullAction" styleClass="full-btn" />
@@ -88,7 +78,6 @@
             <Button fx:id="closeButton" onAction="#handleCloseAction" styleClass="close-btn" />
           </children>
         </HBox>
-
       </children>
     </AnchorPane>
   </center>

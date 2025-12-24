@@ -1,0 +1,35 @@
+.path-item-top {
+  -fx-background-color: #535353;
+  -fx-background-radius: 14 14 0 0;
+  -fx-cursor: hand;
+}
+.path-item-middle {
+  -fx-background-color: #535353;
+  -fx-background-radius: 0;
+  -fx-cursor: hand;
+}
+.path-item-bottom {
+  -fx-background-color: #535353;
+  -fx-background-radius: 0 0 14 14;
+  -fx-cursor: hand;
+}
+.path-item-top:hover,
+.path-item-middle:hover,
+.path-item-bottom:hover {
+  -fx-background-color: #636363;
+}
+.path-item-top:pressed,
+.path-item-middle:pressed,
+.path-item-bottom:pressed {
+  -fx-background-color: #4a4a4a;
+}
+.path-title-label {
+  -fx-text-fill: #9E9E9E;
+  -fx-font-family: "Fira Sans Medium";
+  -fx-font-size: 13px;
+}
+.path-value-label {
+  -fx-text-fill: white;
+  -fx-font-family: "Fira Sans Medium";
+  -fx-font-size: 15px;
+}

@@ -13,12 +13,12 @@ public class GraphicsPageController implements Initializable {
   private static final String GRAPHICS_PAGE_CSS = "/css/settings/graphics-page.css";
 
   @FXML
+  private StackPane rootPane;
+
+  @FXML
   private ToggleSwitch wineSwitch;
   @FXML
   private ToggleSwitch useNativeWayland;
-
-  @FXML
-  private StackPane rootPane;
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {

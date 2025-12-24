@@ -1,14 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-  xmlns:fx="http://javafx.com/fxml"
-  fx:controller="ua.notion.controllers.settings.PathsPageController"
-  prefHeight="400.0" prefWidth="600.0">
+<StackPane fx:id="rootPane"
+  prefHeight="400.0" prefWidth="600.0"
+  xmlns="http://javafx.com/javafx/25"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="ua.notion.controllers.settings.PathsPageController">
 
-</AnchorPane>
+  <VBox alignment="CENTER" spacing="1.0" maxWidth="520.0">
+    <padding>
+      <Insets top="30.0" bottom="30.0" />
+    </padding>
+    <Label text="Default base paths" StackPane.alignment="CENTER" styleClass="path-value-label"/>
+    <HBox styleClass="path-item-top" alignment="CENTER_LEFT"
+      onMouseClicked="#onChangeDownloadPath"
+      prefWidth="600.0" minWidth="600.0" maxWidth="600.0"
+      prefHeight="65.0" minHeight="65.0" maxHeight="65.0"> <padding>
+      <Insets left="20.0" right="20.0"/>
+    </padding>
+      <children>
+        <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
+          <Label text="Path for game downloads" styleClass="path-title-label" />
+          <Label fx:id="downloadPathLabel" text="Path/to/your/directory" styleClass="path-value-label" />
+        </VBox>
+      </children>
+    </HBox>
+    <HBox styleClass="path-item-middle" alignment="CENTER_LEFT"
+      onMouseClicked="#onChangeInstallPath"
+      prefWidth="600.0" minWidth="600.0" maxWidth="600.0"
+      prefHeight="65.0" minHeight="65.0" maxHeight="65.0">
+      <padding>
+        <Insets left="20.0" right="20.0"/>
+      </padding>
+      <children>
+        <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
+          <Label text="Path for game installs" styleClass="path-title-label" />
+          <Label fx:id="installPathLabel" text="Choose every time" styleClass="path-value-label" />
+        </VBox>
+      </children>
+    </HBox>
+    <HBox styleClass="path-item-middle" alignment="CENTER_LEFT"
+      onMouseClicked="#onChangeProtonPath"
+      prefWidth="600.0" minWidth="600.0" maxWidth="600.0"
+      prefHeight="65.0" minHeight="65.0" maxHeight="65.0">
+      <padding>
+        <Insets left="20.0" right="20.0"/>
+      </padding>
+      <children>
+        <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
+          <Label text="Path for proton installs" styleClass="path-title-label" />
+          <Label fx:id="protonPathLabel" text="Path/to/your/directory" styleClass="path-value-label" />
+        </VBox>
+      </children>
+    </HBox>
+    <HBox styleClass="path-item-bottom" alignment="CENTER_LEFT"
+      onMouseClicked="#onChangePrefixPath"
+      prefWidth="600.0" minWidth="600.0" maxWidth="600.0"
+      prefHeight="65.0" minHeight="65.0" maxHeight="65.0">
+      <padding>
+        <Insets left="20.0" right="20.0"/>
+      </padding>
+      <children>
+        <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
+          <Label text="Path for prefixes" styleClass="path-title-label" />
+          <Label fx:id="prefixPathLabel" text="Path/to/your/directory" styleClass="path-value-label" />
+        </VBox>
+      </children>
+    </HBox>
+  </VBox>
+</StackPane>

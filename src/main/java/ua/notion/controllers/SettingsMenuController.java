@@ -75,6 +75,18 @@ public class SettingsMenuController implements Serializable {
   }
 
   @FXML
+  private void initialize() {
+    this.windowHandler = new WindowHandler(topPane);
+
+    rootPane.getStylesheets().addAll(
+        getClass().getResource(SETTINGS_MENU_CSS).toExternalForm(),
+        getClass().getResource(BASE_CSS).toExternalForm()
+    );
+
+    loadPage("paths-page.fxml");
+  }
+
+  @FXML
   protected void handleCloseAction(ActionEvent event) {
     windowHandler.close((Node) event.getSource());
   }
@@ -97,18 +109,6 @@ public class SettingsMenuController implements Serializable {
   @FXML
   protected void handleMovementAction(MouseEvent event) {
     windowHandler.onDrag(event);
-  }
-
-  @FXML
-  private void initialize() {
-    this.windowHandler = new WindowHandler(topPane);
-
-      rootPane.getStylesheets().addAll(
-          getClass().getResource(SETTINGS_MENU_CSS).toExternalForm(),
-          getClass().getResource(BASE_CSS).toExternalForm()
-      );
-
-      loadPage("paths-page.fxml");
   }
 
   private void loadPage(String fxmlFileName) {

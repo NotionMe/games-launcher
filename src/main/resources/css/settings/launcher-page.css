@@ -1,11 +1,13 @@
-.wine-switch {
+.launcher-item-top {
   -fx-background-color: #535353;
-  -fx-opacity: 100;
   -fx-background-radius: 14 14 0 0;
 }
-.use-native-wayland {
+.launcher-item-middle {
   -fx-background-color: #535353;
-  -fx-opacity: 100;
+  -fx-background-radius: 0;
+}
+.launcher-item-bottom {
+  -fx-background-color: #535353;
   -fx-background-radius: 0 0 14 14;
 }
 .setting-label {
