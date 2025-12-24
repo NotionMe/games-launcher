@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ua.notion.services.GameService;
-import ua.notion.services.LauchingServise;
+import ua.notion.services.GameLauncher;
 import ua.notion.utils.Constants.Data;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
@@ -145,7 +145,7 @@ public class SideDrawerController {
 
     @FXML
     private void onPlayAction() {
-        
+
     }
 
     @FXML

@@ -11,7 +11,10 @@ module ua.notion {
   opens ua.notion.controllers to javafx.fxml;
 
   opens ua.notion.components to com.google.gson;
+  opens ua.notion.data.dto to com.google.gson;
 
   exports ua.notion;
+  exports ua.notion.components;
+  exports ua.notion.data.dto;
 
 }

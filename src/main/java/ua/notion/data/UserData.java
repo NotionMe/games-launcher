@@ -10,10 +10,13 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import ua.notion.components.User;
+import ua.notion.data.dto.AppStorageDTO;
+import ua.notion.data.mapper.DataMapper;
 import ua.notion.utils.Constants.Data;
 
 public class UserData implements UserRepository {
 
+  private static final String VERSION = "1.0";
   private final Gson gson;
 
   public UserData() {
@@ -21,32 +24,33 @@ public class UserData implements UserRepository {
   }
 
   @Override
-  public void write(User user) {
+  public User save(User user) {
+    AppStorageDTO storage = new AppStorageDTO(VERSION, DataMapper.toDTO(user));
     try (Writer writer = new FileWriter(Data.USER_DB_FILE)) {
-      gson.toJson(user, writer);
+      gson.toJson(storage, writer);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Failed to save user data", e);
     }
+    return user;
   }
 
   @Override
-  public User read() {
-
+  public User findAll() {
     if (!fileIsExists()) {
       return new User();
     }
 
     try (Reader reader = new FileReader(Data.USER_DB_FILE)) {
-      User user = gson.fromJson(reader, User.class);
+      AppStorageDTO storage = gson.fromJson(reader, AppStorageDTO.class);
 
-      if (user == null) {
+      if (storage == null || storage.user() == null) {
         return new User();
       }
-      return user;
+      return DataMapper.toEntity(storage.user());
     } catch (JsonSyntaxException e) {
       return new User();
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Failed to load user data", e);
     }
   }
 

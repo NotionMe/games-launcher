@@ -22,7 +22,6 @@ import javafx.stage.Window;
 import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.controllers.GameCardController;
-import ua.notion.controllers.GameSelectController;
 import ua.notion.controllers.MainMenuController;
 import ua.notion.controllers.SideDrawerController;
 import ua.notion.data.UserData;
@@ -65,7 +64,7 @@ public class GameService {
     Game game = new Game(name, path);
     user.addGame(game);
 
-    repository.write(user);
+    repository.save(user);
     return Optional.of(game);
   }
 
@@ -142,9 +141,7 @@ public class GameService {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Views.GAME_CARD));
     Node card = fxmlLoader.load();
     GameCardController gameCardController = fxmlLoader.getController();
-    gameCardController.setCover(game.coverPath());
-    gameCardController.setIcon(game.iconPath());
-    gameCardController.setTitle(game.title());
+    gameCardController.setGame(game);
     cardContainer.getChildren().add(card);
   }
 

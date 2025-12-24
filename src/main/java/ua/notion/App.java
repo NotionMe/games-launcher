@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ua.notion.utils.Constants.Views;
 import ua.notion.services.ImageService;
-import ua.notion.services.LauchingServise;
+import ua.notion.services.GameLauncher;
 import ua.notion.utils.StageUtils;
 
 public class App extends Application {

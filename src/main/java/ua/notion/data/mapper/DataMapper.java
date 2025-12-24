@@ -1,0 +1,28 @@
+package ua.notion.data.mapper;
+
+import ua.notion.components.Game;
+import ua.notion.components.User;
+import ua.notion.data.dto.GameDTO;
+import ua.notion.data.dto.UserDTO;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class DataMapper {
+
+    public static User toEntity(UserDTO dto) {
+        User user = new User(dto.id());
+        if (dto.library() != null) {
+            dto.library().forEach(
+                    g -> user.addGame(new Game(g.title(), g.path(), g.iconPath(), g.coverPath())));
+        }
+        return user;
+    }
+
+    public static UserDTO toDTO(User user) {
+        List<GameDTO> gameDTOs = user.getLibrary().stream()
+                .map(g -> new GameDTO(g.title(), g.targetPath(), g.iconPath(), g.coverPath()))
+                .collect(Collectors.toList());
+        return new UserDTO(user.getId(), gameDTOs);
+    }
+}

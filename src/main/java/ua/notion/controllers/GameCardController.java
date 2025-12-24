@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
+import ua.notion.components.Game;
+
 public class GameCardController {
 
     @FXML
@@ -16,7 +18,16 @@ public class GameCardController {
     private ImageView icon;
     @FXML
     private Label title;
-    
+
+    private Game game;
+
+    public void setGame(Game game) {
+        this.game = game;
+        setTitle(game.title());
+        setCover(game.coverPath());
+        setIcon(game.iconPath());
+    }
+
     public void setCover(String resourcePath) {
         cover.setImage(new Image(getClass().getResource(resourcePath).toExternalForm()));
     }
@@ -31,10 +42,15 @@ public class GameCardController {
 
     @FXML
     private void cardPressAction() {
+        if (game != null) {
+            String path = game.targetPath();
+            System.out.println("Вибрано гру: " + game.title());
+            System.out.println("Шлях до гри: " + path);
+        }
         SideDrawerController.openDrawer();
-
     }
 
     @FXML
     private void initialize() {}
 }
+

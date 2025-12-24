@@ -12,7 +12,11 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import ua.notion.services.GameService;
 import ua.notion.services.ImageService;
-import ua.notion.services.LauchingServise;
+import ua.notion.components.Game;
+import ua.notion.components.User;
+import ua.notion.data.UserData;
+import ua.notion.data.UserRepository;
+import ua.notion.services.GameLauncher;
 import ua.notion.utils.Constants.Data;
 import ua.notion.utils.Constants.Views;
 import javafx.scene.control.CheckBox;
@@ -29,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSelectController {
+    private final UserRepository userRepository = new UserData();
+    private static User user;
     private static final Logger LOGGER = System.getLogger(GameSelectController.class.getName());
     private static MainMenuController mainMenuController;
     private static GameService gameService;
@@ -60,7 +66,7 @@ public class GameSelectController {
     private ImageView imagePreview;
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         platformComboBox.getItems().setAll("Windows", "Linux");
         platformComboBox.getSelectionModel().select("Windows");
 
@@ -86,12 +92,16 @@ public class GameSelectController {
         GameSelectController.mainMenuController = mainMenuController;
     }
 
+    public static void setUser(User user) {
+        GameSelectController.user = user;
+    }
+
     public static void setGameService(GameService gameService) {
         GameSelectController.gameService = gameService;
     }
 
     @FXML
-    public void onBackButton(ActionEvent event) {
+    private void onBackButton(ActionEvent event) {
         LOGGER.log(Level.INFO, "BACK BUTTON PRESSED");
         System.out.println(mainMenuController.getGameSelectView());
         try {
@@ -107,7 +117,7 @@ public class GameSelectController {
     }
 
     @FXML
-    public void onBrowseImage(ActionEvent event) {
+    private void onBrowseImage(ActionEvent event) {
         LOGGER.log(Level.INFO, "BROWSE IMAGE");
         File file = gameService.getFilePath(Data.SUPPORTED_EXTENSIONS_IMAGE, "Choice image");
         if (file.getPath() != null)
@@ -115,12 +125,12 @@ public class GameSelectController {
     }
 
     @FXML
-    public void onDefaultWineSettingsAction(ActionEvent event) {
+    private void onDefaultWineSettingsAction(ActionEvent event) {
         LOGGER.log(Level.INFO, "ENABLE DEFAULT WINE");
     }
 
     @FXML
-    public void onBrowseWinePrefix(ActionEvent event) {
+    private void onBrowseWinePrefix(ActionEvent event) {
         LOGGER.log(Level.INFO, "WINE PREFIX");
         Stage stage = (Stage) mainMenuController.getRootPane().getScene().getWindow();
         File fileSelect = directoryChooser("Choice folder", stage);
@@ -129,7 +139,7 @@ public class GameSelectController {
     }
 
     @FXML
-    public void onBrowseExecutable(ActionEvent event) {
+    private void onBrowseExecutable(ActionEvent event) {
         File file = gameService.getFilePath(Data.SUPPORTED_EXTENSIONS_GAME, "Choice exe file");
         if (!file.getPath().isEmpty() && file.getPath() != null) {
             System.out.println(file.getPath());
@@ -138,16 +148,22 @@ public class GameSelectController {
     }
 
     @FXML
-    public void onRunInstaller(ActionEvent event) {
+    private void onRunInstaller(ActionEvent event) {
         LOGGER.log(Level.INFO, "RUN INSTALLER");
-        List<String> command = List.of(Data.SCRIPT_PATH.toString(), protonPath, executablePathField.getText(), winePrefixField.getText(), "OnlineFix64=n;SteamOverlay64=n;winmm=n,b;dnet=n;steam_api64=n;winhttp=n,b");
-        LauchingServise.runCommand(command);
+        List<String> command = List.of(Data.SCRIPT_PATH.toString(), protonPath,
+                executablePathField.getText(), winePrefixField.getText(),
+                "OnlineFix64=n;SteamOverlay64=n;winmm=n,b;dnet=n;steam_api64=n;winhttp=n,b");
+        GameLauncher gameLauncher = new GameLauncher();
+        gameLauncher.launch(null);
 
     }
 
     @FXML
-    public void onFinish(ActionEvent event) {
-        LOGGER.log(Level.INFO, "FINISH");
+    private void onFinish(ActionEvent event) {
+        Game game = new Game(gameTitleField.getText(), executablePathField.getText());
+        user.addGame(game);
+        userRepository.save(user);
+
     }
 
     // Поки що халтурщіна ну і похер )))

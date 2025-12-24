@@ -1,7 +1,5 @@
 package ua.notion.controllers;
 
-import java.io.IOException;
-import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +12,6 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -23,13 +20,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
+import ua.notion.data.UserRepository;
 import ua.notion.services.GameService;
 import ua.notion.services.IconService;
-import ua.notion.services.ImageService;
-import ua.notion.services.LauchingServise;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.animation.FadeTransition;
@@ -49,10 +44,9 @@ public class MainMenuController {
 
   private User user;
 
-  private final UserData userData = new UserData();
+  private final UserRepository userData = new UserData();
   private final IconService iconService = new IconService();
   private final GameService gameService = new GameService(userData, iconService);
-  private static SideDrawerController sideDrawerController;
 
   @FXML
   private StackPane rootPane;
@@ -157,20 +151,8 @@ public class MainMenuController {
 
   @FXML
   private void onAddGameButtonPressed(ActionEvent event) {
-
-    // Stage stage = (Stage) rootPane.getScene().getWindow();
-
-    // Optional<Game> game = gameService.addGameFromFile(user, stage);
-    // game.ifPresent(g -> {
-    // try {
-    // gameService.createGameCard(g, cardContainer);
-    // gameService.hidePanelVisible(centerDropPane);
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
-    // });
     if (gameSelectView == null) {
-      GameSelectController.setMainMenuController(this);
+      SideDrawerController.setMainMenuController(this);
       gameSelectView = (Parent) initialNode(Views.GAME_SELECT);
       centerLayer.getChildren().add(gameSelectView);
       gameService.hidePanelVisible(bottomAnchorGroup);
@@ -240,9 +222,11 @@ public class MainMenuController {
     rootPane.getStylesheets().addAll(getClass().getResource(UI.BASE_CSS).toExternalForm(),
         getClass().getResource(UI.MAIN_MENU_CSS).toExternalForm());
 
-    user = userData.read();
+    user = userData.findAll();
 
     SideDrawerController.setMainMenuController(this);
+    GameSelectController.setMainMenuController(this);
+    GameSelectController.setUser(user);
     GameSelectController.setGameService(gameService);
     GameService.setMainMenuController(this);
 
