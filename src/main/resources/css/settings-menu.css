@@ -18,33 +18,43 @@
   -fx-background-color: #535353;
   -fx-background-radius: 0 0 14 14;
 }
-.btn-paths{
+.nav-button{
   -fx-font-family: "Fira Sans Medium";
-  -fx-text-fill: #FFFF;
+  -fx-text-fill: #FFFFFF;
   -fx-font-size: 10;
+  -fx-background-color: #535353;
+  -fx-cursor: hand;
+}
+.nav-button:hover{
   -fx-background-color: rgba(237, 234, 234, 0.2);
 }
-.btn-protons{
-  -fx-font-family: "Fira Sans Medium";
-  -fx-text-fill: #FFFF;
-  -fx-font-size: 10;
-  -fx-background-color: #535353
+.nav-button:selected{
+  -fx-background-color: rgba(237, 234, 234, 0.2);
 }
-.btn-graphics{
+.default-proton-label {
   -fx-font-family: "Fira Sans Medium";
-  -fx-text-fill: #FFFF;
-  -fx-font-size: 10;
-  -fx-background-color: #535353
+  -fx-font-size: 16px;
+  -fx-font-weight: 500;
+  -fx-text-fill: white;
 }
-.btn-launcher{
+.proton-combo-box {
+  -fx-background-color: #5A5A5A;
+  -fx-background-radius: 30;
+  -fx-text-fill: white;
+  -fx-font-size: 14px;
   -fx-font-family: "Fira Sans Medium";
-  -fx-text-fill: #FFFF;
-  -fx-font-size: 10;
-  -fx-background-color: #535353
+  -fx-padding: 5 10 5 15;
 }
-.btn-about{
-  -fx-font-family: "Fira Sans Medium";
-  -fx-text-fill: #FFFF;
-  -fx-font-size: 10;
-  -fx-background-color: #535353
+.proton-combo-box .list-cell,
+.proton-combo-box .list-cell:filled:selected,
+.proton-combo-box .list-cell:filled:hover {
+  -fx-text-fill: white;
+  -fx-background-color: transparent;
+}
+.proton-combo-box .arrow-button {
+  -fx-background-color: transparent;
+}
+.proton-combo-box .arrow {
+  -fx-background-color: white;
+  -fx-padding: 0 0 0 0;
 }

@@ -26,10 +26,10 @@
 .path-title-label {
   -fx-text-fill: #9E9E9E;
   -fx-font-family: "Fira Sans Medium";
-  -fx-font-size: 13px;
+  -fx-font-size: 13;
 }
 .path-value-label {
   -fx-text-fill: white;
   -fx-font-family: "Fira Sans Medium";
-  -fx-font-size: 15px;
+  -fx-font-size: 15;
 }

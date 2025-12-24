@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -31,16 +33,20 @@ public class SettingsMenuController implements Serializable {
   private Button minButton;
   @FXML
   private Button fullButton;
+
   @FXML
-  private Button pathsButton;
+  private ToggleGroup navGroup;
+
   @FXML
-  private Button protonsButton;
+  private ToggleButton pathsButton;
   @FXML
-  private Button graphicsButton;
+  private ToggleButton protonsButton;
   @FXML
-  private Button launcherButton;
+  private ToggleButton graphicsButton;
   @FXML
-  private Button aboutButton;
+  private ToggleButton launcherButton;
+  @FXML
+  private ToggleButton aboutButton;
 
   @FXML
   private BorderPane rootPane;
@@ -83,6 +89,8 @@ public class SettingsMenuController implements Serializable {
         getClass().getResource(BASE_CSS).toExternalForm()
     );
 
+    configureNavGroup();
+
     loadPage("paths-page.fxml");
   }
 
@@ -111,6 +119,15 @@ public class SettingsMenuController implements Serializable {
     windowHandler.onDrag(event);
   }
 
+  // Ensures that at least one button in the navigation group remains selected
+  private void configureNavGroup() {
+    navGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
+      if (newVal == null && oldVal != null) {
+        navGroup.selectToggle(oldVal);
+      }
+    });
+  }
+
   private void loadPage(String fxmlFileName) {
     try {
       URL fxmlUrl = getClass().getResource("/ua/notion/settings/" + fxmlFileName);
@@ -120,6 +137,19 @@ public class SettingsMenuController implements Serializable {
       }
 
       Parent view = FXMLLoader.load(fxmlUrl);
+
+      // KOSTIL!, i idk how do it another way
+      if (view instanceof javafx.scene.layout.Region) {
+        javafx.scene.layout.Region region = (javafx.scene.layout.Region) view;
+
+        region.setMaxWidth(Double.MAX_VALUE);
+
+        region.prefHeightProperty().bind(contentArea.heightProperty().multiply(0.7));
+      }
+
+      StackPane.setAlignment(view, javafx.geometry.Pos.TOP_CENTER);
+
+      StackPane.setMargin(view, new javafx.geometry.Insets(50, 0, 0, 0));
 
       contentArea.getChildren().removeAll();
       contentArea.getChildren().setAll(view);
