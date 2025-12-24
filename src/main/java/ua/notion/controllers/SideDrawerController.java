@@ -145,9 +145,7 @@ public class SideDrawerController {
 
     @FXML
     private void onPlayAction() {
-        var command = List.of(Data.SCRIPT_PATH.toString(), Data.EXE_PATH.toString(),
-                Data.PREFIX_PATH.toString(), Data.WINEDLLOVERRIDES.toString());
-        LauchingServise.runCommand(command);
+        
     }
 
     @FXML

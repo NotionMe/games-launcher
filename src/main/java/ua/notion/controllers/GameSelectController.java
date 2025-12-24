@@ -12,6 +12,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import ua.notion.services.GameService;
 import ua.notion.services.ImageService;
+import ua.notion.services.LauchingServise;
 import ua.notion.utils.Constants.Data;
 import ua.notion.utils.Constants.Views;
 import javafx.scene.control.CheckBox;
@@ -31,6 +32,7 @@ public class GameSelectController {
     private static final Logger LOGGER = System.getLogger(GameSelectController.class.getName());
     private static MainMenuController mainMenuController;
     private static GameService gameService;
+    private static String protonPath = null;
 
     @FXML
     private Label previewLableText;
@@ -71,11 +73,12 @@ public class GameSelectController {
                     imagePreview.setImage(new Image(url.toString(), true));
                 } catch (Exception e) {
                     e.printStackTrace();
+                    imagePreview.setImage(new Image(defaultImage, false));
                 }
             }
         });
 
-        //TODO: треба зробити КАЧЕСТВЕНОоооо.
+        // TODO: треба зробити КАЧЕСТВЕНОоооо.
         addProtonCheckBox();
     }
 
@@ -120,22 +123,25 @@ public class GameSelectController {
     public void onBrowseWinePrefix(ActionEvent event) {
         LOGGER.log(Level.INFO, "WINE PREFIX");
         Stage stage = (Stage) mainMenuController.getRootPane().getScene().getWindow();
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Choice folder");
-        File fileSelect = directoryChooser.showDialog(stage);
+        File fileSelect = directoryChooser("Choice folder", stage);
         if (fileSelect.getPath() != null)
             winePrefixField.setText(fileSelect.getPath());
-
     }
 
     @FXML
     public void onBrowseExecutable(ActionEvent event) {
-        LOGGER.log(Level.INFO, "PATH TO EXE");
+        File file = gameService.getFilePath(Data.SUPPORTED_EXTENSIONS_GAME, "Choice exe file");
+        if (!file.getPath().isEmpty() && file.getPath() != null) {
+            System.out.println(file.getPath());
+            executablePathField.setText(file.getPath());
+        }
     }
 
     @FXML
     public void onRunInstaller(ActionEvent event) {
         LOGGER.log(Level.INFO, "RUN INSTALLER");
+        List<String> command = List.of(Data.SCRIPT_PATH.toString(), protonPath, executablePathField.getText(), winePrefixField.getText(), "OnlineFix64=n;SteamOverlay64=n;winmm=n,b;dnet=n;steam_api64=n;winhttp=n,b");
+        LauchingServise.runCommand(command);
 
     }
 
@@ -147,11 +153,20 @@ public class GameSelectController {
     // Поки що халтурщіна ну і похер )))
     private void addProtonCheckBox() {
         File[] files = GameService.getProtonVersionHost(Data.PROTON_PATH.toString());
+
         if (files.length > 0) {
             for (File file : files) {
                 wineVersionComboBox.getItems().add(file.getName());
+                // Поки що хардкод, треба переробити нормально!!! (Я займусь)
+                protonPath = file.getPath();
             }
             wineVersionComboBox.getSelectionModel().selectFirst();
         }
+    }
+
+    private File directoryChooser(String nametitle, Stage stage) {
+        DirectoryChooser dc = new DirectoryChooser();
+        dc.setTitle(nametitle);
+        return dc.showDialog(stage);
     }
 }
