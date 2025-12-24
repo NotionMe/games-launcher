@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import ua.notion.components.Game;
+import ua.notion.utils.Constants.Data;
 
 public class GameLauncher {
 
@@ -12,10 +13,9 @@ public class GameLauncher {
         String path = game.targetPath();
         File gameFile = new File(path);
         File workDir = gameFile.getParentFile();
+        String script = Data.SCRIPT_PATH.toString();
 
         List<String> command = new ArrayList<>();
-
-        command.add(path);
 
         try {
             ProcessBuilder pb = new ProcessBuilder(command);

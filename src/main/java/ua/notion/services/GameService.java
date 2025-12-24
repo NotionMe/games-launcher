@@ -61,7 +61,7 @@ public class GameService {
     String name = file.getName();
     String path = file.getPath();
 
-    Game game = new Game(name, path);
+    Game game = new Game();
     user.addGame(game);
 
     repository.save(user);
@@ -97,7 +97,7 @@ public class GameService {
     }
   }
 
-  public void showPanelVisible(AnchorPane anchorPane) {
+  public static void showPanelVisible(AnchorPane anchorPane) {
     if (anchorPane.isVisible()) {
       return;
     }

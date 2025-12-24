@@ -18,6 +18,7 @@ import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
 import ua.notion.services.GameLauncher;
 import ua.notion.utils.Constants.Data;
+import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
 import javafx.scene.control.CheckBox;
 import javafx.scene.Parent;
@@ -31,8 +32,11 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import ua.notion.ui.fx.WindowHelper;
 
 public class GameSelectController {
+
+
     private final UserRepository userRepository = new UserData();
     private static User user;
     private static final Logger LOGGER = System.getLogger(GameSelectController.class.getName());
@@ -57,6 +61,8 @@ public class GameSelectController {
     @FXML
     private ComboBox<String> wineVersionComboBox;
     @FXML
+    private TextField wineDllOverridesField;
+    @FXML
     private TextField executablePathField;
     @FXML
     private Button runInstallerButton;
@@ -64,28 +70,70 @@ public class GameSelectController {
     private Button finishButton;
     @FXML
     private ImageView imagePreview;
+    @FXML
+    private ImageView previewGameIcon;
+    @FXML
+    private TextField iconPathField;
 
     @FXML
     private void initialize() {
         platformComboBox.getItems().setAll("Windows", "Linux");
         platformComboBox.getSelectionModel().select("Windows");
+        wineDllOverridesField.setText(
+                "OnlineFix64=n;SteamOverlay64=n;winmm=n,b;dnet=n;steam_api64=n;winhttp=n,b");
 
         previewLableText.textProperty().bind(gameTitleField.textProperty());
 
-        imagePathField.textProperty().addListener((observable, defaultImage, newImage) -> {
-            URI url = ImageService.checkUriImage(newImage);
+        imagePathField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isBlank()) {
+                setDefaultPreview(UI.DEFAULT_COVER_PATH, imagePreview);
+                return;
+            }
+
+            URI url = ImageService.checkUriImage(newValue);
             if (url != null) {
                 try {
                     imagePreview.setImage(new Image(url.toString(), true));
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    imagePreview.setImage(new Image(defaultImage, false));
+                    LOGGER.log(Level.WARNING, "Failed to load image: {0}", url);
+                    setDefaultPreview(UI.DEFAULT_COVER_PATH, imagePreview);
                 }
+            } else {
+                setDefaultPreview(UI.DEFAULT_COVER_PATH, imagePreview);
+            }
+        });
+
+        iconPathField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isBlank()) {
+                setDefaultPreview(UI.DEFAULT_ICON_PATH, previewGameIcon);
+                return;
+            }
+
+            URI url = ImageService.checkUriImage(newValue);
+            if (url != null) {
+                try {
+                    previewGameIcon.setImage(new Image(url.toString(), true));
+                } catch (Exception e) {
+                    LOGGER.log(Level.WARNING, "Failed to load icon: {0}", url);
+                    setDefaultPreview(UI.DEFAULT_ICON_PATH, previewGameIcon);
+                }
+            } else {
+                setDefaultPreview(UI.DEFAULT_ICON_PATH, previewGameIcon);
             }
         });
 
         // TODO: треба зробити КАЧЕСТВЕНОоооо.
         addProtonCheckBox();
+        setDefaultPreview(UI.DEFAULT_COVER_PATH, imagePreview);
+        setDefaultPreview(UI.DEFAULT_ICON_PATH, previewGameIcon);
+    }
+
+    private void setDefaultPreview(String defaultCoverPath, ImageView imageView) {
+        URL resource = getClass().getResource(defaultCoverPath);
+        if (resource != null) {
+            Image defaultImage = new Image(resource.toExternalForm());
+            imageView.setImage(defaultImage);
+        }
     }
 
     public static void setMainMenuController(MainMenuController mainMenuController) {
@@ -103,25 +151,21 @@ public class GameSelectController {
     @FXML
     private void onBackButton(ActionEvent event) {
         LOGGER.log(Level.INFO, "BACK BUTTON PRESSED");
-        System.out.println(mainMenuController.getGameSelectView());
-        try {
-            if (mainMenuController.getGameSelectView() != null) {
-                gameService.showPanelVisible(mainMenuController.getBottomAnchorGroup());
-                mainMenuController.setGameSelectView(null);
-                mainMenuController.getCenterLayer().getChildren()
-                        .remove(mainMenuController.getCenterLayer().getChildren().size() - 1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (mainMenuController.getGameSelectView() != null) {
+            mainMenuController.setGameSelectView(null);
+            WindowHelper.navigateBack(mainMenuController.getCenterLayer(),
+                    mainMenuController.getBottomAnchorGroup());
         }
     }
 
     @FXML
     private void onBrowseImage(ActionEvent event) {
-        LOGGER.log(Level.INFO, "BROWSE IMAGE");
-        File file = gameService.getFilePath(Data.SUPPORTED_EXTENSIONS_IMAGE, "Choice image");
-        if (file.getPath() != null)
-            imagePathField.setText(file.getPath());
+        browsePath(imagePathField, Data.SUPPORTED_EXTENSIONS_IMAGE, "Choice image", false);
+    }
+
+    @FXML
+    private void onBrowseIcon(ActionEvent event) {
+        browsePath(iconPathField, Data.SUPPORTED_EXTENSIONS_IMAGE, "Choice icon", false);
     }
 
     @FXML
@@ -131,39 +175,33 @@ public class GameSelectController {
 
     @FXML
     private void onBrowseWinePrefix(ActionEvent event) {
-        LOGGER.log(Level.INFO, "WINE PREFIX");
-        Stage stage = (Stage) mainMenuController.getRootPane().getScene().getWindow();
-        File fileSelect = directoryChooser("Choice folder", stage);
-        if (fileSelect.getPath() != null)
-            winePrefixField.setText(fileSelect.getPath());
+        browsePath(winePrefixField, null, "Choice folder", true);
     }
 
     @FXML
     private void onBrowseExecutable(ActionEvent event) {
-        File file = gameService.getFilePath(Data.SUPPORTED_EXTENSIONS_GAME, "Choice exe file");
-        if (!file.getPath().isEmpty() && file.getPath() != null) {
-            System.out.println(file.getPath());
-            executablePathField.setText(file.getPath());
-        }
+        browsePath(executablePathField, Data.SUPPORTED_EXTENSIONS_GAME, "Choice exe file", false);
     }
 
     @FXML
     private void onRunInstaller(ActionEvent event) {
         LOGGER.log(Level.INFO, "RUN INSTALLER");
-        List<String> command = List.of(Data.SCRIPT_PATH.toString(), protonPath,
-                executablePathField.getText(), winePrefixField.getText(),
-                "OnlineFix64=n;SteamOverlay64=n;winmm=n,b;dnet=n;steam_api64=n;winhttp=n,b");
         GameLauncher gameLauncher = new GameLauncher();
         gameLauncher.launch(null);
-
     }
 
     @FXML
     private void onFinish(ActionEvent event) {
-        Game game = new Game(gameTitleField.getText(), executablePathField.getText());
+        Game game = new Game(gameTitleField.getText(), executablePathField.getText(),
+                winePrefixField.getText(), wineDllOverridesField.getText(),
+                imagePathField.getText(), iconPathField.getText());
         user.addGame(game);
         userRepository.save(user);
-
+        if (mainMenuController.getGameSelectView() != null) {
+            mainMenuController.setGameSelectView(null);
+            WindowHelper.navigateBack(mainMenuController.getCenterLayer(),
+                    mainMenuController.getBottomAnchorGroup());
+        }
     }
 
     // Поки що халтурщіна ну і похер )))
@@ -177,6 +215,21 @@ public class GameSelectController {
                 protonPath = file.getPath();
             }
             wineVersionComboBox.getSelectionModel().selectFirst();
+        }
+    }
+
+    private void browsePath(TextField targetField, List<String> extensions, String description,
+            boolean isDirectory) {
+        File file;
+        if (isDirectory) {
+            Stage stage = (Stage) targetField.getScene().getWindow();
+            file = directoryChooser(description, stage);
+        } else {
+            file = gameService.getFilePath(extensions, description);
+        }
+
+        if (file != null && file.getPath() != null && !file.getPath().isEmpty()) {
+            targetField.setText(file.getPath());
         }
     }
 

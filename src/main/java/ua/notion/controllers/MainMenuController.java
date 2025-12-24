@@ -25,6 +25,7 @@ import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
 import ua.notion.services.GameService;
 import ua.notion.services.IconService;
+import ua.notion.ui.fx.WindowHelper;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.animation.FadeTransition;
@@ -46,6 +47,7 @@ public class MainMenuController {
 
   private final UserRepository userData = new UserData();
   private final IconService iconService = new IconService();
+  private static final WindowHelper WINDOW_HELPER = new WindowHelper();
   private final GameService gameService = new GameService(userData, iconService);
 
   @FXML
@@ -153,16 +155,18 @@ public class MainMenuController {
   private void onAddGameButtonPressed(ActionEvent event) {
     if (gameSelectView == null) {
       SideDrawerController.setMainMenuController(this);
-      gameSelectView = (Parent) initialNode(Views.GAME_SELECT);
-      centerLayer.getChildren().add(gameSelectView);
-      gameService.hidePanelVisible(bottomAnchorGroup);
+      gameSelectView = (Parent) WINDOW_HELPER.navigateAdd(Views.GAME_SELECT);
+      if (gameSelectView != null) {
+        centerLayer.getChildren().add(gameSelectView);
+        gameService.hidePanelVisible(bottomAnchorGroup);
+      }
     }
   }
 
 
   @FXML
   private void onSettingsButtonPressed(ActionEvent event) {
-    Parent settingsView = (Parent) initialNode(Views.SETTINGS_MENU);
+    Parent settingsView = (Parent) WINDOW_HELPER.navigateAdd(Views.SETTINGS_MENU);
 
     Stage settingsStage = new Stage();
     settingsStage.initOwner(rootPane.getScene().getWindow());
@@ -263,14 +267,5 @@ public class MainMenuController {
     ft.play();
   }
 
-  public Node initialNode(String path) {
-    Node node = null;
-    try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
-      node = fxmlLoader.load();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return node;
-  }
+
 }

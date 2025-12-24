@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ua.notion.services.GameService;
+import ua.notion.ui.fx.WindowHelper;
 import ua.notion.services.GameLauncher;
 import ua.notion.utils.Constants.Data;
 import ua.notion.utils.Constants.UI;
@@ -59,6 +60,7 @@ public class SideDrawerController {
 
     private static SideDrawerController sDrawerController;
     private static MainMenuController mainMenuController;
+    private static final WindowHelper WINDOW_HELPER = new WindowHelper();
 
 
     @FXML
@@ -109,7 +111,7 @@ public class SideDrawerController {
 
     public static void openDrawer() {
         if (sDrawerController == null) {
-            Node node = mainMenuController.initialNode(Views.SIDE_DRAWER);
+            Node node = WINDOW_HELPER.navigateAdd(Views.SIDE_DRAWER);
             mainMenuController.getRootPane().getChildren().add(node);
         }
 
