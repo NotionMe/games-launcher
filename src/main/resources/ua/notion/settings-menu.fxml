@@ -1,18 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
-  xmlns:fx="http://javafx.com/fxml"
-  fx:controller="ua.notion.controllers.SettingsMenuController"
-  prefHeight="400.0" prefWidth="600.0"
-  styleClass="root-pane">
-  <children>
-    <Label text="SETTINGS MENU" textFill="white" layoutX="250.0" layoutY="180.0"/>
-    <Button text="Close" layoutX="280.0" layoutY="220.0"/>
-  </children>
-</AnchorPane>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<BorderPane fx:id="rootPane" onMouseDragged="#handleMovementAction" onMousePressed="#handlePressAction" styleClass="transparent-container" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.SettingsMenuController">
+  <center>
+    <AnchorPane fx:id="topPane" prefHeight="400.0" prefWidth="800.0" styleClass="root-pane">
+      <children>
+        <StackPane fx:id="contentArea" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+          <children>
+            <Label styleClass="default-base-paths" text="Select a setting" />
+          </children>
+        </StackPane>
+        <fx:define>
+          <ToggleGroup fx:id="navGroup"/>
+        </fx:define>
+        <HBox alignment="CENTER" prefHeight="65.0" styleClass="bottom-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+          <children>
+            <ToggleButton fx:id="pathsButton" toggleGroup="$navGroup" selected="true" contentDisplay="TOP" mnemonicParsing="false" onAction="#onPathsButtonPressed" prefHeight="65.0" prefWidth="64.0" styleClass="nav-button" text="Paths">
+              <graphic>
+                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@../../icons/icon_path_location_48x48.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </ToggleButton>
+                  <ToggleButton fx:id="protonsButton" toggleGroup="$navGroup" contentDisplay="TOP" mnemonicParsing="false" onAction="#onProtonsButtonPressed" prefHeight="65.0" prefWidth="64.0" styleClass="nav-button" text="Protons">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/icon_proton_48x48.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </ToggleButton>
+                  <ToggleButton fx:id="graphicsButton" toggleGroup="$navGroup" contentDisplay="TOP" mnemonicParsing="false" onAction="#onGraphicsButtonPressed" prefHeight="65.0" prefWidth="64.0" styleClass="nav-button" text="Graphics">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/icon_graphics_card_48x48.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </ToggleButton>
+                  <ToggleButton fx:id="launcherButton" toggleGroup="$navGroup" contentDisplay="TOP" mnemonicParsing="false" onAction="#onLauncherButtonPressed" prefHeight="65.0" prefWidth="64.0" styleClass="nav-button" text="Launcher">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/icon_launcher_48x48.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </ToggleButton>
+                  <ToggleButton fx:id="aboutButton" toggleGroup="$navGroup" contentDisplay="TOP" mnemonicParsing="false" onAction="#onAboutButtonPressed" prefHeight="65.0" prefWidth="64.0" styleClass="nav-button, btn-about" text="About">
+                    <HBox.margin>
+                      <Insets left = "16.0" />
+                    </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/icon_about_48x48.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </ToggleButton>
+          </children>
+        </HBox>
+        <HBox spacing="10.0" styleClass="top-segmented" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
+          <children>
+            <Button fx:id="fullButton" onAction="#handleFullAction" styleClass="full-btn" />
+            <Button fx:id="minButton" onAction="#handleMinAction" styleClass="min-btn" />
+            <Button fx:id="closeButton" onAction="#handleCloseAction" styleClass="close-btn" />
+          </children>
+        </HBox>
+      </children>
+    </AnchorPane>
+  </center>
+</BorderPane>

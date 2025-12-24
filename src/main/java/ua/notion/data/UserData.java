@@ -50,7 +50,6 @@ public class UserData implements UserRepository {
     }
   }
 
-
   public static boolean fileIsExists() {
     File file = new File(Data.USER_DB_FILE);
     if (file.exists()) {

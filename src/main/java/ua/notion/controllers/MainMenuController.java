@@ -5,6 +5,7 @@ import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,6 +34,8 @@ import javafx.animation.FadeTransition;
 import javafx.util.Duration;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
+import ua.notion.utils.StageUtils;
+import ua.notion.utils.WindowHandler;
 
 public class MainMenuController {
 
@@ -49,6 +52,8 @@ public class MainMenuController {
   private final UserData userData = new UserData();
   private final IconService iconService = new IconService();
   private final GameService gameService = new GameService(userData, iconService);
+
+  private WindowHandler windowHandler;
 
   @FXML
   private StackPane rootPane;
@@ -82,38 +87,22 @@ public class MainMenuController {
 
   @FXML
   protected void handleCloseAction(ActionEvent event) {
-    Stage stage = (Stage) closeButton.getScene().getWindow();
-    stage.close();
+      windowHandler.close((Node) event.getSource());
   }
 
   @FXML
   protected void handleMinAction(ActionEvent event) {
-    Stage stage = (Stage) minButton.getScene().getWindow();
-    stage.setIconified(true);
+    windowHandler.minimize((Node) event.getSource());
   }
 
   @FXML
   protected void handleFullAction(ActionEvent event) {
-    Stage stage = (Stage) rootPane.getScene().getWindow();
-    stage.setFullScreenExitHint("");
-
-    if (stage.isFullScreen()) {
-      stage.setFullScreen(false);
-      rootPane.getStyleClass().remove("fullscreen");
-    } else {
-      stage.setFullScreen(true);
-      rootPane.getStyleClass().add("fullscreen");
-    }
+    windowHandler.toggleFullscreen((Node) event.getSource());
   }
 
   @FXML
   protected void handlePressAction(MouseEvent event) {
-    Stage stage = (Stage) rootPane.getScene().getWindow();
-
-    if (!stage.isFullScreen()) {
-      xOffset = stage.getX() - event.getScreenX();
-      yOffset = stage.getY() - event.getScreenY();
-    }
+    windowHandler.onPress(event);
   }
 
   @FXML
@@ -158,6 +147,9 @@ public class MainMenuController {
       scene.setFill(Color.TRANSPARENT);
 
       settingsStage.setScene(scene);
+
+      StageUtils.configureScreenSize(settingsStage);
+
       settingsStage.showAndWait();
 
     } catch (IOException e) {
@@ -207,6 +199,8 @@ public class MainMenuController {
 
   @FXML
   private void initialize() {
+    this.windowHandler = new WindowHandler(rootPane);
+
     rootPane.getStylesheets().addAll(getClass().getResource(UI.BASE_CSS).toExternalForm(),
         getClass().getResource(UI.MAIN_MENU_CSS).toExternalForm());
 

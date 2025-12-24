@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import org.controlsfx.control.ToggleSwitch?>
+
+<StackPane fx:id="rootPane"
+  prefHeight="400.0" prefWidth="600.0"
+  xmlns="http://javafx.com/javafx/25"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="ua.notion.controllers.settings.GraphicsPageController">
+  <VBox alignment="CENTER" spacing="1.0" maxWidth="414.0">
+    <padding>
+      <Insets top="30.0" bottom="30.0" />
+    </padding>
+    <HBox styleClass="wine-switch" alignment="CENTER_LEFT"
+      prefWidth="414.0" minWidth="414.0" maxWidth="414.0"
+      prefHeight="60.0" minHeight="60.0" maxHeight="60.0">
+      <padding>
+        <Insets left="20.0" right="20.0"/>
+      </padding>
+      <children>
+        <Label text="Use Wine3D" styleClass="setting-label" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <ToggleSwitch fx:id="wineSwitch" />
+      </children>
+    </HBox>
+    <HBox styleClass="use-native-wayland" alignment="CENTER_LEFT"
+      prefWidth="414.0" minWidth="414.0" maxWidth="414.0"
+      prefHeight="60.0" minHeight="60.0" maxHeight="60.0">
+      <padding>
+        <Insets left="20.0" right="20.0"/>
+      </padding>
+      <children>
+        <Label text="Use native Wayland" styleClass="setting-label" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <ToggleSwitch fx:id="useNativeWayland" />
+      </children>
+    </HBox>
+  </VBox>
+</StackPane>

@@ -5,6 +5,9 @@ module ua.notion {
   requires com.google.gson;
   requires javafx.graphics;
   requires java.desktop;
+  requires javafx.base;
+  requires java.logging;
+  requires org.controlsfx.controls;
 
   opens ua.notion to javafx.fxml;
 
@@ -13,5 +16,6 @@ module ua.notion {
   opens ua.notion.components to com.google.gson;
 
   exports ua.notion;
+  opens ua.notion.controllers.settings to javafx.fxml;
 
 }
