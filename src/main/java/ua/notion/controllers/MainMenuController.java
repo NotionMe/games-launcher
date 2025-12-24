@@ -28,6 +28,7 @@ import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.services.GameService;
 import ua.notion.services.IconService;
+import ua.notion.services.LauchingServise;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.animation.FadeTransition;
@@ -39,10 +40,7 @@ import ua.notion.utils.WindowHandler;
 
 public class MainMenuController {
 
-  private SideDrawerController sideDrawerController;
-
-  private double xOffset = 0;
-  private double yOffset = 0;
+  private WindowHandler windowHandler;
 
   @FXML
   private ImageView backgroundImageView;
@@ -52,8 +50,7 @@ public class MainMenuController {
   private final UserData userData = new UserData();
   private final IconService iconService = new IconService();
   private final GameService gameService = new GameService(userData, iconService);
-
-  private WindowHandler windowHandler;
+  private static SideDrawerController sideDrawerController;
 
   @FXML
   private StackPane rootPane;
@@ -65,7 +62,8 @@ public class MainMenuController {
   private AnchorPane dropFileInfo;
   @FXML
   private FlowPane cardContainer;
-
+  @FXML
+  private AnchorPane bottomAnchorGroup;
   @FXML
   private Button fullButton;
   @FXML
@@ -85,9 +83,33 @@ public class MainMenuController {
   @FXML
   private StackPane centerLayer;
 
+
+
+  private Parent gameSelectView;
+
+  public StackPane getCenterLayer() {
+    return centerLayer;
+  }
+
+  public Parent getGameSelectView() {
+    return gameSelectView;
+  }
+
+  public void setGameSelectView(Parent gameSelectView) {
+    this.gameSelectView = gameSelectView;
+  }
+
+  public AnchorPane getBottomAnchorGroup() {
+    return bottomAnchorGroup;
+  }
+
+  public void setBottomAnchorGroup(AnchorPane bottomAnchorGroup) {
+    this.bottomAnchorGroup = bottomAnchorGroup;
+  }
+
   @FXML
   protected void handleCloseAction(ActionEvent event) {
-      windowHandler.close((Node) event.getSource());
+    windowHandler.close((Node) event.getSource());
   }
 
   @FXML
@@ -107,54 +129,50 @@ public class MainMenuController {
 
   @FXML
   protected void handleMovementAction(MouseEvent event) {
-    Stage stage = (Stage) rootPane.getScene().getWindow();
-
-    if (!stage.isFullScreen()) {
-      stage.setX(event.getScreenX() + xOffset);
-      stage.setY(event.getScreenY() + yOffset);
-    }
+    windowHandler.onDrag(event);
   }
 
   @FXML
   private void onAddGameButtonPressed(ActionEvent event) {
 
-    Stage stage = (Stage) rootPane.getScene().getWindow();
+    // Stage stage = (Stage) rootPane.getScene().getWindow();
 
-    Optional<Game> game = gameService.addGameFromFile(user, stage);
-    game.ifPresent(g -> {
-      try {
-        gameService.createGameCard(g, cardContainer);
-        gameService.hidePanelVisible(centerDropPane);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    });
+    // Optional<Game> game = gameService.addGameFromFile(user, stage);
+    // game.ifPresent(g -> {
+    // try {
+    // gameService.createGameCard(g, cardContainer);
+    // gameService.hidePanelVisible(centerDropPane);
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // });
+    if (gameSelectView == null) {
+      GameSelectController.setMainMenuController(this);
+      gameSelectView = (Parent) initialNode(Views.GAME_SELECT);
+      centerLayer.getChildren().add(gameSelectView);
+      gameService.hidePanelVisible(bottomAnchorGroup);
+    }
   }
+
 
   @FXML
   private void onSettingsButtonPressed(ActionEvent event) {
-    try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.SETTINGS_MENU));
-      Parent settingsView = loader.load();
+    Parent settingsView = (Parent) initialNode(Views.SETTINGS_MENU);
 
-      Stage settingsStage = new Stage();
-      settingsStage.initOwner(rootPane.getScene().getWindow());
-      settingsStage.initModality(Modality.APPLICATION_MODAL); // Block main menu
+    Stage settingsStage = new Stage();
+    settingsStage.initOwner(rootPane.getScene().getWindow());
+    settingsStage.initModality(Modality.APPLICATION_MODAL); // Block main menu
 
-      settingsStage.initStyle(StageStyle.TRANSPARENT);
+    settingsStage.initStyle(StageStyle.TRANSPARENT);
 
-      Scene scene = new Scene(settingsView);
-      scene.setFill(Color.TRANSPARENT);
+    Scene scene = new Scene(settingsView);
+    scene.setFill(Color.TRANSPARENT);
 
-      settingsStage.setScene(scene);
+    settingsStage.setScene(scene);
 
-      StageUtils.configureScreenSize(settingsStage);
+    StageUtils.configureScreenSize(settingsStage);
 
-      settingsStage.showAndWait();
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    settingsStage.showAndWait();
   }
 
   @FXML
@@ -206,22 +224,11 @@ public class MainMenuController {
 
     user = userData.read();
 
+    SideDrawerController.setMainMenuController(this);
+    GameSelectController.setGameService(gameService);
+
     // Load game cards
     gameService.loadGameCards(user, centerDropPane, cardContainer);
-
-    // init side-drawer fxml
-    try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.SIDE_DRAWER));
-      Parent drawerRoot = loader.load();
-
-      sideDrawerController = loader.getController();
-      sideDrawerController.setMainMenuController(this);
-
-      rootPane.getChildren().add(drawerRoot);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   public StackPane getRootPane() {
@@ -251,5 +258,16 @@ public class MainMenuController {
     ft.setFromValue(backgroundImageView.getOpacity());
     ft.setToValue(0.0);
     ft.play();
+  }
+
+  public Node initialNode(String path) {
+    Node node = null;
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
+      node = fxmlLoader.load();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return node;
   }
 }

@@ -41,7 +41,7 @@
       </top>
 
       <bottom>
-        <AnchorPane prefHeight="86.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+        <AnchorPane fx:id="bottomAnchorGroup" prefHeight="86.0" prefWidth="800.0" BorderPane.alignment="CENTER">
           <children>
             <!-- Add game button -->
             <Button fx:id="addButton" graphicTextGap="5.0" mnemonicParsing="false" onAction="#onAddGameButtonPressed" prefHeight="45.0" prefWidth="125.0" styleClass="btn-primary" text="Add a game" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="35.0">

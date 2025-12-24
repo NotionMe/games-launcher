@@ -1,5 +1,8 @@
 package ua.notion.utils;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public final class Constants {
@@ -30,12 +33,24 @@ public final class Constants {
     public static final String GAME_CARD = "/ua/notion/game-card.fxml";
     public static final String SETTINGS_MENU = "/ua/notion/settings-menu.fxml";
     public static final String SIDE_DRAWER = "/ua/notion/side-drawer.fxml";
+    public static final String GAME_SELECT = "/ua/notion/game-select.fxml";
   }
 
   public static final class Data {
 
     public static final String USER_DB_FILE = "user.json";
     public static final String ICONS_DIR = "images";
+    
+    // home linux (Поки не трогати недороблено!)
+    public static final File HOME_PATH = new File(System.getProperty("user.home"));
+    public static final File SCRIPT_PATH = new File("src/main/resources/script/run-games.sh");
+    public static final File PROTON_PATH =
+        new File(Data.HOME_PATH + "/local/share/Steam/compatibilitytools.d/GE-Proton10-26");
+    public static final File EXE_PATH = new File("/mnt/data/game/Bodycam/Bodycam.exe");
+    public static final Path PREFIX_PATH = Paths.get(Data.HOME_PATH + "/Games/pfx");
+    public static final String WINEDLLOVERRIDES =
+        "onlinefix64=n;winmm=n,b;steam_api64=n;eossdk-win64-shipping=n";
+
 
     public static final List<String> SUPPORTED_EXTENSIONS = List.of("*.exe", "*.zip", "*.rar");
   }

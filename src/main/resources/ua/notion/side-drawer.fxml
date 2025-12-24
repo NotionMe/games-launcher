@@ -11,6 +11,7 @@
             fx:controller="ua.notion.controllers.SideDrawerController"
             visible="false" managed="false" pickOnBounds="true">
   <Pane fx:id="drawerScrim" onMousePressed="#scrimPressAction" styleClass="drawer-scrim" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"/>
+  <Pane fx:id="headerDragArea" prefHeight="40.0" onMousePressed="#headerPressAction" onMouseDragged="#headerMoveAction" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
   <!-- right drawer -->
   <AnchorPane fx:id="sideDrawer" prefWidth="350.0" maxWidth="350.0" styleClass="side-drawer" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
     <children>

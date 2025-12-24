@@ -1,15 +1,22 @@
 package ua.notion.controllers;
 
+import java.util.List;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-import ua.notion.utils.Constants;
+import ua.notion.services.GameService;
+import ua.notion.services.LauchingServise;
+import ua.notion.utils.Constants.Data;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
 
@@ -46,6 +53,9 @@ public class SideDrawerController {
     @FXML
     private ToggleButton nonSteamButton;
 
+    private double xOffset = 0;
+    private double yOffset = 0;
+
 
     private static SideDrawerController sDrawerController;
     private static MainMenuController mainMenuController;
@@ -56,6 +66,8 @@ public class SideDrawerController {
     @FXML
     private Pane drawerScrim;
     @FXML
+    private Pane headerDragArea;
+    @FXML
     private AnchorPane sideDrawer;
 
     @FXML
@@ -65,7 +77,7 @@ public class SideDrawerController {
                 .addAll(getClass().getResource(UI.SIDE_DRAWER_CSS).toExternalForm());
     }
 
-    public void setMainMenuController(MainMenuController mainMenuController) {
+    public static void setMainMenuController(MainMenuController mainMenuController) {
         SideDrawerController.mainMenuController = mainMenuController;
     }
 
@@ -74,10 +86,32 @@ public class SideDrawerController {
         closeDrawer();
     }
 
+    @FXML
+    protected void headerPressAction(MouseEvent event) {
+        Stage stage = (Stage) drawerRoot.getScene().getWindow();
+
+        if (!stage.isFullScreen()) {
+            xOffset = stage.getX() - event.getScreenX();
+            yOffset = stage.getY() - event.getScreenY();
+        }
+    }
+
+    @FXML
+    protected void headerMoveAction(MouseEvent event) {
+        Stage stage = (Stage) drawerRoot.getScene().getWindow();
+
+        if (!stage.isFullScreen()) {
+            stage.setX(event.getScreenX() + xOffset);
+            stage.setY(event.getScreenY() + yOffset);
+        }
+    }
+
 
     public static void openDrawer() {
-        if (sDrawerController == null)
-            return;
+        if (sDrawerController == null) {
+            Node node = mainMenuController.initialNode(Views.SIDE_DRAWER);
+            mainMenuController.getRootPane().getChildren().add(node);
+        }
 
         sDrawerController.drawerRoot.setVisible(true);
         sDrawerController.drawerRoot.setManaged(true);
@@ -111,7 +145,9 @@ public class SideDrawerController {
 
     @FXML
     private void onPlayAction() {
-        System.out.println("you press button Play");
+        var command = List.of(Data.SCRIPT_PATH.toString(), Data.EXE_PATH.toString(),
+                Data.PREFIX_PATH.toString(), Data.WINEDLLOVERRIDES.toString());
+        LauchingServise.runCommand(command);
     }
 
     @FXML
