@@ -27,10 +27,15 @@ public final class Constants {
     public static final String LAUNCHER_PAGE_CSS = "/css/settings/launcher-page.css";
     public static final String PATHS_PAGE_CSS = "/css/settings/paths-page.css";
     public static final String PROTONS_PAGE_CSS = "/css/settings/protons-page.css";
+    public static final String ABOUT_PAGE_CSS = "/css/settings/about-page.css";
 
     // Icons defaults
     public static final String DEFAULT_ICON_PATH = "/icons/default_photo_512x512.png";
     public static final String DEFAULT_COVER_PATH = "/icons/test_Image_background.jpg";
+
+    // Fonts
+    public static final String FONT_MAIN_PATH = "/fonts/FiraSans-Medium.ttf";
+    public static final double FONT_DEFAULT_LOAD_SIZE = 15.0;
 
     private UI() {
       throw new UnsupportedOperationException("Utility class cannot be instantiated");
