@@ -7,6 +7,9 @@ import java.util.UUID;
 public class User {
 
   private final String id = UUID.randomUUID().toString();
+
+  private UserPaths paths = new UserPaths();
+
   private final List<Game> library = new ArrayList<>();
 
   public void addGame(Game game) {
@@ -23,5 +26,9 @@ public class User {
 
   public String getId() {
     return id;
+  }
+
+  public UserPaths getPaths() {
+    return paths;
   }
 }
