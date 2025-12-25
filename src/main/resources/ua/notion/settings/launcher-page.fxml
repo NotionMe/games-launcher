@@ -25,7 +25,7 @@
       </padding>
       <children>
         <Label text="Full main window" styleClass="setting-label" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-        <ToggleSwitch fx:id="fullWindowSwitch" />
+        <ToggleSwitch fx:id="fullWindowSwitch"/>
       </children>
     </HBox>
     <HBox styleClass="launcher-item-middle" alignment="CENTER_LEFT"
