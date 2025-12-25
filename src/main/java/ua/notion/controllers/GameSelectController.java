@@ -1,7 +1,6 @@
 package ua.notion.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -17,32 +16,35 @@ import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
 import ua.notion.services.GameLauncher;
+import ua.notion.utils.SteamGridDB;
 import ua.notion.utils.Constants.Data;
 import ua.notion.utils.Constants.UI;
-import ua.notion.utils.Constants.Views;
 import javafx.scene.control.CheckBox;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
-import javafx.beans.property.SimpleStringProperty;
 import java.io.File;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import ua.notion.ui.fx.WindowHelper;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+import javafx.application.Platform;
+import java.util.concurrent.CompletableFuture;
+
 
 public class GameSelectController {
 
 
+    private final String apiKey = "c0f104742a7e67ec60edcd5b45ece2ff";
+    private final SteamGridDB steamGridDB = new SteamGridDB(apiKey);
     private final UserRepository userRepository = new UserData();
     private static User user;
     private static final Logger LOGGER = System.getLogger(GameSelectController.class.getName());
     private static MainMenuController mainMenuController;
     private static GameService gameService;
-    private static String protonPath = null;
+    private final PauseTransition debounce = new PauseTransition(Duration.millis(800));
+
 
     @FXML
     private Label previewLableText;
@@ -90,17 +92,8 @@ public class GameSelectController {
                 return;
             }
 
-            URI url = ImageService.checkUriImage(newValue);
-            if (url != null) {
-                try {
-                    imagePreview.setImage(new Image(url.toString(), true));
-                } catch (Exception e) {
-                    LOGGER.log(Level.WARNING, "Failed to load image: {0}", url);
-                    setDefaultPreview(UI.DEFAULT_COVER_PATH, imagePreview);
-                }
-            } else {
-                setDefaultPreview(UI.DEFAULT_COVER_PATH, imagePreview);
-            }
+            imagePreview
+                    .setImage(ImageService.loadImage(newValue, UI.DEFAULT_COVER_PATH, getClass()));
         });
 
         iconPathField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -109,31 +102,31 @@ public class GameSelectController {
                 return;
             }
 
-            URI url = ImageService.checkUriImage(newValue);
-            if (url != null) {
-                try {
-                    previewGameIcon.setImage(new Image(url.toString(), true));
-                } catch (Exception e) {
-                    LOGGER.log(Level.WARNING, "Failed to load icon: {0}", url);
-                    setDefaultPreview(UI.DEFAULT_ICON_PATH, previewGameIcon);
-                }
-            } else {
-                setDefaultPreview(UI.DEFAULT_ICON_PATH, previewGameIcon);
-            }
+            previewGameIcon
+                    .setImage(ImageService.loadImage(newValue, UI.DEFAULT_ICON_PATH, getClass()));
         });
 
         // TODO: треба зробити КАЧЕСТВЕНОоооо.
         addProtonCheckBox();
         setDefaultPreview(UI.DEFAULT_COVER_PATH, imagePreview);
         setDefaultPreview(UI.DEFAULT_ICON_PATH, previewGameIcon);
+
+        setupDebouncedSearch();
     }
 
-    private void setDefaultPreview(String defaultCoverPath, ImageView imageView) {
-        URL resource = getClass().getResource(defaultCoverPath);
-        if (resource != null) {
-            Image defaultImage = new Image(resource.toExternalForm());
-            imageView.setImage(defaultImage);
-        }
+    private void setupDebouncedSearch() {
+        debounce.setOnFinished(e -> getImageFromSteamDB());
+        gameTitleField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isBlank()) {
+                return;
+            }
+            debounce.playFromStart();
+        });
+    }
+
+
+    private void setDefaultPreview(String defaultPath, ImageView imageView) {
+        imageView.setImage(ImageService.loadImage(null, defaultPath, getClass()));
     }
 
     public static void setMainMenuController(MainMenuController mainMenuController) {
@@ -192,16 +185,33 @@ public class GameSelectController {
 
     @FXML
     private void onFinish(ActionEvent event) {
+        Image iconPath =
+                ImageService.loadImage(iconPathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
+        Image coverPath =
+                ImageService.loadImage(imagePathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
+
         Game game = new Game(gameTitleField.getText(), executablePathField.getText(),
-                winePrefixField.getText(), wineDllOverridesField.getText(),
-                imagePathField.getText(), iconPathField.getText());
-        user.addGame(game);
-        userRepository.save(user);
-        if (mainMenuController.getGameSelectView() != null) {
-            mainMenuController.setGameSelectView(null);
-            WindowHelper.navigateBack(mainMenuController.getCenterLayer(),
-                    mainMenuController.getBottomAnchorGroup());
+                winePrefixField.getText(), wineDllOverridesField.getText(), iconPath.getUrl(),
+                coverPath.getUrl());
+        if (game != null && checkFields()) {
+            user.addGame(game);
+            userRepository.save(user);
+            if (mainMenuController.getGameSelectView() != null) {
+                mainMenuController.setGameSelectView(null);
+                WindowHelper.navigateBack(mainMenuController.getCenterLayer(),
+                        mainMenuController.getBottomAnchorGroup());
+            }
+            try {
+                gameService.createGameCard(game, mainMenuController.getCardContainer());
+                gameService.hidePanelVisible(mainMenuController.getCenterDropPane());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private boolean checkFields() {
+        return !gameTitleField.getText().isBlank() && !executablePathField.getText().isBlank();
     }
 
     // Поки що халтурщіна ну і похер )))
@@ -211,8 +221,6 @@ public class GameSelectController {
         if (files.length > 0) {
             for (File file : files) {
                 wineVersionComboBox.getItems().add(file.getName());
-                // Поки що хардкод, треба переробити нормально!!! (Я займусь)
-                protonPath = file.getPath();
             }
             wineVersionComboBox.getSelectionModel().selectFirst();
         }
@@ -238,4 +246,40 @@ public class GameSelectController {
         dc.setTitle(nametitle);
         return dc.showDialog(stage);
     }
+
+    private void getImageFromSteamDB() {
+        String title = gameTitleField.getText();
+        if (title == null || title.isBlank())
+            return;
+
+        CompletableFuture.runAsync(() -> {
+            try {
+                int gameId = steamGridDB.getGameIdByName(title);
+                if (gameId != -1) {
+                    var gridsResponse = steamGridDB.getGridsByGameId(gameId);
+                    String coverUrl = steamGridDB.getFirstImageUrl(gridsResponse);
+
+                    var iconsResponse = steamGridDB.getIconsByGameId(gameId);
+                    String iconUrl = steamGridDB.getFirstImageUrl(iconsResponse);
+
+                    if (coverUrl != null)
+                        ImageService.checkUriImage(coverUrl);
+                    if (iconUrl != null)
+                        ImageService.checkUriImage(iconUrl);
+
+                    Platform.runLater(() -> {
+                        if (coverUrl != null) {
+                            imagePathField.setText(coverUrl);
+                        }
+                        if (iconUrl != null) {
+                            iconPathField.setText(iconUrl);
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "Failed to fetch images from SteamGridDB", e);
+            }
+        });
+    }
+
 }

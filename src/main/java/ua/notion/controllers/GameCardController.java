@@ -26,6 +26,7 @@ public class GameCardController {
     private Label title;
 
     private static final Logger LOGGER = System.getLogger(GameCardController.class.getName());
+    private SideDrawerController sideDrawerController;
     private Game game;
 
     public void setGame(Game game) {
@@ -35,40 +36,19 @@ public class GameCardController {
         setIcon(game.iconPath());
     }
 
-    public void setCover(String resourcePath) {
+    private void setCover(String resourcePath) {
         cover.setImage(loadImage(resourcePath, UI.DEFAULT_COVER_PATH));
     }
 
-    public void setIcon(String resourcePath) {
+    private void setIcon(String resourcePath) {
         icon.setImage(loadImage(resourcePath, UI.DEFAULT_ICON_PATH));
     }
 
     private Image loadImage(String path, String defaultResource) {
-        if (path != null && !path.isBlank()) {
-            URI uri = ImageService.checkUriImage(path);
-            if (uri != null) {
-                try {
-                    return new Image(uri.toString(), true);
-                } catch (Exception e) {
-                    LOGGER.log(Level.WARNING, "Failed to load image from path: {0}", path);
-                }
-            }
-            try {
-                URL resource = getClass().getResource(path);
-                if (resource != null) {
-                    return new Image(resource.toExternalForm());
-                }
-            } catch (Exception e) {
-            }
-        }
-        URL defaultUrl = getClass().getResource(defaultResource);
-        if (defaultUrl != null) {
-            return new Image(defaultUrl.toExternalForm());
-        }
-        return null;
+        return ImageService.loadImage(path, defaultResource, getClass());
     }
 
-    public void setTitle(String text) {
+    private void setTitle(String text) {
         title.setText(text);
     }
 
@@ -79,7 +59,7 @@ public class GameCardController {
             System.out.println("Вибрано гру: " + game.title());
             System.out.println("Шлях до гри: " + path);
         }
-        SideDrawerController.openDrawer();
+        SideDrawerController.show(game);
     }
 
     @FXML

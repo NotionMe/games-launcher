@@ -1,28 +1,31 @@
 package ua.notion.controllers;
 
-import java.util.List;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import ua.notion.services.GameService;
+import ua.notion.services.ImageService;
+import java.net.URL;
+import ua.notion.ui.animation.AnimationHelper;
 import ua.notion.ui.fx.WindowHelper;
-import ua.notion.services.GameLauncher;
-import ua.notion.utils.Constants.Data;
+import ua.notion.components.Game;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
 
 public class SideDrawerController {
 
+    @FXML
+    private ImageView headerImageView;
     @FXML
     private Button playButton;
     @FXML
@@ -60,7 +63,9 @@ public class SideDrawerController {
 
     private static SideDrawerController sDrawerController;
     private static MainMenuController mainMenuController;
+    private static AnimationHelper animationHelper = new AnimationHelper();
     private static final WindowHelper WINDOW_HELPER = new WindowHelper();
+    private static Game currentGame;
 
 
     @FXML
@@ -108,22 +113,29 @@ public class SideDrawerController {
         }
     }
 
-
-    public static void openDrawer() {
+    public static void show(Game game) {
         if (sDrawerController == null) {
             Node node = WINDOW_HELPER.navigateAdd(Views.SIDE_DRAWER);
             mainMenuController.getRootPane().getChildren().add(node);
         }
+        sDrawerController.openDrawer(game);
+    }
 
-        sDrawerController.drawerRoot.setVisible(true);
-        sDrawerController.drawerRoot.setManaged(true);
+    private void openDrawer(Game game) {
+        currentGame = game;
 
-        // hardcode image
-        mainMenuController.transitionToBackground(UI.DEFAULT_COVER_PATH);
+        drawerRoot.setVisible(true);
+        drawerRoot.setManaged(true);
 
-        TranslateTransition tt =
-                new TranslateTransition(Duration.millis(150), sDrawerController.sideDrawer);
-        tt.setFromX(sDrawerController.sideDrawer.getPrefWidth());
+        if (game != null) {
+            animationHelper.transitionToBackground(game.coverPath(),
+                    mainMenuController.getBackgroundImageView());
+            headerImageView.setImage(
+                    ImageService.loadImage(game.coverPath(), UI.DEFAULT_COVER_PATH, getClass()));
+        }
+
+        TranslateTransition tt = new TranslateTransition(Duration.millis(150), sideDrawer);
+        tt.setFromX(sideDrawer.getPrefWidth());
         tt.setToX(0);
         tt.play();
     }
@@ -132,7 +144,7 @@ public class SideDrawerController {
         if (sDrawerController == null)
             return;
 
-        mainMenuController.restoreDefaultBackground();
+        animationHelper.restoreDefaultBackground(mainMenuController.getBackgroundImageView());
 
         TranslateTransition tt =
                 new TranslateTransition(Duration.millis(150), sDrawerController.sideDrawer);

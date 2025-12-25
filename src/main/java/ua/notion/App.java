@@ -13,6 +13,7 @@ import ua.notion.utils.Constants.Views;
 import ua.notion.services.ImageService;
 import ua.notion.services.GameLauncher;
 import ua.notion.utils.StageUtils;
+import ua.notion.utils.SteamGridDB;
 
 public class App extends Application {
 

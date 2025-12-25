@@ -7,12 +7,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Random;
-import ua.notion.utils.OsUtils;
-import ua.notion.utils.Constants.Data;
-import ua.notion.utils.OsUtils.OS;
+import javafx.scene.image.Image;
 
 public class ImageService {
     public static URI checkUriImage(String searchImage) {
@@ -21,7 +17,14 @@ public class ImageService {
 
         try {
             if (searchImage.startsWith("http:") || searchImage.startsWith("https:")) {
-                String downloadedPath = downloadImage(searchImage);
+                String cachePath = getCachePath(searchImage);
+                File cacheFile = new File(cachePath);
+
+                if (cacheFile.exists()) {
+                    return cacheFile.toURI();
+                }
+
+                String downloadedPath = downloadImage(searchImage, cachePath);
                 return new File(downloadedPath).toURI();
             }
 
@@ -39,33 +42,58 @@ public class ImageService {
         return null;
     }
 
-    // Поки що путь захаркоджений
-    private static String downloadImage(String imageUrlString)
+    private static String downloadImage(String imageUrlString, String targetPath)
             throws IOException, URISyntaxException {
         URL url = new URI(imageUrlString).toURL();
-        String path = getRandomName();
+
+        File targetFile = new File(targetPath);
+        File parent = targetFile.getParentFile();
+        if (parent != null && !parent.exists()) {
+            parent.mkdirs();
+        }
 
         try (InputStream in = url.openStream()) {
-            Files.copy(in, Paths.get(path), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(in, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
+            System.err.println("Failed to download image: " + imageUrlString);
+            throw e;
         }
-        return path;
+        return targetPath;
     }
 
-    private static String getRandomName() {
-        Random random = new Random();
-        int value = random.nextInt(999);
-        String path = null;
+    private static String getCachePath(String imageUrlString) {
+        String fileName = "cache_" + Integer.toHexString(imageUrlString.hashCode()) + ".png";
 
-        switch (OsUtils.getCurrentOs()) {
-            case OS.LINUX -> path = Data.HOME_PATH.getPath() + "/Downloads/" + value + ".png";
-            case OS.WINDOWS -> path =
-                    System.getProperty("user.home") + "\\Downloads\\" + value + ".png";
+        String baseDir = System.getProperty("user.dir");
+        File cacheDir = new File(baseDir, "cache/images");
 
-            default -> {
-                break;
+        return new File(cacheDir, fileName).getAbsolutePath();
+    }
+
+    public static Image loadImage(String path, String defaultResource, Class<?> context) {
+        if (path != null && !path.isBlank()) {
+            URI uri = checkUriImage(path);
+            if (uri != null) {
+                try {
+                    return new Image(uri.toString(), true);
+                } catch (Exception e) {
+                    System.err.println("Failed to load image from URI: " + uri);
+                }
+            }
+            try {
+                URL resource = context.getResource(path);
+                if (resource != null) {
+                    return new Image(resource.toExternalForm());
+                }
+            } catch (Exception e) {
             }
         }
-        return path;
+        if (defaultResource != null) {
+            URL defaultUrl = context.getResource(defaultResource);
+            if (defaultUrl != null) {
+                return new Image(defaultUrl.toExternalForm());
+            }
+        }
+        return null;
     }
 }

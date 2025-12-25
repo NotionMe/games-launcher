@@ -5,6 +5,7 @@ module ua.notion {
   requires com.google.gson;
   requires javafx.graphics;
   requires java.desktop;
+  requires java.net.http;
 
   opens ua.notion to javafx.fxml;
 

@@ -26,10 +26,7 @@ import ua.notion.data.UserRepository;
 import ua.notion.services.GameService;
 import ua.notion.services.IconService;
 import ua.notion.ui.fx.WindowHelper;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.animation.FadeTransition;
-import javafx.util.Duration;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
 
@@ -40,16 +37,15 @@ public class MainMenuController {
   private double xOffset = 0;
   private double yOffset = 0;
 
-  @FXML
-  private ImageView backgroundImageView;
-
+  
   private User user;
-
+  
   private final UserRepository userData = new UserData();
   private final IconService iconService = new IconService();
   private static final WindowHelper WINDOW_HELPER = new WindowHelper();
   private final GameService gameService = new GameService(userData, iconService);
-
+  private final GameCardController gameCardController = new GameCardController();
+  
   @FXML
   private StackPane rootPane;
   @FXML
@@ -80,27 +76,39 @@ public class MainMenuController {
   private ScrollPane gamesScroll;
   @FXML
   private StackPane centerLayer;
-
-
-
+  @FXML
+  private ImageView backgroundImageView;
+  
   private Parent gameSelectView;
-
+  
   public StackPane getCenterLayer() {
     return centerLayer;
   }
-
+  
   public Parent getGameSelectView() {
     return gameSelectView;
   }
 
+  public FlowPane getCardContainer() {
+    return cardContainer;
+  }
+  
+  public AnchorPane getCenterDropPane() {
+    return centerDropPane;
+  }
+  
+  public ImageView getBackgroundImageView() {
+    return backgroundImageView;
+  }
+  
   public void setGameSelectView(Parent gameSelectView) {
     this.gameSelectView = gameSelectView;
   }
-
+  
   public AnchorPane getBottomAnchorGroup() {
     return bottomAnchorGroup;
   }
-
+  
   public void setBottomAnchorGroup(AnchorPane bottomAnchorGroup) {
     this.bottomAnchorGroup = bottomAnchorGroup;
   }
@@ -241,31 +249,4 @@ public class MainMenuController {
   public StackPane getRootPane() {
     return rootPane;
   }
-
-  public void transitionToBackground(String imagePath) {
-    try {
-      if (imagePath == null) {
-        restoreDefaultBackground();
-        return;
-      }
-
-      backgroundImageView.setImage(new Image(getClass().getResource(imagePath).toExternalForm()));
-
-      FadeTransition ft = new FadeTransition(Duration.millis(200), backgroundImageView);
-      ft.setFromValue(0.0);
-      ft.setToValue(1.0);
-      ft.play();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void restoreDefaultBackground() {
-    FadeTransition ft = new FadeTransition(Duration.millis(300), backgroundImageView);
-    ft.setFromValue(backgroundImageView.getOpacity());
-    ft.setToValue(0.0);
-    ft.play();
-  }
-
-
 }
