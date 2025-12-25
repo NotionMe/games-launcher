@@ -6,11 +6,17 @@ import java.util.UUID;
 
 public class User {
 
-  private final String id = UUID.randomUUID().toString();
-
+  private final String id;
   private final UserPaths paths = new UserPaths();
-
   private final List<Game> library = new ArrayList<>();
+
+  public User() {
+    this(UUID.randomUUID().toString());
+  }
+
+  public User(String id) {
+    this.id = id;
+  }
 
   public void addGame(Game game) {
     library.add(game);

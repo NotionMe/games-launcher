@@ -22,12 +22,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
+import ua.notion.data.UserRepository;
 import ua.notion.services.GameService;
 import ua.notion.services.IconService;
-import javafx.scene.image.Image;
+import ua.notion.ui.fx.WindowHelper;
 import javafx.scene.image.ImageView;
-import javafx.animation.FadeTransition;
-import javafx.util.Duration;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
 import ua.notion.utils.StageUtils;
@@ -37,16 +36,15 @@ public class MainMenuController {
 
   private WindowHandler windowHandler;
 
-  @FXML
-  private ImageView backgroundImageView;
-
+  
   private User user;
-
-  private final UserData userData = new UserData();
+  
+  private final UserRepository userData = new UserData();
   private final IconService iconService = new IconService();
+  private static final WindowHelper WINDOW_HELPER = new WindowHelper();
   private final GameService gameService = new GameService(userData, iconService);
-  private static SideDrawerController sideDrawerController;
-
+  private final GameCardController gameCardController = new GameCardController();
+  
   @FXML
   private StackPane rootPane;
   @FXML
@@ -77,27 +75,39 @@ public class MainMenuController {
   private ScrollPane gamesScroll;
   @FXML
   private StackPane centerLayer;
-
-
-
+  @FXML
+  private ImageView backgroundImageView;
+  
   private Parent gameSelectView;
-
+  
   public StackPane getCenterLayer() {
     return centerLayer;
   }
-
+  
   public Parent getGameSelectView() {
     return gameSelectView;
   }
 
+  public FlowPane getCardContainer() {
+    return cardContainer;
+  }
+  
+  public AnchorPane getCenterDropPane() {
+    return centerDropPane;
+  }
+  
+  public ImageView getBackgroundImageView() {
+    return backgroundImageView;
+  }
+  
   public void setGameSelectView(Parent gameSelectView) {
     this.gameSelectView = gameSelectView;
   }
-
+  
   public AnchorPane getBottomAnchorGroup() {
     return bottomAnchorGroup;
   }
-
+  
   public void setBottomAnchorGroup(AnchorPane bottomAnchorGroup) {
     this.bottomAnchorGroup = bottomAnchorGroup;
   }
@@ -129,30 +139,20 @@ public class MainMenuController {
 
   @FXML
   private void onAddGameButtonPressed(ActionEvent event) {
-
-    // Stage stage = (Stage) rootPane.getScene().getWindow();
-
-    // Optional<Game> game = gameService.addGameFromFile(user, stage);
-    // game.ifPresent(g -> {
-    // try {
-    // gameService.createGameCard(g, cardContainer);
-    // gameService.hidePanelVisible(centerDropPane);
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
-    // });
     if (gameSelectView == null) {
-      GameSelectController.setMainMenuController(this);
-      gameSelectView = (Parent) initialNode(Views.GAME_SELECT);
-      centerLayer.getChildren().add(gameSelectView);
-      gameService.hidePanelVisible(bottomAnchorGroup);
+      SideDrawerController.setMainMenuController(this);
+      gameSelectView = (Parent) WINDOW_HELPER.navigateAdd(Views.GAME_SELECT);
+      if (gameSelectView != null) {
+        centerLayer.getChildren().add(gameSelectView);
+        gameService.hidePanelVisible(bottomAnchorGroup);
+      }
     }
   }
 
 
   @FXML
   private void onSettingsButtonPressed(ActionEvent event) {
-    Parent settingsView = (Parent) initialNode(Views.SETTINGS_MENU);
+    Parent settingsView = (Parent) WINDOW_HELPER.navigateAdd(Views.SETTINGS_MENU);
 
     Stage settingsStage = new Stage();
     settingsStage.initOwner(rootPane.getScene().getWindow());
@@ -217,10 +217,13 @@ public class MainMenuController {
     rootPane.getStylesheets().addAll(getClass().getResource(UI.BASE_CSS).toExternalForm(),
         getClass().getResource(UI.MAIN_MENU_CSS).toExternalForm());
 
-    user = userData.read();
+    user = userData.findAll();
 
     SideDrawerController.setMainMenuController(this);
+    GameSelectController.setMainMenuController(this);
+    GameSelectController.setUser(user);
     GameSelectController.setGameService(gameService);
+    GameService.setMainMenuController(this);
 
     // Load game cards
     gameService.loadGameCards(user, centerDropPane, cardContainer);
@@ -228,41 +231,5 @@ public class MainMenuController {
 
   public StackPane getRootPane() {
     return rootPane;
-  }
-
-  public void transitionToBackground(String imagePath) {
-    try {
-      if (imagePath == null) {
-        restoreDefaultBackground();
-        return;
-      }
-
-      backgroundImageView.setImage(new Image(getClass().getResource(imagePath).toExternalForm()));
-
-      FadeTransition ft = new FadeTransition(Duration.millis(200), backgroundImageView);
-      ft.setFromValue(0.0);
-      ft.setToValue(1.0);
-      ft.play();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void restoreDefaultBackground() {
-    FadeTransition ft = new FadeTransition(Duration.millis(300), backgroundImageView);
-    ft.setFromValue(backgroundImageView.getOpacity());
-    ft.setToValue(0.0);
-    ft.play();
-  }
-
-  public Node initialNode(String path) {
-    Node node = null;
-    try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
-      node = fxmlLoader.load();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return node;
   }
 }

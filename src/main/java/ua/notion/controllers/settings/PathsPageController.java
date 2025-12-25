@@ -10,13 +10,14 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
+import ua.notion.data.UserRepository;
 import ua.notion.utils.Constants.UI;
 
 public class PathsPageController {
 
   private User user;
 
-  private final UserData userData = new UserData();
+  private final UserRepository userData = new UserData();
 
   private static final String PATH_TO_YOUR_DIRECTORY = "Path/to/you/directory";
 
@@ -35,28 +36,26 @@ public class PathsPageController {
   public void initialize() {
     updateLabel();
 
-    rootPane.getStylesheets().addAll(
-        getClass().getResource(UI.PATHS_PAGE_CSS).toExternalForm(),
-        getClass().getResource(UI.BASE_CSS).toExternalForm()
-    );
+    rootPane.getStylesheets().addAll(getClass().getResource(UI.PATHS_PAGE_CSS).toExternalForm(),
+        getClass().getResource(UI.BASE_CSS).toExternalForm());
   }
 
   @FXML
   private void onChangeDownloadPath(MouseEvent event) {
-    handlePathChange("Select Download Folder", user.getPaths().getPathForGameDownload(), downloadPathLabel,
-        user.getPaths()::setPathForGameDownload);
+    handlePathChange("Select Download Folder", user.getPaths().getPathForGameDownload(),
+        downloadPathLabel, user.getPaths()::setPathForGameDownload);
   }
 
   @FXML
   private void onChangeInstallPath(MouseEvent event) {
-    handlePathChange("Select Install Folder", user.getPaths().getPathForGameInstalls(), installPathLabel,
-        user.getPaths()::setPathForGameInstalls);
+    handlePathChange("Select Install Folder", user.getPaths().getPathForGameInstalls(),
+        installPathLabel, user.getPaths()::setPathForGameInstalls);
   }
 
   @FXML
   private void onChangeProtonPath(MouseEvent event) {
-    handlePathChange("Select Proton Folder", user.getPaths().getPathForProtonInstalls(), protonPathLabel,
-        user.getPaths()::setPathForProtonInstalls);
+    handlePathChange("Select Proton Folder", user.getPaths().getPathForProtonInstalls(),
+        protonPathLabel, user.getPaths()::setPathForProtonInstalls);
   }
 
   @FXML
@@ -72,7 +71,7 @@ public class PathsPageController {
       String newPath = selectedDirectory.getAbsolutePath();
       label.setText(newPath);
       setter.accept(newPath);
-      userData.write(user);
+      userData.save(user);
     }
   }
 
@@ -92,12 +91,18 @@ public class PathsPageController {
   }
 
   private void updateLabel() {
-    user = userData.read();
+    user = userData.findAll();
+    System.out.println(user.getPaths().getPathForGameDownload());
+    
 
-    validateAndSetPath(downloadPathLabel, user.getPaths().getPathForGameDownload(), PATH_TO_YOUR_DIRECTORY);
-    validateAndSetPath(installPathLabel, user.getPaths().getPathForGameInstalls(), "Choose every time");
-    validateAndSetPath(protonPathLabel, user.getPaths().getPathForProtonInstalls(), PATH_TO_YOUR_DIRECTORY);
-    validateAndSetPath(prefixPathLabel, user.getPaths().getPathForPrefixes(), PATH_TO_YOUR_DIRECTORY);
+    validateAndSetPath(downloadPathLabel, user.getPaths().getPathForGameDownload(),
+        PATH_TO_YOUR_DIRECTORY);
+    validateAndSetPath(installPathLabel, user.getPaths().getPathForGameInstalls(),
+        "Choose every time");
+    validateAndSetPath(protonPathLabel, user.getPaths().getPathForProtonInstalls(),
+        PATH_TO_YOUR_DIRECTORY);
+    validateAndSetPath(prefixPathLabel, user.getPaths().getPathForPrefixes(),
+        PATH_TO_YOUR_DIRECTORY);
   }
 
   private void validateAndSetPath(Label label, String path, String defaultText) {

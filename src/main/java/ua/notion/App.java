@@ -46,7 +46,6 @@ public class App extends Application {
     primaryStage.setScene(scene);
     StageUtils.configureScreenSize(primaryStage);
     primaryStage.show();
-
   }
 
   private void loadFonts() {

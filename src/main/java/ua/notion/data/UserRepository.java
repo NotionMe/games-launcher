@@ -4,7 +4,7 @@ import ua.notion.components.User;
 
 public interface UserRepository {
 
-  void write(User user); // write in file
+  public User save(User user); // save data in file
 
-  User read(); // read from file
+  public User findAll(); // get from file
 }

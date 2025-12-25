@@ -65,14 +65,16 @@ public final class Constants {
     public static final File HOME_PATH = new File(System.getProperty("user.home"));
     public static final File SCRIPT_PATH = new File("src/main/resources/script/run-games.sh");
     public static final File PROTON_PATH =
-        new File(Data.HOME_PATH + "/local/share/Steam/compatibilitytools.d/GE-Proton10-26");
-    public static final File EXE_PATH = new File("/mnt/data/game/Bodycam/Bodycam.exe");
-    public static final Path PREFIX_PATH = Paths.get(Data.HOME_PATH + "/Games/pfx");
-    public static final String WINEDLLOVERRIDES =
-        "onlinefix64=n;winmm=n,b;steam_api64=n;eossdk-win64-shipping=n";
+        new File(Data.HOME_PATH, ".local/share/Steam/compatibilitytools.d/");
+    // public static final File EXE_PATH = new File("/mnt/data/game/Bodycam/Bodycam.exe");
+    // public static final Path PREFIX_PATH = Paths.get(Data.HOME_PATH + "/Games/pfx");
+    // public static final String WINEDLLOVERRIDES =
+    // "onlinefix64=n;winmm=n,b;steam_api64=n;eossdk-win64-shipping=n";
 
-
-    public static final List<String> SUPPORTED_EXTENSIONS = List.of("*.exe", "*.zip", "*.rar");
+    public static final List<String> SUPPORTED_EXTENSIONS_GAME = List.of("*.exe");
+    public static final List<String> SUPPORTED_EXTENSIONS_ARCHIVE =
+        List.of("*.zip", "*.rar", "*.7z", "*.tar", "*.gz");
+    public static final List<String> SUPPORTED_EXTENSIONS_IMAGE = List.of("*.png", "*.jpg");
 
     private Data() {
       throw new UnsupportedOperationException("Utility class cannot be instantiated");
