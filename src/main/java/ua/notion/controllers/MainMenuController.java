@@ -36,15 +36,15 @@ public class MainMenuController {
 
   private WindowHandler windowHandler;
 
-  
+
   private User user;
-  
+
   private final UserRepository userData = new UserData();
   private final IconService iconService = new IconService();
   private static final WindowHelper WINDOW_HELPER = new WindowHelper();
   private final GameService gameService = new GameService(userData, iconService);
   private final GameCardController gameCardController = new GameCardController();
-  
+
   @FXML
   private StackPane rootPane;
   @FXML
@@ -77,13 +77,13 @@ public class MainMenuController {
   private StackPane centerLayer;
   @FXML
   private ImageView backgroundImageView;
-  
+
   private Parent gameSelectView;
-  
+
   public StackPane getCenterLayer() {
     return centerLayer;
   }
-  
+
   public Parent getGameSelectView() {
     return gameSelectView;
   }
@@ -91,23 +91,23 @@ public class MainMenuController {
   public FlowPane getCardContainer() {
     return cardContainer;
   }
-  
+
   public AnchorPane getCenterDropPane() {
     return centerDropPane;
   }
-  
+
   public ImageView getBackgroundImageView() {
     return backgroundImageView;
   }
-  
+
   public void setGameSelectView(Parent gameSelectView) {
     this.gameSelectView = gameSelectView;
   }
-  
+
   public AnchorPane getBottomAnchorGroup() {
     return bottomAnchorGroup;
   }
-  
+
   public void setBottomAnchorGroup(AnchorPane bottomAnchorGroup) {
     this.bottomAnchorGroup = bottomAnchorGroup;
   }

@@ -31,13 +31,13 @@ import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.application.Platform;
 import java.util.concurrent.CompletableFuture;
+import ua.notion.utils.Config;
 
 
 public class GameSelectController {
 
 
-    private final String apiKey = "c0f104742a7e67ec60edcd5b45ece2ff";
-    private final SteamGridDB steamGridDB = new SteamGridDB(apiKey);
+    private final SteamGridDB steamGridDB = new SteamGridDB(Config.getSteamGridDBApiKey());
     private final UserRepository userRepository = new UserData();
     private static User user;
     private static final Logger LOGGER = System.getLogger(GameSelectController.class.getName());

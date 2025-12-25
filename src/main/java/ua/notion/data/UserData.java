@@ -11,6 +11,7 @@ import java.io.Reader;
 import java.io.Writer;
 import ua.notion.components.User;
 import ua.notion.data.dto.AppStorageDTO;
+import ua.notion.data.dto.UserDTO;
 import ua.notion.data.mapper.DataMapper;
 import ua.notion.utils.Constants.Data;
 

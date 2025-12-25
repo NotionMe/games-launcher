@@ -9,6 +9,7 @@ module ua.notion {
   requires java.logging;
   requires org.controlsfx.controls;
   requires java.net.http;
+  requires io.github.cdimascio.dotenv.java;
 
   opens ua.notion to javafx.fxml;
 

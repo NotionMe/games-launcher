@@ -42,3 +42,4 @@ user.json
 /images/
 src/main/resources/script
 /cache/
+.env
