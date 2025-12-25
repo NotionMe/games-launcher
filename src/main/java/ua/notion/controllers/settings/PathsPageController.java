@@ -33,7 +33,6 @@ public class PathsPageController {
   private Label prefixPathLabel;
 
   public void initialize() {
-
     updateLabel();
 
     rootPane.getStylesheets().addAll(
