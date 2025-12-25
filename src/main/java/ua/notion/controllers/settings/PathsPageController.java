@@ -19,7 +19,7 @@ public class PathsPageController {
 
   private final UserRepository userData = new UserData();
 
-  private static final String PATH_TO_YOUR_DIRECTORY = "Path/to/you/directory";
+  private static final String PATH_TO_YOUR_DIRECTORY = "Path/to/your/directory";
 
   @FXML
   private StackPane rootPane;
@@ -34,7 +34,7 @@ public class PathsPageController {
   private Label prefixPathLabel;
 
   public void initialize() {
-    updateLabel();
+    updateLabels();
 
     rootPane.getStylesheets().addAll(getClass().getResource(UI.PATHS_PAGE_CSS).toExternalForm(),
         getClass().getResource(UI.BASE_CSS).toExternalForm());
@@ -90,10 +90,8 @@ public class PathsPageController {
     return directoryChooser.showDialog(stage);
   }
 
-  private void updateLabel() {
+  private void updateLabels() {
     user = userData.findAll();
-    System.out.println(user.getPaths().getPathForGameDownload());
-    
 
     validateAndSetPath(downloadPathLabel, user.getPaths().getPathForGameDownload(),
         PATH_TO_YOUR_DIRECTORY);
