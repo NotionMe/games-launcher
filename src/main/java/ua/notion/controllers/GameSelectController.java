@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import ua.notion.services.GameService;
@@ -30,11 +32,14 @@ import ua.notion.ui.fx.WindowHelper;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.application.Platform;
+import javafx.beans.Observable;
 import java.util.concurrent.CompletableFuture;
 import ua.notion.utils.Config;
+import ua.notion.utils.OsUtils;
 
 
 public class GameSelectController {
+
 
 
     private final SteamGridDB steamGridDB = new SteamGridDB(Config.getSteamGridDBApiKey());
@@ -44,8 +49,11 @@ public class GameSelectController {
     private static MainMenuController mainMenuController;
     private static GameService gameService;
     private final PauseTransition debounce = new PauseTransition(Duration.millis(800));
+    private final PauseTransition platformPause = new PauseTransition(Duration.millis(800));
 
 
+    @FXML
+    private AnchorPane rootPane;
     @FXML
     private Label previewLableText;
     @FXML
@@ -76,11 +84,16 @@ public class GameSelectController {
     private ImageView previewGameIcon;
     @FXML
     private TextField iconPathField;
+    @FXML
+    private CheckBox wineDllOverridesCheckBox;
+    @FXML
+    private VBox platformView;
 
     @FXML
     private void initialize() {
         platformComboBox.getItems().setAll("Windows", "Linux");
-        platformComboBox.getSelectionModel().select("Windows");
+        platformComboBox.getSelectionModel().select("Linux");
+        // default dll overide for online fix
         wineDllOverridesField.setText(
                 "OnlineFix64=n;SteamOverlay64=n;winmm=n,b;dnet=n;steam_api64=n;winhttp=n,b");
 
@@ -111,7 +124,28 @@ public class GameSelectController {
         setDefaultPreview(UI.DEFAULT_COVER_PATH, imagePreview);
         setDefaultPreview(UI.DEFAULT_ICON_PATH, previewGameIcon);
 
+        wineDllOverridesField.disableProperty()
+                .bind(wineDllOverridesCheckBox.selectedProperty().not());
+
         setupDebouncedSearch();
+        platformComboBox.valueProperty().addListener((obs, oldVal, newVal) -> setupPlatform());
+        setupPlatform();
+    }
+
+    private void setupPlatform() {
+        String selectedPlatform = platformComboBox.getValue();
+        if (selectedPlatform == null)
+            return;
+        boolean isWindowsHost = !OsUtils.isWindows();
+        boolean isLinuxTarget = selectedPlatform.equalsIgnoreCase("Linux");
+
+        boolean showWine = !isWindowsHost && !isLinuxTarget;
+
+        wineSettingsPane.setVisible(showWine);
+        wineSettingsPane.setManaged(showWine);
+
+        platformView.setVisible(!isWindowsHost);
+        platformView.setManaged(!isWindowsHost);
     }
 
     private void setupDebouncedSearch() {
@@ -179,35 +213,12 @@ public class GameSelectController {
     @FXML
     private void onRunInstaller(ActionEvent event) {
         LOGGER.log(Level.INFO, "RUN INSTALLER");
-        GameLauncher gameLauncher = new GameLauncher();
-        gameLauncher.launch(null);
+        // GameLauncher.launch(game);
     }
 
     @FXML
     private void onFinish(ActionEvent event) {
-        Image iconPath =
-                ImageService.loadImage(iconPathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
-        Image coverPath =
-                ImageService.loadImage(imagePathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
-
-        Game game = new Game(gameTitleField.getText(), executablePathField.getText(),
-                winePrefixField.getText(), wineDllOverridesField.getText(), iconPath.getUrl(),
-                coverPath.getUrl());
-        if (game != null && checkFields()) {
-            user.addGame(game);
-            userRepository.save(user);
-            if (mainMenuController.getGameSelectView() != null) {
-                mainMenuController.setGameSelectView(null);
-                WindowHelper.navigateBack(mainMenuController.getCenterLayer(),
-                        mainMenuController.getBottomAnchorGroup());
-            }
-            try {
-                gameService.createGameCard(game, mainMenuController.getCardContainer());
-                gameService.hidePanelVisible(mainMenuController.getCenterDropPane());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        setupGames();
     }
 
     private boolean checkFields() {
@@ -238,6 +249,38 @@ public class GameSelectController {
 
         if (file != null && file.getPath() != null && !file.getPath().isEmpty()) {
             targetField.setText(file.getPath());
+        }
+    }
+
+    private void setupGames() {
+        Image iconPath =
+                ImageService.loadImage(iconPathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
+        Image coverPath =
+                ImageService.loadImage(imagePathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
+
+        String protonPath =
+                new File(Data.PROTON_PATH, wineVersionComboBox.getValue()).getAbsolutePath();
+
+        String wineDllOverrides =
+                wineDllOverridesCheckBox.isSelected() ? wineDllOverridesField.getText() : "";
+
+        Game game = new Game(gameTitleField.getText(), executablePathField.getText(),
+                winePrefixField.getText(), wineDllOverrides, protonPath, iconPath.getUrl(),
+                coverPath.getUrl());
+        if (game != null && checkFields()) {
+            user.addGame(game);
+            userRepository.save(user);
+            if (mainMenuController.getGameSelectView() != null) {
+                mainMenuController.setGameSelectView(null);
+                WindowHelper.navigateBack(mainMenuController.getCenterLayer(),
+                        mainMenuController.getBottomAnchorGroup());
+            }
+            try {
+                gameService.createGameCard(game, mainMenuController.getCardContainer());
+                gameService.hidePanelVisible(mainMenuController.getCenterDropPane());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.SVGPath?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1100.0" styleClass="root-pane" stylesheets="@../../css/game-select.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.GameSelectController">
+<AnchorPane fx:id="rootPane" prefHeight="720.0" prefWidth="1100.0" styleClass="root-pane" stylesheets="@../../css/game-select.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.GameSelectController">
   <children>
     <HBox alignment="CENTER" layoutX="50.0" layoutY="50.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
@@ -98,7 +98,7 @@
               </children>
             </VBox>
             <!-- Platform Select -->
-            <VBox spacing="8.0">
+            <VBox fx:id="platformView" spacing="8.0">
               <children>
                 <Label styleClass="form-header-label" text="Select Platform Version to Install:"/>
                 <ComboBox fx:id="platformComboBox" maxWidth="1.7976931348623157E308" promptText="Select Platform" styleClass="platform-combo-box">
@@ -148,7 +148,12 @@
                     <!-- Wine DLL Overrides Field -->
                     <VBox spacing="8.0">
                       <children>
-                        <Label styleClass="form-header-label" text="Wine DLL Overrides"/>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                          <children>
+                            <Label styleClass="form-header-label" text="Wine DLL Overrides"/>
+                            <CheckBox fx:id="wineDllOverridesCheckBox" mnemonicParsing="false" styleClass="wine-checkbox"/>
+                          </children>
+                        </HBox>
                         <TextField fx:id="wineDllOverridesField" promptText="e.g. onlinefix64=n;winmm=n,b" styleClass="input-field"/>
                       </children>
                     </VBox>
