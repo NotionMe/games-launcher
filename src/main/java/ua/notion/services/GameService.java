@@ -62,7 +62,7 @@ public class GameService {
     String path = file.getPath();
 
     // hernya ok
-    Game game = new Game(name, path, "", "", "", "", "");
+    Game game = new Game(name, path, "", "", "", "", "", "");
     user.addGame(game);
 
     repository.save(user);
