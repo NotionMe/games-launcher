@@ -9,14 +9,21 @@ import ua.notion.utils.Constants.Data;
 
 public class GameLauncher {
 
-    public void launch(Game game) {
+    private GameLauncher() {}
+
+    public static void launch(Game game) {
         String path = game.targetPath();
         File gameFile = new File(path);
         File workDir = gameFile.getParentFile();
-        String script = Data.SCRIPT_PATH.toString();
+        String script = Data.SCRIPT_PATH.getAbsolutePath();
+        String protonPath = game.defaultProtonVersion();
 
         List<String> command = new ArrayList<>();
-
+        command.add(script);
+        command.add(protonPath);
+        command.add(game.targetPath());
+        command.add(game.pfx());
+        command.add(game.dllWineOveride());
         try {
             ProcessBuilder pb = new ProcessBuilder(command);
             pb.directory(workDir);

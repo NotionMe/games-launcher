@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import ua.notion.services.GameLauncher;
 import ua.notion.services.ImageService;
 import java.net.URL;
 import ua.notion.ui.animation.AnimationHelper;
@@ -159,7 +160,7 @@ public class SideDrawerController {
 
     @FXML
     private void onPlayAction() {
-
+        GameLauncher.launch(currentGame);
     }
 
     @FXML

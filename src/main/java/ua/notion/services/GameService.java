@@ -61,7 +61,8 @@ public class GameService {
     String name = file.getName();
     String path = file.getPath();
 
-    Game game = new Game(name, path, "", "", "", "");
+    // hernya ok
+    Game game = new Game(name, path, "", "", "", "", "");
     user.addGame(game);
 
     repository.save(user);
