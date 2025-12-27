@@ -149,7 +149,6 @@ public class MainMenuController {
     }
   }
 
-
   @FXML
   private void onSettingsButtonPressed(ActionEvent event) {
     Parent settingsView = (Parent) WINDOW_HELPER.navigateAdd(Views.SETTINGS_MENU);

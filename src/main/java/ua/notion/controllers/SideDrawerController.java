@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -16,13 +15,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import ua.notion.services.GameLauncher;
 import ua.notion.services.ImageService;
-import java.net.URL;
 import ua.notion.ui.animation.AnimationHelper;
 import ua.notion.ui.fx.WindowHelper;
 import ua.notion.components.Game;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
-import ua.notion.utils.OsUtils;
 
 public class SideDrawerController {
 
@@ -62,13 +59,11 @@ public class SideDrawerController {
     private double xOffset = 0;
     private double yOffset = 0;
 
-
     private static SideDrawerController sDrawerController;
     private static MainMenuController mainMenuController;
     private static AnimationHelper animationHelper = new AnimationHelper();
     private static final WindowHelper WINDOW_HELPER = new WindowHelper();
     private static Game currentGame;
-
 
     @FXML
     private AnchorPane drawerRoot;
