@@ -22,6 +22,7 @@ import ua.notion.ui.fx.WindowHelper;
 import ua.notion.components.Game;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
+import ua.notion.utils.OsUtils;
 
 public class SideDrawerController {
 
@@ -160,7 +161,7 @@ public class SideDrawerController {
 
     @FXML
     private void onPlayAction() {
-        GameLauncher.launch(currentGame);
+      GameLauncher.play(currentGame);
     }
 
     @FXML
