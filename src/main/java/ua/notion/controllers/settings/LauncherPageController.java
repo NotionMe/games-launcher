@@ -1,21 +1,12 @@
 package ua.notion.controllers.settings;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.controlsfx.control.ToggleSwitch;
-import ua.notion.controllers.MainMenuController;
 import ua.notion.controllers.SettingsMenuController;
 import ua.notion.utils.Constants.UI;
-import ua.notion.utils.WindowHandler;
 
 public class LauncherPageController {
-
-  private WindowHandler windowHandler;
-
-  private MainMenuController mainMenuController;
 
   private SettingsMenuController settingsMenuController;
 
@@ -63,9 +54,9 @@ public class LauncherPageController {
     noSteamSwitch.selectedProperty().addListener((observable, oldValue,
         newValue) -> {
       if (newValue) {
-        System.out.println("Pressed");
+        System.out.println("STEAM PRESSED");
       } else {
-        System.out.println("FALSE");
+        System.out.println("STEAM UNPRESSED");
       }
     });
   }
@@ -74,9 +65,9 @@ public class LauncherPageController {
     disableAnimSwitch.selectedProperty().addListener((observable, oldValue,
         newValue) -> {
       if (newValue) {
-        System.out.println("Pressed");
+        System.out.println("DISABLE ANIM PRESSED");
       } else {
-        System.out.println("FALSE");
+        System.out.println("DISABLE ANIM UNPRESSED");
       }
     });
   }
