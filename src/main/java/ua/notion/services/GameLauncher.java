@@ -1,12 +1,18 @@
 package ua.notion.services;
 
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.ERROR;
+import static java.lang.System.Logger.Level.INFO;
+
 import java.io.File;
 import java.io.IOException;
+import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import ua.notion.components.Game;
+import ua.notion.components.User;
 import ua.notion.utils.Constants.Data;
 import ua.notion.utils.OsUtils;
 
@@ -16,10 +22,14 @@ public class GameLauncher {
   private static final String STEAM_PATH_WIN = "C:\\Program Files (x86)\\Steam\\steam.exe";
   private static final String STEAM_PROCESS = "steam";
 
-  private static final System.Logger LOGGER = System.getLogger(GameLauncher.class.getName());
+  private static final Logger LOGGER = System.getLogger(GameLauncher.class.getName());
 
-  public void play(Game game) {
-    launchSteam();
+  public void play(Game game, User user) {
+    if (!user.getLauncherSettings().isSteamDisabled()) {
+      launchSteam();
+    }else {
+      LOGGER.log(INFO, "Auto steam launch is disabled via settings");
+    }
     if (OsUtils.isWindows()) {
       launchWindows(game);
     } else {
@@ -54,13 +64,13 @@ public class GameLauncher {
 
   private void executeProcess(List<String> command, Game game) {
     if (game.targetPath() == null) {
-      LOGGER.log(System.Logger.Level.ERROR, "Error: Game target path is null");
+      LOGGER.log(ERROR, "Error: Game target path is null");
       return;
     }
 
     File workDir = new File(game.targetPath()).getParentFile();
 
-    LOGGER.log(System.Logger.Level.DEBUG, "DEBUG COMMAND: " + command);
+    LOGGER.log(DEBUG, "DEBUG COMMAND: " + command);
 
     try {
       ProcessBuilder pb = new ProcessBuilder(command);
@@ -69,14 +79,14 @@ public class GameLauncher {
 
       Process process = pb.start();
 
-      LOGGER.log(System.Logger.Level.INFO, "Started game: " + game.title());
+      LOGGER.log(INFO, "Started game: " + game.title());
 
       process.onExit().thenAccept(p -> {
-        LOGGER.log(System.Logger.Level.INFO,
+        LOGGER.log(INFO,
             "Game closed: " + game.title() + " (Exit code: " + p.exitValue() + ")");
       });
     } catch (IOException e) {
-      LOGGER.log(System.Logger.Level.ERROR,
+      LOGGER.log(ERROR,
           "Error launching " + game.title() + ": " + e.getMessage(), e);
       e.printStackTrace();
     }
@@ -95,11 +105,11 @@ public class GameLauncher {
 
   public void launchSteam() { // todo remove public???
     if (isSteamRunning()) {
-      LOGGER.log(System.Logger.Level.INFO, "Steam is already running.");
+      LOGGER.log(INFO, "Steam is already running.");
       return;
     }
 
-    LOGGER.log(System.Logger.Level.INFO, "Attempting to launch Steam...");
+    LOGGER.log(INFO, "Attempting to launch Steam...");
     List<String> command = new ArrayList<>();
 
     if (OsUtils.isWindows()) {
@@ -110,9 +120,9 @@ public class GameLauncher {
     }
     try {
       new ProcessBuilder(command).start();
-      LOGGER.log(System.Logger.Level.INFO, "Steam launch command sent!");
+      LOGGER.log(INFO, "Steam launch command sent!");
     } catch (IOException e) {
-      LOGGER.log(System.Logger.Level.ERROR, "Error launching Steam: " + e.getMessage());
+      LOGGER.log(ERROR, "Error launching Steam: " + e.getMessage());
     }
   }
 

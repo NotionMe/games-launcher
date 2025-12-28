@@ -13,6 +13,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import ua.notion.components.User;
+import ua.notion.data.UserData;
+import ua.notion.data.UserRepository;
 import ua.notion.services.GameLauncher;
 import ua.notion.services.ImageService;
 import ua.notion.ui.animation.AnimationHelper;
@@ -59,6 +62,7 @@ public class SideDrawerController {
   private double xOffset = 0;
   private double yOffset = 0;
 
+  private final UserRepository userData = new UserData();
   private final GameLauncher gameLauncher = new GameLauncher();
 
   private static SideDrawerController sDrawerController;
@@ -160,7 +164,9 @@ public class SideDrawerController {
 
   @FXML
   private void onPlayAction() {
-    gameLauncher.play(currentGame);
+    User user = userData.findAll();
+
+    gameLauncher.play(currentGame, user);
   }
 
   @FXML
