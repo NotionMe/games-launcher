@@ -1,0 +1,282 @@
+[
+  {
+    "version": "GE-Proton10-27",
+    "name": "GE-Proton10-27.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-27/GE-Proton10-27.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-27",
+    "name": "GE-Proton10-27.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-27/GE-Proton10-27.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-26",
+    "name": "GE-Proton10-26.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-26/GE-Proton10-26.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-26",
+    "name": "GE-Proton10-26.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-26/GE-Proton10-26.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-25",
+    "name": "GE-Proton10-25.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-25/GE-Proton10-25.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-25",
+    "name": "GE-Proton10-25.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-25/GE-Proton10-25.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-24",
+    "name": "GE-Proton10-24.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-24/GE-Proton10-24.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-24",
+    "name": "GE-Proton10-24.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-24/GE-Proton10-24.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-23",
+    "name": "GE-Proton10-23.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-23/GE-Proton10-23.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-23",
+    "name": "GE-Proton10-23.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-23/GE-Proton10-23.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-22",
+    "name": "GE-Proton10-22.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-22/GE-Proton10-22.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-22",
+    "name": "GE-Proton10-22.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-22/GE-Proton10-22.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-21",
+    "name": "GE-Proton10-21.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-21/GE-Proton10-21.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-21",
+    "name": "GE-Proton10-21.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-21/GE-Proton10-21.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-20",
+    "name": "GE-Proton10-20.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-20/GE-Proton10-20.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-20",
+    "name": "GE-Proton10-20.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-20/GE-Proton10-20.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-19",
+    "name": "GE-Proton10-19.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-19/GE-Proton10-19.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-19",
+    "name": "GE-Proton10-19.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-19/GE-Proton10-19.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-18",
+    "name": "GE-Proton10-18.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-18/GE-Proton10-18.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-18",
+    "name": "GE-Proton10-18.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-18/GE-Proton10-18.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-17",
+    "name": "GE-Proton10-17.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-17/GE-Proton10-17.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-17",
+    "name": "GE-Proton10-17.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-17/GE-Proton10-17.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-16",
+    "name": "GE-Proton10-16.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-16/GE-Proton10-16.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-16",
+    "name": "GE-Proton10-16.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-16/GE-Proton10-16.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-15",
+    "name": "GE-Proton10-15.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-15/GE-Proton10-15.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-15",
+    "name": "GE-Proton10-15.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-15/GE-Proton10-15.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-14",
+    "name": "GE-Proton10-14.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-14/GE-Proton10-14.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-14",
+    "name": "GE-Proton10-14.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-14/GE-Proton10-14.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-13",
+    "name": "GE-Proton10-13.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-13/GE-Proton10-13.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-13",
+    "name": "GE-Proton10-13.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-13/GE-Proton10-13.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-12",
+    "name": "GE-Proton10-12.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-12/GE-Proton10-12.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-12",
+    "name": "GE-Proton10-12.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-12/GE-Proton10-12.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-11",
+    "name": "GE-Proton10-11.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-11/GE-Proton10-11.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-11",
+    "name": "GE-Proton10-11.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-11/GE-Proton10-11.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-10",
+    "name": "GE-Proton10-10.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-10/GE-Proton10-10.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-10",
+    "name": "GE-Proton10-10.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-10/GE-Proton10-10.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-9",
+    "name": "GE-Proton10-9.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-9/GE-Proton10-9.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-9",
+    "name": "GE-Proton10-9.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-9/GE-Proton10-9.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-8",
+    "name": "GE-Proton10-8.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-8/GE-Proton10-8.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-8",
+    "name": "GE-Proton10-8.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-8/GE-Proton10-8.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-7",
+    "name": "GE-Proton10-7.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-7/GE-Proton10-7.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-7",
+    "name": "GE-Proton10-7.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-7/GE-Proton10-7.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-6",
+    "name": "GE-Proton10-6.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-6/GE-Proton10-6.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-6",
+    "name": "GE-Proton10-6.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-6/GE-Proton10-6.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-4",
+    "name": "GE-Proton10-4.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-4/GE-Proton10-4.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-4",
+    "name": "GE-Proton10-4.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-4/GE-Proton10-4.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-3",
+    "name": "GE-Proton10-3.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-3/GE-Proton10-3.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-3",
+    "name": "GE-Proton10-3.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-3/GE-Proton10-3.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-2",
+    "name": "GE-Proton10-2.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-2/GE-Proton10-2.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-2",
+    "name": "GE-Proton10-2.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-2/GE-Proton10-2.tar.zst"
+  },
+  {
+    "version": "GE-Proton10-1",
+    "name": "GE-Proton10-1.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-1/GE-Proton10-1.tar.gz"
+  },
+  {
+    "version": "GE-Proton10-1",
+    "name": "GE-Proton10-1.tar.zst",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-1/GE-Proton10-1.tar.zst"
+  },
+  {
+    "version": "GE-Proton9-27",
+    "name": "GE-Proton9-27.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton9-27/GE-Proton9-27.tar.gz"
+  },
+  {
+    "version": "GE-Proton9-26",
+    "name": "GE-Proton9-26.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton9-26/GE-Proton9-26.tar.gz"
+  },
+  {
+    "version": "GE-Proton9-25",
+    "name": "GE-Proton9-25.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton9-25/GE-Proton9-25.tar.gz"
+  },
+  {
+    "version": "GE-Proton9-24",
+    "name": "GE-Proton9-24.tar.gz",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton9-24/GE-Proton9-24.tar.gz"
+  }
+]
