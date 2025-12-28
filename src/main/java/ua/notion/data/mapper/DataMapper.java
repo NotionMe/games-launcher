@@ -18,11 +18,11 @@ public class DataMapper {
       user.getPaths().setPathForProtonInstalls(dto.paths().getPathForProtonInstalls());
       user.getPaths().setPathForPrefixes(dto.paths().getPathForPrefixes());
     }
-    if (dto.userLauncherSettings() != null) {
-      user.getLauncherSettings().setFullScreen(dto.userLauncherSettings().isFullScreen());
-      user.getLauncherSettings().setSteamDisabled(dto.userLauncherSettings().isSteamDisabled());
+    if (dto.launcherSettings() != null) {
+      user.getLauncherSettings().setFullScreen(dto.launcherSettings().isFullScreen());
+      user.getLauncherSettings().setSteamDisabled(dto.launcherSettings().isSteamDisabled());
       user.getLauncherSettings()
-         .setAnimationDisabled(dto.userLauncherSettings().isAnimationDisabled());
+         .setAnimationDisabled(dto.launcherSettings().isAnimationDisabled());
     }
     if (dto.library() != null) {
       dto.library()

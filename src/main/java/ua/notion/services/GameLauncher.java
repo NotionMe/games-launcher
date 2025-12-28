@@ -103,7 +103,7 @@ public class GameLauncher {
     }
   }
 
-  public void launchSteam() { // todo remove public???
+  private void launchSteam() {
     if (isSteamRunning()) {
       LOGGER.log(INFO, "Steam is already running.");
       return;

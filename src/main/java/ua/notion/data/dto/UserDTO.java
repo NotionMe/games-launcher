@@ -4,5 +4,5 @@ import java.util.List;
 import ua.notion.components.UserLauncher;
 import ua.notion.components.UserPaths;
 
-public record UserDTO(String id, UserPaths paths, UserLauncher userLauncherSettings, List<GameDTO> library) {
+public record UserDTO(String id, UserPaths paths, UserLauncher launcherSettings, List<GameDTO> library) {
 }

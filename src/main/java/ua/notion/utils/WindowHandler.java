@@ -19,14 +19,12 @@ public final class WindowHandler {
     stage.setFullScreenExitHint("");
 
     stage.fullScreenProperty().addListener((obs, wasFull, isFull) -> {
-      if (isFull) {
-        if (!rootPane.getStyleClass().contains("fullscreen")) {
-          rootPane.getStyleClass().add("fullscreen");
-        }
-      } else {
-        rootPane.getStyleClass().remove("fullscreen");
-      }
+      updateStyle(isFull);
     });
+
+    if (stage.isFullScreen()) {
+      updateStyle(true);
+    }
   }
 
   public void close(Node source) {
@@ -56,6 +54,16 @@ public final class WindowHandler {
     if (!stage.isFullScreen()) {
       stage.setX(event.getScreenX() + xOffset);
       stage.setY(event.getScreenY() + yOffset);
+    }
+  }
+
+  private void updateStyle(boolean isFull) {
+    if (isFull) {
+      if (!rootPane.getStyleClass().contains("fullscreen")) {
+        rootPane.getStyleClass().add("fullscreen");
+      }
+    } else {
+      rootPane.getStyleClass().remove("fullscreen");
     }
   }
 

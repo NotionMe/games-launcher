@@ -8,7 +8,7 @@ public class User {
 
   private final String id;
   private final UserPaths paths = new UserPaths();
-  private final UserLauncher userLauncherSettings = new UserLauncher();
+  private final UserLauncher launcherSettings = new UserLauncher();
   private final List<Game> library = new ArrayList<>();
 
   public User() {
@@ -40,6 +40,6 @@ public class User {
   }
 
   public UserLauncher getLauncherSettings(){
-    return userLauncherSettings; // TODO ????
+    return launcherSettings;
   }
 }

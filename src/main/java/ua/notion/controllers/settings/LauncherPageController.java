@@ -5,6 +5,7 @@ import static java.lang.System.Logger.Level.INFO;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import org.controlsfx.control.ToggleSwitch;
 import ua.notion.components.User;
 import ua.notion.controllers.SettingsMenuController;
@@ -52,6 +53,15 @@ public class LauncherPageController {
   public void setParentController(SettingsMenuController controller) {
     this.settingsMenuController = controller;
 
+    Stage stage = settingsMenuController.getMainWindowStage();
+
+    if (stage != null) {
+      stage.fullScreenProperty().addListener((obs, wasFull, isNowFull) -> {
+        if (fullWindowSwitch.isSelected() != isNowFull) {
+          fullWindowSwitch.setSelected(isNowFull);
+        }
+      });
+    }
     applyFullScreenSetting();
   }
 

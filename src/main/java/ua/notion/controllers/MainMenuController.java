@@ -225,6 +225,7 @@ public class MainMenuController {
 
     user = userData.findAll();
 
+
     SideDrawerController.setMainMenuController(this);
     GameSelectController.setMainMenuController(this);
     GameSelectController.setUser(user);

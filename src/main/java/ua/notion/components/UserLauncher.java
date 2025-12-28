@@ -4,7 +4,7 @@ public class UserLauncher {
 
   private boolean isFullScreen = false;
 
-  private boolean isSteamDisabled = false; // true (повзунок виключений, стім врубається)
+  private boolean isSteamDisabled = false;
 
   private boolean isAnimationDisabled = false;
 
