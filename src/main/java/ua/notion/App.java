@@ -1,6 +1,7 @@
 package ua.notion;
 
 import java.io.InputStream;
+import java.util.concurrent.CompletableFuture;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
+import ua.notion.utils.GEProtonAPI;
 import ua.notion.utils.StageUtils;
 
 public class App extends Application {
@@ -38,14 +40,18 @@ public class App extends Application {
         new Image(getClass().getResource("/icons/logo/icon_logo_64x64.png").toString()),
         new Image(getClass().getResource("/icons/logo/icon_logo_128x128.png").toString()),
         new Image(getClass().getResource("/icons/logo/icon_logo_256x256.png").toString()),
-        new Image(getClass().getResource("/icons/logo/icon_logo_1024x1024.png").toString())
-    );
+        new Image(getClass().getResource("/icons/logo/icon_logo_1024x1024.png").toString()));
 
     primaryStage.setTitle("Games launcher");
 
     primaryStage.setScene(scene);
     StageUtils.configureScreenSize(primaryStage);
     primaryStage.show();
+
+    GEProtonAPI protonAPI = new GEProtonAPI();
+    CompletableFuture.runAsync(() -> {
+      protonAPI.getProtonVersion();
+    });
   }
 
   private void loadFonts() {

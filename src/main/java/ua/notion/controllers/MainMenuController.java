@@ -231,7 +231,6 @@ public class MainMenuController {
     GameSelectController.setGameService(gameService);
     GameService.setMainMenuController(this);
 
-
     Platform.runLater(() -> {
       Stage stage = (Stage) rootPane.getScene().getWindow();
       if (stage != null) {
