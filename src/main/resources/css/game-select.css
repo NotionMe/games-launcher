@@ -142,6 +142,7 @@
 }
 
 .wine-checkbox .box {
+    -fx-cursor: hand;
     -fx-background-color: #5a5f62;
     -fx-border-color: transparent;
 }
