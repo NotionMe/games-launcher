@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
@@ -96,6 +97,7 @@ public class GameService {
       anchorPane.setVisible(false);
       anchorPane.setManaged(false);
     }
+
   }
 
   public static void showPanelVisible(AnchorPane anchorPane) {
@@ -113,17 +115,24 @@ public class GameService {
     ft.play();
   }
 
-  public void loadGameCards(User user, AnchorPane anchorPane, FlowPane flowPane) {
-    if (UserData.fileIsExists()) {
-      hidePanelVisible(anchorPane);
-      List<Game> games = user.getLibrary();
-      for (Game game : games) {
+  public void loadGames(User user, AnchorPane anchorPane, FlowPane flowPane) {
+    if (user == null || user.getLibrary().isEmpty()) {
+      System.err.println("Error: library empty or equals null");
+      return;
+    }
+
+    if (anchorPane != null) {
+      Platform.runLater(() -> hidePanelVisible(anchorPane));
+    }
+
+    for (Game game : user.getLibrary()) {
+      Platform.runLater(() -> {
         try {
           createGameCard(game, flowPane);
         } catch (IOException e) {
           e.printStackTrace();
         }
-      }
+      });
     }
   }
 

@@ -48,7 +48,6 @@ public class GameSelectController {
   private static MainMenuController mainMenuController;
   private static GameService gameService;
   private final PauseTransition debounce = new PauseTransition(Duration.millis(800));
-  private final PauseTransition platformPause = new PauseTransition(Duration.millis(800));
 
 
   @FXML

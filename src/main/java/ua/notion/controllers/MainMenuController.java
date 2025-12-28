@@ -1,6 +1,10 @@
 package ua.notion.controllers;
 
+import java.io.File;
+import java.util.concurrent.CompletableFuture;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +25,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
@@ -45,6 +50,7 @@ public class MainMenuController {
   private static final WindowHelper WINDOW_HELPER = new WindowHelper();
   private final GameService gameService = new GameService(userData, iconService);
   private final GameCardController gameCardController = new GameCardController();
+
 
   @FXML
   private StackPane rootPane;
@@ -225,13 +231,26 @@ public class MainMenuController {
     GameSelectController.setGameService(gameService);
     GameService.setMainMenuController(this);
 
-    // Load game cards
-    gameService.loadGameCards(user, centerDropPane, cardContainer);
 
     Platform.runLater(() -> {
       Stage stage = (Stage) rootPane.getScene().getWindow();
       if (stage != null) {
         windowHandler.initHandler(stage);
+      }
+    });
+
+    loadGames();
+  }
+
+  private void loadGames() {
+    if (user == null)
+      return;
+
+    CompletableFuture.runAsync(() -> {
+      try {
+        gameService.loadGames(user, centerDropPane, cardContainer);
+      } catch (Exception e) {
+        e.printStackTrace();
       }
     });
   }
