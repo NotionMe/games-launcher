@@ -12,10 +12,11 @@ import ua.notion.utils.OsUtils;
 
 public class GameLauncher {
 
+  private static final String STEAM_PATH_WIN = "C:\\Program Files (x86)\\Steam\\steam.exe";
   private static final String STEAM_PROCESS = "steam";
   private static final System.Logger LOGGER = System.getLogger(GameLauncher.class.getName());
 
-  private GameLauncher() {
+  public GameLauncher() { // TODO тимчасово public, private по дефолту
   }
 
   public static void play(Game game) {
@@ -91,14 +92,26 @@ public class GameLauncher {
     }
   }
 
-  private boolean isSteamRunning(){
-    boolean found = isProcessRunning(STEAM_PROCESS);
-
-    if(found){
-      System.out.println("STEAM FOUND!");
+  public void launchSteam() { // todo поки що для вінди хоч
+    if (isSteamRunning()) {
+      System.out.println("STEAM ALREADY RUNNING");
+      return;
     }
+    try {
+      if(OsUtils.isWindows()) {
+        Runtime.getRuntime().exec(STEAM_PATH_WIN);
+      }
+      else if(OsUtils.isLinux() || OsUtils.isMac()){
+        Runtime.getRuntime().exec(STEAM_PROCESS);
+      }
+      System.out.println("Steam launch command sent!");
+    } catch (IOException e) {
+      System.out.println("Error! Steam not found! " + e);
+    }
+  }
 
-    return found;
+  public boolean isSteamRunning() { // TODO ТИМЧАСОВО PUBLIC
+    return isProcessRunning(STEAM_PROCESS);
   }
 
   private boolean isProcessRunning(String processName) {
