@@ -16,6 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import ua.notion.controllers.settings.LauncherPageController;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
 import ua.notion.utils.WindowHandler;
@@ -53,6 +55,12 @@ public class SettingsMenuController {
 
   private WindowHandler windowHandler;
 
+  public Stage getMainWindowStage(){
+    Stage settingsStage = (Stage) rootPane.getScene().getWindow();
+
+    return (Stage)settingsStage.getOwner();
+  }
+
   @FXML
   private void onPathsButtonPressed(ActionEvent event) {
     loadPage("paths-page.fxml");
@@ -88,7 +96,6 @@ public class SettingsMenuController {
     );
 
     configureNavGroup();
-
     loadPage("paths-page.fxml");
   }
 
@@ -134,7 +141,13 @@ public class SettingsMenuController {
         return;
       }
 
-      Parent view = FXMLLoader.load(fxmlUrl);
+      FXMLLoader loader = new FXMLLoader(fxmlUrl);
+      Parent view = loader.load();
+
+      Object controller = loader.getController();
+      if (controller instanceof LauncherPageController) {
+        ((LauncherPageController) controller).setParentController(this);
+      }
 
       // KOSTIL!, i idk how do it another way
       if (view instanceof javafx.scene.layout.Region) {
@@ -146,7 +159,6 @@ public class SettingsMenuController {
       }
 
       StackPane.setAlignment(view, javafx.geometry.Pos.TOP_CENTER);
-
       StackPane.setMargin(view, new javafx.geometry.Insets(50, 0, 0, 0));
 
       contentArea.getChildren().removeAll();

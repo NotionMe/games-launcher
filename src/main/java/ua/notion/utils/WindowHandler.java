@@ -15,6 +15,20 @@ public final class WindowHandler {
     this.rootPane = rootPane;
   }
 
+  public void initHandler(Stage stage) {
+    stage.setFullScreenExitHint("");
+
+    stage.fullScreenProperty().addListener((obs, wasFull, isFull) -> {
+      if (isFull) {
+        if (!rootPane.getStyleClass().contains("fullscreen")) {
+          rootPane.getStyleClass().add("fullscreen");
+        }
+      } else {
+        rootPane.getStyleClass().remove("fullscreen");
+      }
+    });
+  }
+
   public void close(Node source) {
     getStage(source).close();
   }
@@ -26,15 +40,7 @@ public final class WindowHandler {
   public void toggleFullscreen(Node source) {
     Stage stage = getStage(source);
 
-    stage.setFullScreenExitHint("");
-
-    if (stage.isFullScreen()) {
-      stage.setFullScreen(false);
-      rootPane.getStyleClass().remove("fullscreen");
-    } else {
-      stage.setFullScreen(true);
-      rootPane.getStyleClass().add("fullscreen");
-    }
+    stage.setFullScreen(!stage.isFullScreen());
   }
 
   public void onPress(MouseEvent event) {

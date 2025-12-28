@@ -1,5 +1,6 @@
 package ua.notion.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -226,6 +227,13 @@ public class MainMenuController {
 
     // Load game cards
     gameService.loadGameCards(user, centerDropPane, cardContainer);
+
+    Platform.runLater(() -> {
+      Stage stage = (Stage) rootPane.getScene().getWindow();
+      if (stage != null) {
+        windowHandler.initHandler(stage);
+      }
+    });
   }
 
   public StackPane getRootPane() {
