@@ -27,6 +27,7 @@ import javafx.event.ActionEvent;
 import java.io.File;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
+import java.util.Arrays;
 import java.util.List;
 import ua.notion.ui.fx.WindowHelper;
 import javafx.animation.PauseTransition;
@@ -107,8 +108,8 @@ public class GameSelectController {
     platformComboBox.getItems().setAll("Windows", "Linux");
     platformComboBox.getSelectionModel().select("Linux");
     // default dll overide for online fix
-    wineDllOverridesField.setText(
-        "OnlineFix64=n;SteamOverlay64=n;winmm=n,b;dnet=n;steam_api64=n;winhttp=n,b");
+    wineDllOverridesField
+        .setText("OnlineFix64=n;SteamOverlay64=n;winmm=n,b;dnet=n;steam_api64=n;winhttp=n,b");
 
     previewLabelText.textProperty().bind(gameTitleField.textProperty());
 
@@ -118,8 +119,7 @@ public class GameSelectController {
         return;
       }
 
-      imagePreview
-          .setImage(ImageService.loadImage(newValue, UI.DEFAULT_COVER_PATH, getClass()));
+      imagePreview.setImage(ImageService.loadImage(newValue, UI.DEFAULT_COVER_PATH, getClass()));
     });
 
     iconPathField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -128,17 +128,14 @@ public class GameSelectController {
         return;
       }
 
-      previewGameIcon
-          .setImage(ImageService.loadImage(newValue, UI.DEFAULT_ICON_PATH, getClass()));
+      previewGameIcon.setImage(ImageService.loadImage(newValue, UI.DEFAULT_ICON_PATH, getClass()));
     });
 
-    // TODO: треба зробити КАЧЕСТВЕНОоооо.
     addProtonCheckBox();
     setDefaultPreview(UI.DEFAULT_COVER_PATH, imagePreview);
     setDefaultPreview(UI.DEFAULT_ICON_PATH, previewGameIcon);
 
-    wineDllOverridesField.disableProperty()
-        .bind(wineDllOverridesCheckBox.selectedProperty().not());
+    wineDllOverridesField.disableProperty().bind(wineDllOverridesCheckBox.selectedProperty().not());
 
     setupDebouncedSearch();
     platformComboBox.valueProperty().addListener((obs, oldVal, newVal) -> setupPlatform());
@@ -239,16 +236,14 @@ public class GameSelectController {
     return !gameTitleField.getText().isBlank() && !executablePathField.getText().isBlank();
   }
 
-  // Поки що халтурщіна ну і похер )))
   private void addProtonCheckBox() {
     File[] files = GameService.getProtonVersionHost(Data.PROTON_PATH.toString());
 
-    if (files.length > 0) {
-      for (File file : files) {
-        wineVersionComboBox.getItems().add(file.getName());
-      }
-      wineVersionComboBox.getSelectionModel().selectFirst();
+    if (files != null && files.length > 0) {
+      List<String> fileNames = Arrays.stream(files).map(File::getName).toList();
+      wineVersionComboBox.getItems().addAll(fileNames);
     }
+    wineVersionComboBox.getSelectionModel().selectFirst();
   }
 
   private void browsePath(TextField targetField, List<String> extensions, String description,

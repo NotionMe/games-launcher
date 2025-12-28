@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.image.ImageView?>
+
+<HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="proton-item" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.settings.ProtonItemController">
+  <children>
+    <Button fx:id="actionButton" styleClass="proton-action-button">
+      <graphic>
+        <ImageView fx:id="actionIcon" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true"/>
+      </graphic>
+    </Button>
+    <Label fx:id="protonNameLabel" styleClass="proton-name" text="Proton Name"/>
+    <Region HBox.hgrow="ALWAYS"/>
+    <Label fx:id="extensionLabel" styleClass="proton-extension" text=".tar.gz"/>
+  </children>
+</HBox>
