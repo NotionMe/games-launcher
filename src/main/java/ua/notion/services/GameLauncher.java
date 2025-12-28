@@ -12,6 +12,7 @@ import ua.notion.utils.OsUtils;
 
 public class GameLauncher {
 
+  private static final String STEAM_PROCESS = "steam";
   private static final System.Logger LOGGER = System.getLogger(GameLauncher.class.getName());
 
   private GameLauncher() {
@@ -88,5 +89,23 @@ public class GameLauncher {
     while (matcher.find()) {
       command.add(matcher.group(1).replace("\"", ""));
     }
+  }
+
+  private boolean isSteamRunning(){
+    boolean found = isProcessRunning(STEAM_PROCESS);
+
+    if(found){
+      System.out.println("STEAM FOUND!");
+    }
+
+    return found;
+  }
+
+  private boolean isProcessRunning(String processName) {
+    return ProcessHandle.allProcesses()
+        .map(ProcessHandle::info)
+        .flatMap(info -> info.command().stream())
+        .map(String::toLowerCase)
+        .anyMatch(cmd -> cmd.contains(processName.toLowerCase()));
   }
 }
