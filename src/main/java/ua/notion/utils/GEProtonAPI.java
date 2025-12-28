@@ -20,7 +20,7 @@ public class GEProtonAPI {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     File file = new File("proton.json");
 
-    public void getProtonVersion() {
+    public JsonArray getProtonVersion() {
         try {
             String url = "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases";
             String responseBody = makeRequest(url);
@@ -41,21 +41,18 @@ public class GEProtonAPI {
                         item.addProperty("version", tagName);
                         item.addProperty("name", fileName);
                         item.addProperty("url", asset.get("browser_download_url").getAsString());
-
                         resultList.add(item);
                     }
                 }
             }
-
-            try (BufferedWriter bf = new BufferedWriter(new FileWriter(file))) {
-                gson.toJson(resultList, bf);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return resultList;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
+
+
 
     private String makeRequest(String url) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
