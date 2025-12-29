@@ -10,11 +10,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import ua.notion.components.User;
+import ua.notion.data.UserData;
+import ua.notion.data.UserRepository;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
 import ua.notion.utils.StageUtils;
+import ua.notion.utils.WindowHandler;
 
 public class App extends Application {
+
+  private final UserRepository userRepository = new UserData();
 
   public static void main(String[] args) {
     launch(args);
@@ -45,6 +51,15 @@ public class App extends Application {
 
     primaryStage.setScene(scene);
     StageUtils.configureScreenSize(primaryStage);
+
+    User user = userRepository.findAll();
+
+    primaryStage.setFullScreenExitHint("");
+
+    if(user.getLauncherSettings().isFullScreen()){
+      primaryStage.setFullScreen(true);
+    }
+
     primaryStage.show();
   }
 

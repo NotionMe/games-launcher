@@ -18,9 +18,16 @@ public class DataMapper {
       user.getPaths().setPathForProtonInstalls(dto.paths().getPathForProtonInstalls());
       user.getPaths().setPathForPrefixes(dto.paths().getPathForPrefixes());
     }
+    if (dto.launcherSettings() != null) {
+      user.getLauncherSettings().setFullScreen(dto.launcherSettings().isFullScreen());
+      user.getLauncherSettings().setSteamDisabled(dto.launcherSettings().isSteamDisabled());
+      user.getLauncherSettings()
+         .setAnimationDisabled(dto.launcherSettings().isAnimationDisabled());
+    }
     if (dto.library() != null) {
-      dto.library().forEach(g -> user.addGame(new Game(g.title(), g.path(), g.launchArguments(), g.pfx(),
-          g.dllWineOverride(), g.defaultProtonVersion(), g.iconPath(), g.coverPath())));
+      dto.library()
+          .forEach(g -> user.addGame(new Game(g.title(), g.path(), g.launchArguments(), g.pfx(),
+              g.dllWineOverride(), g.defaultProtonVersion(), g.iconPath(), g.coverPath())));
     }
     return user;
   }
@@ -28,9 +35,10 @@ public class DataMapper {
   public static UserDTO toDTO(User user) {
     List<GameDTO> gameDTOs = user.getLibrary().stream()
         .map(
-            g -> new GameDTO(g.title(), g.targetPath(), g.launchArguments(), g.pfx(), g.dllWineOverride(),
+            g -> new GameDTO(g.title(), g.targetPath(), g.launchArguments(), g.pfx(),
+                g.dllWineOverride(),
                 g.defaultProtonVersion(), g.iconPath(), g.coverPath()))
         .collect(Collectors.toList());
-    return new UserDTO(user.getId(), user.getPaths(), gameDTOs);
+    return new UserDTO(user.getId(), user.getPaths(), user.getLauncherSettings(), gameDTOs);
   }
 }
