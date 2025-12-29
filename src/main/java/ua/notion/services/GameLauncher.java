@@ -4,8 +4,12 @@ import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +22,15 @@ import ua.notion.utils.OsUtils;
 
 public class GameLauncher {
 
-  // TODO костиль! може бути диск D І Т.П.
-  private static final String STEAM_PATH_WIN = "C:\\Program Files (x86)\\Steam\\steam.exe";
-  private static final String STEAM_PROCESS = "steam";
+  private final SteamPathResolver steamPathResolver = new SteamPathResolver();
 
+  private static final String STEAM_PROCESS = "steam";
   private static final Logger LOGGER = System.getLogger(GameLauncher.class.getName());
 
   public void play(Game game, User user) {
     if (!user.getLauncherSettings().isSteamDisabled()) {
       launchSteam();
-    }else {
+    } else {
       LOGGER.log(INFO, "Auto steam launch is disabled via settings");
     }
     if (OsUtils.isWindows()) {
@@ -103,6 +106,8 @@ public class GameLauncher {
     }
   }
 
+
+
   private void launchSteam() {
     if (isSteamRunning()) {
       LOGGER.log(INFO, "Steam is already running.");
@@ -113,8 +118,7 @@ public class GameLauncher {
     List<String> command = new ArrayList<>();
 
     if (OsUtils.isWindows()) {
-      // TODO тут той самий костиль
-      command.add(STEAM_PATH_WIN);
+      command.add(steamPathResolver.resolveWindowsSteamPath());
     } else {
       command.add(STEAM_PROCESS);
     }

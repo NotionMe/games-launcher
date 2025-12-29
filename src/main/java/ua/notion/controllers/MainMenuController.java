@@ -1,13 +1,9 @@
 package ua.notion.controllers;
 
-import java.io.File;
 import java.util.concurrent.CompletableFuture;
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,7 +21,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
@@ -42,7 +37,6 @@ public class MainMenuController {
 
   private WindowHandler windowHandler;
 
-
   private User user;
 
   private final UserRepository userData = new UserData();
@@ -50,7 +44,6 @@ public class MainMenuController {
   private static final WindowHelper WINDOW_HELPER = new WindowHelper();
   private final GameService gameService = new GameService(userData, iconService);
   private final GameCardController gameCardController = new GameCardController();
-
 
   @FXML
   private StackPane rootPane;
@@ -220,18 +213,21 @@ public class MainMenuController {
   private void initialize() {
     this.windowHandler = new WindowHandler(rootPane);
 
+    centerDropPane.setVisible(false);
+
     rootPane.getStylesheets().addAll(getClass().getResource(UI.BASE_CSS).toExternalForm(),
         getClass().getResource(UI.MAIN_MENU_CSS).toExternalForm());
 
     user = userData.findAll();
 
+    boolean isLibraryEmpty = user.getLibrary().isEmpty();
+    centerDropPane.setVisible(isLibraryEmpty);
 
     SideDrawerController.setMainMenuController(this);
     GameSelectController.setMainMenuController(this);
     GameSelectController.setUser(user);
     GameSelectController.setGameService(gameService);
     GameService.setMainMenuController(this);
-
 
     Platform.runLater(() -> {
       Stage stage = (Stage) rootPane.getScene().getWindow();
