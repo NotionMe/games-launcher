@@ -17,7 +17,6 @@ import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
-import ua.notion.services.GameLauncher;
 import ua.notion.utils.SteamGridDB;
 import ua.notion.utils.Constants.Data;
 import ua.notion.utils.Constants.UI;
@@ -27,12 +26,12 @@ import javafx.event.ActionEvent;
 import java.io.File;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
+import java.util.Arrays;
 import java.util.List;
 import ua.notion.ui.fx.WindowHelper;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import java.util.concurrent.CompletableFuture;
 import ua.notion.utils.Config;
 import ua.notion.utils.OsUtils;
@@ -41,6 +40,7 @@ import ua.notion.utils.OsUtils;
 public class GameSelectController {
 
 
+  private final WindowHelper windowHelper = new WindowHelper();
   private final SteamGridDB steamGridDB = new SteamGridDB(Config.getSteamGridDBApiKey());
   private final UserRepository userRepository = new UserData();
   private static User user;
@@ -48,7 +48,7 @@ public class GameSelectController {
   private static MainMenuController mainMenuController;
   private static GameService gameService;
   private final PauseTransition debounce = new PauseTransition(Duration.millis(800));
-
+  private final ImageService imageService = new ImageService();
 
   @FXML
   private AnchorPane rootPane;
@@ -107,8 +107,8 @@ public class GameSelectController {
     platformComboBox.getItems().setAll("Windows", "Linux");
     platformComboBox.getSelectionModel().select("Linux");
     // default dll overide for online fix
-    wineDllOverridesField.setText(
-        "OnlineFix64=n;SteamOverlay64=n;winmm=n,b;dnet=n;steam_api64=n;winhttp=n,b");
+    wineDllOverridesField
+        .setText("OnlineFix64=n;SteamOverlay64=n;winmm=n,b;dnet=n;steam_api64=n;winhttp=n,b");
 
     previewLabelText.textProperty().bind(gameTitleField.textProperty());
 
@@ -118,8 +118,7 @@ public class GameSelectController {
         return;
       }
 
-      imagePreview
-          .setImage(ImageService.loadImage(newValue, UI.DEFAULT_COVER_PATH, getClass()));
+      imagePreview.setImage(imageService.loadImage(newValue, UI.DEFAULT_COVER_PATH, getClass()));
     });
 
     iconPathField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -128,17 +127,15 @@ public class GameSelectController {
         return;
       }
 
-      previewGameIcon
-          .setImage(ImageService.loadImage(newValue, UI.DEFAULT_ICON_PATH, getClass()));
+      previewGameIcon.setImage(imageService.loadImage(newValue, UI.DEFAULT_ICON_PATH, getClass()));
+
     });
 
-    // TODO: треба зробити КАЧЕСТВЕНОоооо.
     addProtonCheckBox();
     setDefaultPreview(UI.DEFAULT_COVER_PATH, imagePreview);
     setDefaultPreview(UI.DEFAULT_ICON_PATH, previewGameIcon);
 
-    wineDllOverridesField.disableProperty()
-        .bind(wineDllOverridesCheckBox.selectedProperty().not());
+    wineDllOverridesField.disableProperty().bind(wineDllOverridesCheckBox.selectedProperty().not());
 
     setupDebouncedSearch();
     platformComboBox.valueProperty().addListener((obs, oldVal, newVal) -> setupPlatform());
@@ -174,7 +171,7 @@ public class GameSelectController {
 
 
   private void setDefaultPreview(String defaultPath, ImageView imageView) {
-    imageView.setImage(ImageService.loadImage(null, defaultPath, getClass()));
+    imageView.setImage(imageService.loadImage(null, defaultPath, getClass()));
   }
 
   public static void setMainMenuController(MainMenuController mainMenuController) {
@@ -194,7 +191,7 @@ public class GameSelectController {
     LOGGER.log(Level.INFO, "BACK BUTTON PRESSED");
     if (mainMenuController.getGameSelectView() != null) {
       mainMenuController.setGameSelectView(null);
-      WindowHelper.navigateBack(mainMenuController.getCenterLayer(),
+      windowHelper.navigateBack(mainMenuController.getCenterLayer(),
           mainMenuController.getBottomAnchorGroup());
     }
   }
@@ -239,16 +236,14 @@ public class GameSelectController {
     return !gameTitleField.getText().isBlank() && !executablePathField.getText().isBlank();
   }
 
-  // Поки що халтурщіна ну і похер )))
   private void addProtonCheckBox() {
     File[] files = GameService.getProtonVersionHost(Data.PROTON_PATH.toString());
 
-    if (files.length > 0) {
-      for (File file : files) {
-        wineVersionComboBox.getItems().add(file.getName());
-      }
-      wineVersionComboBox.getSelectionModel().selectFirst();
+    if (files != null && files.length > 0) {
+      List<String> fileNames = Arrays.stream(files).map(File::getName).toList();
+      wineVersionComboBox.getItems().addAll(fileNames);
     }
+    wineVersionComboBox.getSelectionModel().selectFirst();
   }
 
   private void browsePath(TextField targetField, List<String> extensions, String description,
@@ -268,9 +263,9 @@ public class GameSelectController {
 
   private void setupGames() {
     Image iconPath =
-        ImageService.loadImage(iconPathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
+        imageService.loadImage(iconPathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
     Image coverPath =
-        ImageService.loadImage(imagePathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
+        imageService.loadImage(imagePathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
 
     String protonPath =
         new File(Data.PROTON_PATH, wineVersionComboBox.getValue()).getAbsolutePath();
@@ -288,7 +283,7 @@ public class GameSelectController {
       userRepository.save(user);
       if (mainMenuController.getGameSelectView() != null) {
         mainMenuController.setGameSelectView(null);
-        WindowHelper.navigateBack(mainMenuController.getCenterLayer(),
+        windowHelper.navigateBack(mainMenuController.getCenterLayer(),
             mainMenuController.getBottomAnchorGroup());
       }
       try {
@@ -323,10 +318,10 @@ public class GameSelectController {
           String iconUrl = steamGridDB.getFirstImageUrl(iconsResponse);
 
           if (coverUrl != null) {
-            ImageService.checkUriImage(coverUrl);
+            imageService.checkUriImage(coverUrl);
           }
           if (iconUrl != null) {
-            ImageService.checkUriImage(iconUrl);
+            imageService.checkUriImage(iconUrl);
           }
 
           Platform.runLater(() -> {

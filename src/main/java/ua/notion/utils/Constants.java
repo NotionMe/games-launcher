@@ -50,6 +50,7 @@ public final class Constants {
     public static final String SIDE_DRAWER = "/ua/notion/side-drawer.fxml";
     public static final String GAME_SELECT = "/ua/notion/game-select.fxml";
     public static final String SETTINGS_BASE_DIR = "/ua/notion/settings/";
+    public static final String PROTON_ITEM = "/ua/notion/settings/proton-item.fxml";
 
     private Views() {
       throw new UnsupportedOperationException("Utility class cannot be instantiated");
@@ -66,10 +67,7 @@ public final class Constants {
     public static final File SCRIPT_PATH = new File("src/main/resources/script/run-games.sh");
     public static final File PROTON_PATH =
         new File(Data.HOME_PATH, ".local/share/Steam/compatibilitytools.d/");
-    // public static final File EXE_PATH = new File("/mnt/data/game/Bodycam/Bodycam.exe");
-    // public static final Path PREFIX_PATH = Paths.get(Data.HOME_PATH + "/Games/pfx");
-    // public static final String WINEDLLOVERRIDES =
-    // "onlinefix64=n;winmm=n,b;steam_api64=n;eossdk-win64-shipping=n";
+    public static final File PROTON_PATH_JSON = new File("proton.json");
 
     public static final List<String> SUPPORTED_EXTENSIONS_GAME = List.of("*.exe");
     public static final List<String> SUPPORTED_EXTENSIONS_ARCHIVE =

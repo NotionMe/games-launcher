@@ -10,6 +10,8 @@ module ua.notion {
   requires org.controlsfx.controls;
   requires java.net.http;
   requires io.github.cdimascio.dotenv.java;
+  requires org.apache.commons.compress;
+  requires org.apache.commons.io;
 
   opens ua.notion to javafx.fxml;
 
@@ -17,7 +19,7 @@ module ua.notion {
 
   opens ua.notion.components to com.google.gson;
   opens ua.notion.data.dto to com.google.gson;
-  
+
   opens ua.notion.controllers.settings to javafx.fxml;
 
   exports ua.notion;

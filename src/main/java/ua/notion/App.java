@@ -18,7 +18,6 @@ import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
 import ua.notion.utils.GEProtonAPI;
 import ua.notion.utils.StageUtils;
-import ua.notion.utils.WindowHandler;
 
 public class App extends Application {
 

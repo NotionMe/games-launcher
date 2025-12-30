@@ -9,10 +9,8 @@ import javafx.scene.layout.StackPane;
 import ua.notion.components.Game;
 import ua.notion.services.ImageService;
 import ua.notion.utils.Constants.UI;
-import java.net.URI;
-import java.net.URL;
 import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
+import static java.lang.System.Logger.Level.INFO;
 
 public class GameCardController {
 
@@ -26,7 +24,7 @@ public class GameCardController {
     private Label title;
 
     private static final Logger LOGGER = System.getLogger(GameCardController.class.getName());
-    private SideDrawerController sideDrawerController;
+    private final ImageService imageService = new ImageService();
     private Game game;
 
     public void setGame(Game game) {
@@ -45,7 +43,7 @@ public class GameCardController {
     }
 
     private Image loadImage(String path, String defaultResource) {
-        return ImageService.loadImage(path, defaultResource, getClass());
+        return imageService.loadImage(path, defaultResource, getClass());
     }
 
     private void setTitle(String text) {
@@ -56,8 +54,8 @@ public class GameCardController {
     private void cardPressAction() {
         if (game != null) {
             String path = game.targetPath();
-            System.out.println("Вибрано гру: " + game.title());
-            System.out.println("Шлях до гри: " + path);
+            LOGGER.log(INFO, "choice game: " + game.title());
+            LOGGER.log(INFO, "path to game: " + path);
         }
         SideDrawerController.show(game);
     }

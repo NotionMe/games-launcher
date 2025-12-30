@@ -43,7 +43,6 @@ public class MainMenuController {
   private final IconService iconService = new IconService();
   private static final WindowHelper WINDOW_HELPER = new WindowHelper();
   private final GameService gameService = new GameService(userData, iconService);
-  private final GameCardController gameCardController = new GameCardController();
 
   @FXML
   private StackPane rootPane;

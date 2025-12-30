@@ -69,6 +69,7 @@ public class SideDrawerController {
   private static MainMenuController mainMenuController;
   private static AnimationHelper animationHelper = new AnimationHelper();
   private static final WindowHelper WINDOW_HELPER = new WindowHelper();
+  ImageService imageService = new ImageService();
   private static Game currentGame;
 
 
@@ -135,7 +136,7 @@ public class SideDrawerController {
       animationHelper.transitionToBackground(game.coverPath(),
           mainMenuController.getBackgroundImageView());
       headerImageView.setImage(
-          ImageService.loadImage(game.coverPath(), UI.DEFAULT_COVER_PATH, getClass()));
+          imageService.loadImage(game.coverPath(), UI.DEFAULT_COVER_PATH, getClass()));
     }
 
     TranslateTransition tt = new TranslateTransition(Duration.millis(150), sideDrawer);
