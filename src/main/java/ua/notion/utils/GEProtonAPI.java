@@ -8,24 +8,28 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import ua.notion.data.dto.ProtonDTO;
 
 public class GEProtonAPI {
     HttpClient client = HttpClient.newHttpClient();
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     File file = new File("proton.json");
 
-    public JsonArray getProtonVersion() {
+    public List<ProtonDTO> getProtonVersion() {
         try {
             String url = "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases";
             String responseBody = makeRequest(url);
             JsonArray rootArray = JsonParser.parseString(responseBody).getAsJsonArray();
-            JsonArray resultList = new JsonArray();
+            List<ProtonDTO> resultList = new ArrayList<>();
 
             for (JsonElement releaseEl : rootArray) {
                 JsonObject release = releaseEl.getAsJsonObject();
@@ -41,7 +45,9 @@ public class GEProtonAPI {
                         item.addProperty("version", tagName);
                         item.addProperty("name", fileName);
                         item.addProperty("url", asset.get("browser_download_url").getAsString());
-                        resultList.add(item);
+
+                        ProtonDTO dto = gson.fromJson(item, ProtonDTO.class);
+                        resultList.add(dto);
                     }
                 }
             }
@@ -49,7 +55,7 @@ public class GEProtonAPI {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return Collections.emptyList();
     }
 
 

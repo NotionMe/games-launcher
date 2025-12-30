@@ -133,3 +133,11 @@
   -fx-background-radius: 4;
   -fx-padding: 2 6 2 6;
 }
+
+.progress-indicator {
+  -fx-progress-color: #448a05;
+}
+
+.progress-indicator .percentage {
+  -fx-fill: transparent;
+}

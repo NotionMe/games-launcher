@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.ProgressIndicator;
+
 
 public class ProtonItemController {
 
@@ -15,7 +17,11 @@ public class ProtonItemController {
     private ImageView actionIcon;
 
     @FXML
+    private ProgressIndicator loadingIndicator;
+
+    @FXML
     private Label protonNameLabel;
+
 
     @FXML
     private Label extensionLabel;
@@ -28,6 +34,7 @@ public class ProtonItemController {
                 : "/icons/settings/icon_download_36x36.png";
         actionIcon.setImage(new Image(getClass().getResourceAsStream(iconPath)));
 
+        actionButton.getStyleClass().removeAll("download-button", "delete-button");
         if (isInstalled) {
             actionButton.getStyleClass().add("delete-button");
         } else {
@@ -40,4 +47,12 @@ public class ProtonItemController {
             }
         });
     }
+
+    public void setLoading(boolean loading) {
+        actionButton.setVisible(!loading);
+        actionButton.setManaged(!loading);
+        loadingIndicator.setVisible(loading);
+        loadingIndicator.setManaged(loading);
+    }
 }
+

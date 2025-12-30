@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
+import ua.notion.data.ProtonImpl;
+import ua.notion.data.ProtonRepository;
+import ua.notion.utils.GEProtonAPI;
 import ua.notion.utils.StageUtils;
 
 public class App extends Application {

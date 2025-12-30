@@ -9,6 +9,8 @@ import javafx.util.Duration;
 import ua.notion.services.ImageService;
 
 public class AnimationHelper {
+    private final ImageService imageService = new ImageService();
+
     public void transitionToBackground(String imagePath, ImageView imageView) {
         try {
             if (imagePath == null || imagePath.isBlank()) {
@@ -16,7 +18,7 @@ public class AnimationHelper {
                 return;
             }
 
-            Image image = ImageService.loadImage(imagePath, null, getClass());
+            Image image = imageService.loadImage(imagePath, null, getClass());
 
             if (image != null) {
                 imageView.setImage(image);

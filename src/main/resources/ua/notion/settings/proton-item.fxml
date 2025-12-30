@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ProgressIndicator?>
 
 <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="proton-item" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.settings.ProtonItemController">
   <children>
@@ -13,6 +14,7 @@
         <ImageView fx:id="actionIcon" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true"/>
       </graphic>
     </Button>
+    <ProgressIndicator fx:id="loadingIndicator" managed="false" prefHeight="24.0" prefWidth="24.0" visible="false"/>
     <Label fx:id="protonNameLabel" styleClass="proton-name" text="Proton Name"/>
     <Region HBox.hgrow="ALWAYS"/>
     <Label fx:id="extensionLabel" styleClass="proton-extension" text=".tar.gz"/>

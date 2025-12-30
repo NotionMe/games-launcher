@@ -17,7 +17,6 @@ import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
-import ua.notion.services.GameLauncher;
 import ua.notion.utils.SteamGridDB;
 import ua.notion.utils.Constants.Data;
 import ua.notion.utils.Constants.UI;
@@ -33,7 +32,6 @@ import ua.notion.ui.fx.WindowHelper;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import java.util.concurrent.CompletableFuture;
 import ua.notion.utils.Config;
 import ua.notion.utils.OsUtils;
@@ -42,6 +40,7 @@ import ua.notion.utils.OsUtils;
 public class GameSelectController {
 
 
+  private final WindowHelper windowHelper = new WindowHelper();
   private final SteamGridDB steamGridDB = new SteamGridDB(Config.getSteamGridDBApiKey());
   private final UserRepository userRepository = new UserData();
   private static User user;
@@ -49,7 +48,7 @@ public class GameSelectController {
   private static MainMenuController mainMenuController;
   private static GameService gameService;
   private final PauseTransition debounce = new PauseTransition(Duration.millis(800));
-
+  private final ImageService imageService = new ImageService();
 
   @FXML
   private AnchorPane rootPane;
@@ -119,7 +118,7 @@ public class GameSelectController {
         return;
       }
 
-      imagePreview.setImage(ImageService.loadImage(newValue, UI.DEFAULT_COVER_PATH, getClass()));
+      imagePreview.setImage(imageService.loadImage(newValue, UI.DEFAULT_COVER_PATH, getClass()));
     });
 
     iconPathField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -128,7 +127,8 @@ public class GameSelectController {
         return;
       }
 
-      previewGameIcon.setImage(ImageService.loadImage(newValue, UI.DEFAULT_ICON_PATH, getClass()));
+      previewGameIcon.setImage(imageService.loadImage(newValue, UI.DEFAULT_ICON_PATH, getClass()));
+
     });
 
     addProtonCheckBox();
@@ -171,7 +171,7 @@ public class GameSelectController {
 
 
   private void setDefaultPreview(String defaultPath, ImageView imageView) {
-    imageView.setImage(ImageService.loadImage(null, defaultPath, getClass()));
+    imageView.setImage(imageService.loadImage(null, defaultPath, getClass()));
   }
 
   public static void setMainMenuController(MainMenuController mainMenuController) {
@@ -191,7 +191,7 @@ public class GameSelectController {
     LOGGER.log(Level.INFO, "BACK BUTTON PRESSED");
     if (mainMenuController.getGameSelectView() != null) {
       mainMenuController.setGameSelectView(null);
-      WindowHelper.navigateBack(mainMenuController.getCenterLayer(),
+      windowHelper.navigateBack(mainMenuController.getCenterLayer(),
           mainMenuController.getBottomAnchorGroup());
     }
   }
@@ -263,9 +263,9 @@ public class GameSelectController {
 
   private void setupGames() {
     Image iconPath =
-        ImageService.loadImage(iconPathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
+        imageService.loadImage(iconPathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
     Image coverPath =
-        ImageService.loadImage(imagePathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
+        imageService.loadImage(imagePathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
 
     String protonPath =
         new File(Data.PROTON_PATH, wineVersionComboBox.getValue()).getAbsolutePath();
@@ -283,7 +283,7 @@ public class GameSelectController {
       userRepository.save(user);
       if (mainMenuController.getGameSelectView() != null) {
         mainMenuController.setGameSelectView(null);
-        WindowHelper.navigateBack(mainMenuController.getCenterLayer(),
+        windowHelper.navigateBack(mainMenuController.getCenterLayer(),
             mainMenuController.getBottomAnchorGroup());
       }
       try {
@@ -318,10 +318,10 @@ public class GameSelectController {
           String iconUrl = steamGridDB.getFirstImageUrl(iconsResponse);
 
           if (coverUrl != null) {
-            ImageService.checkUriImage(coverUrl);
+            imageService.checkUriImage(coverUrl);
           }
           if (iconUrl != null) {
-            ImageService.checkUriImage(iconUrl);
+            imageService.checkUriImage(iconUrl);
           }
 
           Platform.runLater(() -> {

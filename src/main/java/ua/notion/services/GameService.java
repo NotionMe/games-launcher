@@ -100,7 +100,7 @@ public class GameService {
 
   }
 
-  public static void showPanelVisible(AnchorPane anchorPane) {
+  public void showPanelVisible(AnchorPane anchorPane) {
     if (anchorPane.isVisible()) {
       return;
     }

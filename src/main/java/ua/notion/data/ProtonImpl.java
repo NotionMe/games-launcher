@@ -1,25 +1,43 @@
 package ua.notion.data;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ua.notion.components.Proton;
 import ua.notion.data.dto.ProtonDTO;
 import ua.notion.data.mapper.DataMapper;
+import ua.notion.utils.GEProtonAPI;
 import ua.notion.utils.Constants.Data;
 
 public class ProtonImpl implements ProtonRepository {
 
     private final Gson gson;
+    private final GEProtonAPI protonAPI = new GEProtonAPI();
 
     public ProtonImpl() {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
+    }
+
+    @Override
+    public void save(List<ProtonDTO> avabliesProtons) {
+        CompletableFuture.runAsync(() -> {
+            try (BufferedWriter bf =
+                    new BufferedWriter(new FileWriter(Data.PROTON_PATH_JSON.toString()))) {
+                gson.toJson(avabliesProtons, bf);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
     }
 
     @Override
@@ -61,4 +79,6 @@ public class ProtonImpl implements ProtonRepository {
                 .filter(proton -> proton.name().toLowerCase().contains(normalizedVersion))
                 .findFirst().orElse(new Proton("", "", ""));
     }
+
+
 }
