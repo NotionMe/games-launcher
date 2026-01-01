@@ -1,7 +1,5 @@
 package ua.notion.ui.animation;
 
-import java.net.URI;
-import java.net.URL;
 import javafx.animation.FadeTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

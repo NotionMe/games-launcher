@@ -51,6 +51,7 @@ public final class Constants {
     public static final String GAME_SELECT = "/ua/notion/game-select.fxml";
     public static final String SETTINGS_BASE_DIR = "/ua/notion/settings/";
     public static final String PROTON_ITEM = "/ua/notion/settings/proton-item.fxml";
+    public static final String ARCHIVE_SELECTOR = "/ua/notion/archive-selector.fxml";
 
     private Views() {
       throw new UnsupportedOperationException("Utility class cannot be instantiated");
@@ -62,7 +63,6 @@ public final class Constants {
     public static final String USER_DB_FILE = "user.json";
     public static final String ICONS_DIR = "images";
 
-    // home linux (Поки не трогати недороблено!)
     public static final File HOME_PATH = new File(System.getProperty("user.home"));
     public static final File SCRIPT_PATH = new File("src/main/resources/script/run-games.sh");
     public static final File PROTON_PATH =
@@ -70,8 +70,8 @@ public final class Constants {
     public static final File PROTON_PATH_JSON = new File("proton.json");
 
     public static final List<String> SUPPORTED_EXTENSIONS_GAME = List.of("*.exe");
-    public static final List<String> SUPPORTED_EXTENSIONS_ARCHIVE =
-        List.of("*.zip", "*.rar", "*.7z", "*.tar", "*.gz");
+    public static final List<String> ARCHIVE_EXTENSIONS =
+        List.of(".tar.gz", ".tar.xz", ".tar", ".rar", ".zip", ".7z", ".7zip");
     public static final List<String> SUPPORTED_EXTENSIONS_IMAGE = List.of("*.png", "*.jpg");
 
     private Data() {

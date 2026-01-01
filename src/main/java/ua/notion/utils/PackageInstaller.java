@@ -33,6 +33,7 @@ public class PackageInstaller {
         String fileName = "cache_" + Integer.toHexString(imageUrlString.hashCode()) + format;
 
         String baseDir = System.getProperty("user.dir");
+        //TODO: hard code path need fix! [cache/image] be like create in temp (linux) || appdata (windows)  
         File cacheDir = new File(baseDir, "cache/images");
 
         return new File(cacheDir, fileName).getAbsolutePath();
