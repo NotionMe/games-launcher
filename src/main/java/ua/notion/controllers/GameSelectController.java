@@ -76,6 +76,8 @@ public class GameSelectController {
   private TextField wineDllOverridesField;
   @FXML
   private TextField executablePathField;
+
+
   @FXML
   private TextField argumentsField;
   @FXML
@@ -169,6 +171,13 @@ public class GameSelectController {
     });
   }
 
+  public void setGameTitleField(String gameTitleField) {
+    this.gameTitleField.setText(gameTitleField);
+  }
+
+  public void setExecutablePathField(String executablePathField) {
+    this.executablePathField.setText(executablePathField);
+  }
 
   private void setDefaultPreview(String defaultPath, ImageView imageView) {
     imageView.setImage(imageService.loadImage(null, defaultPath, getClass()));

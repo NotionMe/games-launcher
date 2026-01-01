@@ -325,7 +325,24 @@ public class MainMenuController {
       resultFuture.thenAccept(selectedFile -> {
         Platform.runLater(() -> {
           System.out.println("Selected file: " + selectedFile);
-          // Here you would trigger the actual extraction or launch logic for the selected file
+
+          File file = new File(selectedFile);
+          String fileName = file.getName();
+          int lastDot = fileName.lastIndexOf('.');
+          String gameName = (lastDot == -1) ? fileName : fileName.substring(0, lastDot);
+
+          Parent gameSelectRoot = (Parent) WINDOW_HELPER.navigateAdd(Views.GAME_SELECT);
+          if (gameSelectRoot != null) {
+            GameSelectController gameSelectController =
+                WINDOW_HELPER.getLastLoader().getController();
+
+            gameSelectView = gameSelectRoot;
+            centerLayer.getChildren().add(gameSelectRoot);
+            gameService.hidePanelVisible(bottomAnchorGroup);
+
+            gameSelectController.setExecutablePathField(selectedFile);
+            gameSelectController.setGameTitleField(gameName);
+          }
         });
       });
 
