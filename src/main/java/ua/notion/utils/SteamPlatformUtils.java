@@ -16,13 +16,12 @@ public class SteamPlatformUtils {
   private static final Logger LOGGER = System.getLogger(SteamPlatformUtils.class.getName());
 
   private static final String REG_TOKEN = "REG_SZ";
-  private static final String STEAM_ACTIVE_USER_KEY = "ActiveUser";
+  private static final String WIN_ACTIVE_USER_KEY = "ActiveUser";
+  private static final String LINUX_ACTIVE_PROCESS_KEY = "SteamPID";
 
-  private static final List<String> LINUX_STEAM_CONFIG_PATHS = List.of(
-      "/.steam/steam/registry.vdf",
-      "/.local/share/Steam/registry.vdf",
-      "/.var/app/com.valvesoftware.Steam/.steam/steam/registry.vdf"
-  );
+  private static final List<String> LINUX_STEAM_REGISTRY_PATHS =
+      List.of("/.steam/steam/registry.vdf", "/.local/share/Steam/registry.vdf",
+          "/.var/app/com.valvesoftware.Steam/.steam/steam/registry.vdf", "/.steam/registry.vdf");
 
   public String resolveSteamExecutablePath() {
     if (!OsUtils.isWindows()) {
@@ -30,13 +29,17 @@ public class SteamPlatformUtils {
     }
 
     String hkcu = getRegistryValue("HKEY_CURRENT_USER\\Software\\Valve\\Steam", "SteamExe");
-    if (hkcu != null) return new File(hkcu).getAbsolutePath();
+    if (hkcu != null)
+      return new File(hkcu).getAbsolutePath();
 
-    String hklm = getRegistryValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Valve\\Steam", "InstallPath");
-    if (hklm != null) return new File(hklm, "steam.exe").getAbsolutePath();
+    String hklm =
+        getRegistryValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Valve\\Steam", "InstallPath");
+    if (hklm != null)
+      return new File(hklm, "steam.exe").getAbsolutePath();
 
     String hklm32 = getRegistryValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Valve\\Steam", "InstallPath");
-    if (hklm32 != null) return new File(hklm32, "steam.exe").getAbsolutePath();
+    if (hklm32 != null)
+      return new File(hklm32, "steam.exe").getAbsolutePath();
 
     LOGGER.log(WARNING, "Steam path not found in Registry. Using fallback 'steam'.");
     return "steam";
@@ -53,7 +56,8 @@ public class SteamPlatformUtils {
   }
 
   private boolean checkWindowsRegistryLogin() {
-    String hexValue = getRegistryValue("HKEY_CURRENT_USER\\Software\\Valve\\Steam\\ActiveProcess", STEAM_ACTIVE_USER_KEY);
+    String hexValue = getRegistryValue("HKEY_CURRENT_USER\\Software\\Valve\\Steam\\ActiveProcess",
+        WIN_ACTIVE_USER_KEY);
 
     if (hexValue != null) {
       String cleanValue = hexValue.trim();
@@ -66,7 +70,7 @@ public class SteamPlatformUtils {
     String userHome = System.getProperty("user.home");
     File registryFile = null;
 
-    for (String path : LINUX_STEAM_CONFIG_PATHS) {
+    for (String path : LINUX_STEAM_REGISTRY_PATHS) {
       File f = new File(userHome + path);
       if (f.exists()) {
         registryFile = f;
@@ -86,11 +90,11 @@ public class SteamPlatformUtils {
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        if (line.contains(STEAM_ACTIVE_USER_KEY)) {
+        if (line.contains(LINUX_ACTIVE_PROCESS_KEY)) {
           String[] parts = line.trim().split("\\s+");
           if (parts.length >= 2) {
             String value = parts[1].replace("\"", "");
-            return !value.equals("0");
+            return !value.equals("0") && !value.equals("0x0");
           }
         }
       }
@@ -100,13 +104,15 @@ public class SteamPlatformUtils {
     return false;
   }
 
+  // Windows
   private String getRegistryValue(String path, String key) {
     try {
       ProcessBuilder pb = new ProcessBuilder("REG", "QUERY", path, "/v", key);
       pb.redirectErrorStream(true);
       Process process = pb.start();
 
-      try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+      try (BufferedReader reader =
+          new BufferedReader(new InputStreamReader(process.getInputStream()))) {
         String line;
         while ((line = reader.readLine()) != null) {
           if (line.contains(key)) {
@@ -115,7 +121,8 @@ public class SteamPlatformUtils {
               return line.substring(index + REG_TOKEN.length()).trim();
             } else {
               String[] parts = line.trim().split("\\s+");
-              if(parts.length > 0) return parts[parts.length - 1];
+              if (parts.length > 0)
+                return parts[parts.length - 1];
             }
           }
         }

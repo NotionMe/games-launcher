@@ -17,34 +17,32 @@ public class SteamService {
   private static final Logger LOGGER = System.getLogger(SteamService.class.getName());
 
   public void launchSteam() {
-    if (isSteamRunning()) {
-      LOGGER.log(INFO, "Steam is already running.");
-      return;
+    if (!isSteamRunning()) {
+      LOGGER.log(INFO, "Attempting to launch Steam...");
+
+      String steamPath = steamUtils.resolveSteamExecutablePath();
+
+      try {
+        new ProcessBuilder(Collections.singletonList(steamPath)).start();
+      } catch (IOException e) {
+        LOGGER.log(ERROR, "Error launching Steam: " + e.getMessage());
+        return;
+      }
+    } else {
+      LOGGER.log(INFO, "Steam is already running, verifying readiness...");
     }
 
-    LOGGER.log(INFO, "Attempting to launch Steam...");
-
-    String steamPath = steamUtils.resolveSteamExecutablePath();
-
-    try {
-      new ProcessBuilder(Collections.singletonList(steamPath)).start();
-
-      boolean ready = waitForSteamReady();
-      if (ready) {
-        LOGGER.log(INFO, "Steam launched and user logged in successfully!");
-      } else {
-        LOGGER.log(WARNING, "Steam launch timeout (60s). Game might crash if Steam isn't ready.");
-      }
-    } catch (IOException e) {
-      LOGGER.log(ERROR, "Error launching Steam: " + e.getMessage());
+    boolean ready = waitForSteamReady();
+    if (ready) {
+      LOGGER.log(INFO, "Steam launched and user logged in successfully!");
+    } else {
+      LOGGER.log(WARNING, "Steam launch timeout (60s). Game might crash if Steam isn't ready.");
     }
   }
 
   private boolean isSteamRunning() {
-    return ProcessHandle.allProcesses()
-        .map(ProcessHandle::info)
-        .flatMap(info -> info.command().stream())
-        .map(String::toLowerCase)
+    return ProcessHandle.allProcesses().map(ProcessHandle::info)
+        .flatMap(info -> info.command().stream()).map(String::toLowerCase)
         .anyMatch(cmd -> cmd.contains(STEAM_PROCESS));
   }
 
@@ -54,6 +52,12 @@ public class SteamService {
 
     while (count > 0) {
       if (steamUtils.isSteamLoggedIn()) {
+        if (ua.notion.utils.OsUtils.isLinux()) {
+          try {
+            Thread.sleep(2000);
+          } catch (InterruptedException ignored) {
+          }
+        }
         return true;
       }
       try {
