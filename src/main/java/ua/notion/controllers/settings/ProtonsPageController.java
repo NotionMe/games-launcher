@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
+import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -26,8 +26,6 @@ import ua.notion.data.ProtonRepository;
 import ua.notion.data.mapper.DataMapper;
 import ua.notion.components.Proton;
 import ua.notion.data.ProtonImpl;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
@@ -49,9 +47,7 @@ public class ProtonsPageController {
   private final GEProtonAPI protonAPI = new GEProtonAPI();
   private final PackageInstaller installer = new PackageInstaller();
   private final ProtonRepository protonRepository = new ProtonImpl();
-  private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-  private final File file = new File(Data.PROTON_PATH_JSON.toString());
-  private Path protonPath = null;
+  private final ArchiveHelper archiveHelper = new ArchiveHelper();
 
   public void initialize() {
     rootPane.getStylesheets().addAll(getClass().getResource(UI.PROTONS_PAGE_CSS).toExternalForm(),
@@ -152,12 +148,9 @@ public class ProtonsPageController {
     if (installedFiles == null)
       return null;
 
-    for (File file : installedFiles) {
-      if (file.getName().toLowerCase().contains(name.toLowerCase())) {
-        return file.getAbsolutePath();
-      }
-    }
-    return null;
+    return Arrays.stream(installedFiles)
+        .filter(file -> file.getName().toLowerCase().contains(name.toLowerCase()))
+        .map(File::getAbsolutePath).findFirst().orElse(null);
   }
 
   private CompletableFuture<Void> installProton(String urlProton, String format) {
@@ -170,8 +163,8 @@ public class ProtonsPageController {
           installer.downloadUrl(urlProton, cachePath);
         }
 
-        protonPath = ArchiveHelper.extract(cachePath, Data.PROTON_PATH.toString());
-        ArchiveHelper.deleteArchive(cachePath);
+        archiveHelper.extractTarArchive(cachePath, Data.PROTON_PATH.toString());
+        archiveHelper.deleteArchive(cachePath);
       } catch (IOException | URISyntaxException e) {
         throw new RuntimeException(e);
       }

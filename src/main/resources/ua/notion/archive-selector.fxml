@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane fx:id="rootPane" styleClass="root-pane" xmlns="http://javafx.com/javafx/21"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="ua.notion.controllers.ArchiveSelectorController"
+    stylesheets="@../../css/archive-selector.css">
+  <VBox spacing="0" styleClass="modal-container" alignment="CENTER">
+    <!-- Header -->
+    <VBox styleClass="modal-header" alignment="CENTER">
+      <Label text="Choice execute" styleClass="header-label" maxWidth="Infinity" alignment="CENTER"/>
+    </VBox>
+    <!-- List of Files -->
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" style="-fx-background-color: transparent; -fx-background: transparent; -fx-padding: 0;">
+      <content>
+        <VBox fx:id="filesContainer" styleClass="file-list"/>
+      </content>
+    </ScrollPane>
+  </VBox>
+</StackPane>

@@ -1,5 +1,8 @@
 package ua.notion.controllers;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -10,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -30,8 +34,10 @@ import ua.notion.ui.fx.WindowHelper;
 import javafx.scene.image.ImageView;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
+import ua.notion.utils.ArchiveHelper;
 import ua.notion.utils.StageUtils;
 import ua.notion.utils.WindowHandler;
+import javafx.fxml.FXMLLoader;
 
 public class MainMenuController {
 
@@ -42,6 +48,7 @@ public class MainMenuController {
   private final UserRepository userData = new UserData();
   private final IconService iconService = new IconService();
   private static final WindowHelper WINDOW_HELPER = new WindowHelper();
+  private final ArchiveHelper archiveHelper = new ArchiveHelper();
   private final GameService gameService = new GameService(userData, iconService);
 
   @FXML
@@ -170,19 +177,54 @@ public class MainMenuController {
 
   @FXML
   private void fileViewDragDropped(DragEvent event) {
-    var files = gameService.extractArchiveFiles(event);
+    Dragboard db = event.getDragboard();
+    List<File> files = db.getFiles().stream()
+        .filter(file -> ArchiveHelper.detectedArchive(file.getName()) != null).toList();
 
-    gameService.createCardsOnFiles(event, user, cardContainer, centerDropPane);
-    gameService.hidePanelVisible(dropFileInfo);
-    if (!UserData.fileIsExists()) {
-      gameService.showPanelVisible(centerDropPane);
+    boolean mockMultipleExecutables = true;
+
+    CompletableFuture<List<File>> extractionFuture = CompletableFuture.supplyAsync(() -> {
+      return files.stream().findFirst().map(file -> {
+        try {
+          String type = ArchiveHelper.detectedArchive(file.getName());
+          List<File> result;
+
+          if (type != null && (type.equals(".zip") || type.equals(".rar") || type.equals(".7z"))) {
+            result = archiveHelper.extractSmartArchive(file.getAbsolutePath(), new File("cache/"));
+          } else {
+            result = archiveHelper.extractTarArchive(file.getAbsolutePath(), "cache/");
+          }
+
+          if (result == null)
+            return null;
+          return result.stream().filter(exe -> exe.getName().endsWith(".exe")).toList();
+        } catch (Exception e) {
+          e.printStackTrace();
+          return null;
+        }
+      }).orElse(null);
+    });
+
+    if (mockMultipleExecutables && !files.isEmpty()) {
+      extractionFuture.thenAccept(extractedFiles -> {
+        if (extractedFiles != null) {
+          Platform.runLater(() -> showArchiveSelectionModal(extractedFiles));
+        }
+      });
+      return;
     }
 
-    if (!files.isEmpty() && files.get(0).exists()) {
-      gameService.hidePanelVisible(centerDropPane);
-    } else {
-      gameService.showPanelVisible(centerDropPane); // if 'files' not 'rar','zip','exe'
-    }
+    // gameService.createCardsOnFiles(event, user, cardContainer, centerDropPane);
+    // gameService.hidePanelVisible(dropFileInfo);
+    // if (!UserData.fileIsExists()) {
+    // gameService.showPanelVisible(centerDropPane);
+    // }
+
+    // if (!files.isEmpty() && files.get(0).exists()) {
+    // gameService.hidePanelVisible(centerDropPane);
+    // } else {
+    // gameService.showPanelVisible(centerDropPane); // if 'files' not 'rar','zip','exe'
+    // }
   }
 
   @FXML
@@ -249,6 +291,59 @@ public class MainMenuController {
         e.printStackTrace();
       }
     });
+  }
+
+  private void showArchiveSelectionModal(List<File> archiveFile) {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.ARCHIVE_SELECTOR));
+      Parent root = loader.load();
+
+      ArchiveSelectorController controller = loader.getController();
+
+      controller.setFiles(archiveFile);
+
+      CompletableFuture<String> resultFuture = new CompletableFuture<>();
+      controller.setResultFuture(resultFuture);
+
+      Stage stage = new Stage();
+      stage.initOwner(rootPane.getScene().getWindow());
+      stage.initModality(Modality.APPLICATION_MODAL);
+      stage.initStyle(StageStyle.TRANSPARENT);
+
+      Scene scene = new Scene(root);
+      scene.setFill(Color.TRANSPARENT);
+      stage.setScene(scene);
+
+      StageUtils.configureScreenSize(stage);
+      stage.show();
+
+      resultFuture.thenAccept(selectedFile -> {
+        Platform.runLater(() -> {
+          System.out.println("Selected file: " + selectedFile);
+
+          File file = new File(selectedFile);
+          String fileName = file.getName();
+          int lastDot = fileName.lastIndexOf('.');
+          String gameName = (lastDot == -1) ? fileName : fileName.substring(0, lastDot);
+
+          Parent gameSelectRoot = (Parent) WINDOW_HELPER.navigateAdd(Views.GAME_SELECT);
+          if (gameSelectRoot != null) {
+            GameSelectController gameSelectController =
+                WINDOW_HELPER.getLastLoader().getController();
+
+            gameSelectView = gameSelectRoot;
+            centerLayer.getChildren().add(gameSelectRoot);
+            gameService.hidePanelVisible(bottomAnchorGroup);
+
+            gameSelectController.setExecutablePathField(selectedFile);
+            gameSelectController.setGameTitleField(gameName);
+          }
+        });
+      });
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public StackPane getRootPane() {

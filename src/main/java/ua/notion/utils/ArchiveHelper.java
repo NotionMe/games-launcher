@@ -4,8 +4,10 @@ import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
-
+import ua.notion.utils.Constants.Data;
 import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.System.Logger;
@@ -14,14 +16,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class ArchiveHelper {
     private static final Logger LOGGER = System.getLogger(ArchiveHelper.class.getName());
 
-    public static Path extract(String archivePath, String outputDirPath) throws IOException {
+    public List<File> extractTarArchive(String archivePath, String outputDirPath)
+            throws IOException {
         Path archiveFile = Path.of(archivePath);
         Path outputDir = Path.of(outputDirPath);
-        Path topLevelDir = null;
+        List<File> extractedFiles = new ArrayList<>();
 
         if (!Files.exists(outputDir)) {
             Files.createDirectories(outputDir);
@@ -46,12 +56,7 @@ public class ArchiveHelper {
                             "Entry is outside of the target directory: " + entry.getName());
                 }
 
-                if (topLevelDir == null) {
-                    Path relativeEntryPath = Paths.get(entry.getName());
-                    if (relativeEntryPath.getNameCount() >= 1) {
-                        topLevelDir = outputDir.resolve(relativeEntryPath.getName(0));
-                    }
-                }
+                extractedFiles.add(entryPath.toFile());
 
                 if (entry.isDirectory()) {
                     Files.createDirectories(entryPath);
@@ -73,13 +78,84 @@ public class ArchiveHelper {
                 }
             }
             LOGGER.log(Level.INFO, "Extraction complete: {0}", archivePath);
-            return topLevelDir != null ? topLevelDir : outputDir;
+            return extractedFiles;
         } catch (CompressorException e) {
             throw new IOException("Failed to create compressor stream", e);
         }
     }
 
-    public static void deleteArchive(String path) {
+    public List<File> extractSmartArchive(String fileZip, File destDir) throws IOException {
+        LOGGER.log(Level.INFO, "Starting smart extraction for: {0}", fileZip);
+        File archiveFile = new File(fileZip);
+        List<File> extractedFiles = new ArrayList<>();
+
+        try (ZipFile zipFile = new ZipFile(archiveFile)) {
+            Set<String> rootElements = new HashSet<>();
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                String name = entry.getName();
+                String rootName = name.contains("/") ? name.substring(0, name.indexOf("/")) : name;
+                if (!rootName.isEmpty()) {
+                    rootElements.add(rootName);
+                }
+            }
+
+            File finalDestDir = destDir;
+            if (rootElements.size() > 1 || (rootElements.size() == 1
+                    && !isRootAFolder(zipFile, rootElements.iterator().next()))) {
+                String archiveNameWithoutExt = archiveFile.getName().replaceFirst("[.][^.]+$", "");
+                finalDestDir = new File(destDir, archiveNameWithoutExt);
+                LOGGER.log(Level.INFO, "Smart extraction: extracting to subdirectory: {0}",
+                        finalDestDir);
+            }
+
+            entries = zipFile.entries();
+            byte[] buffer = new byte[4096];
+
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                File newFile = new File(finalDestDir, entry.getName());
+                extractedFiles.add(newFile);
+
+                if (entry.isDirectory()) {
+                    newFile.mkdirs();
+                } else {
+                    newFile.getParentFile().mkdirs();
+                    try (InputStream is = zipFile.getInputStream(entry);
+                            FileOutputStream fos = new FileOutputStream(newFile)) {
+                        int len;
+                        while ((len = is.read(buffer)) > 0) {
+                            fos.write(buffer, 0, len);
+                        }
+                    }
+                }
+            }
+            LOGGER.log(Level.INFO, "Smart extraction complete for: {0}", fileZip);
+        }
+        return extractedFiles;
+    }
+
+    private boolean isRootAFolder(ZipFile zipFile, String rootName) {
+        ZipEntry entry = zipFile.getEntry(rootName + "/");
+        return entry != null && entry.isDirectory();
+    }
+
+    public static File newFile(File destinationDir, ZipEntry zipEntry) throws IOException {
+        File destFile = new File(destinationDir, zipEntry.getName());
+
+        String destDirPath = destinationDir.getCanonicalPath();
+        String destFilePath = destFile.getCanonicalPath();
+
+        if (!destFilePath.startsWith(destDirPath + File.separator)) {
+            throw new IOException("Entry is outside of the target dir: " + zipEntry.getName());
+        }
+
+        return destFile;
+    }
+
+    public void deleteArchive(String path) {
         Path pathToArchive = Paths.get(path);
         try {
             if (Files.deleteIfExists(pathToArchive)) {
@@ -88,6 +164,13 @@ public class ArchiveHelper {
         } catch (IOException e) {
             LOGGER.log(Level.ERROR, "Failed to delete archive: {0}", path, e);
         }
+    }
+
+    public static String detectedArchive(String path) {
+        String fileName = path.toLowerCase();
+
+        return Data.ARCHIVE_EXTENSIONS.stream().filter(fileName::endsWith).findFirst()
+                .map(ext -> ext.equals(".7zip") ? ".7z" : ext).orElse(null);
     }
 
     private static InputStream createCompressorInputStream(InputStream in)

@@ -22,14 +22,20 @@ public class WindowHelper {
         }
     }
 
+    private FXMLLoader lastLoader;
+
     public Node navigateAdd(String pathToFxml) {
         Node node = null;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(pathToFxml));
-            node = fxmlLoader.load();
+            lastLoader = new FXMLLoader(getClass().getResource(pathToFxml));
+            node = lastLoader.load();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return node;
+    }
+
+    public FXMLLoader getLastLoader() {
+        return lastLoader;
     }
 }

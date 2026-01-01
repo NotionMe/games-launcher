@@ -6,7 +6,6 @@ import ua.notion.components.User;
 import ua.notion.data.dto.GameDTO;
 import ua.notion.data.dto.ProtonDTO;
 import ua.notion.data.dto.UserDTO;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

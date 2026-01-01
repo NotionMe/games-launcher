@@ -15,13 +15,11 @@ import com.google.gson.GsonBuilder;
 import ua.notion.components.Proton;
 import ua.notion.data.dto.ProtonDTO;
 import ua.notion.data.mapper.DataMapper;
-import ua.notion.utils.GEProtonAPI;
 import ua.notion.utils.Constants.Data;
 
 public class ProtonImpl implements ProtonRepository {
 
     private final Gson gson;
-    private final GEProtonAPI protonAPI = new GEProtonAPI();
 
     public ProtonImpl() {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
