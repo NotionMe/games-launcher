@@ -2,10 +2,8 @@ package ua.notion.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collector;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,8 +37,7 @@ import ua.notion.utils.Constants.Views;
 import ua.notion.utils.ArchiveHelper;
 import ua.notion.utils.StageUtils;
 import ua.notion.utils.WindowHandler;
-import javafx.fxml.FXMLLoader; // Ensure FXMLLoader is imported if using manual loading, or trust
-                               // WindowHelper/Views
+import javafx.fxml.FXMLLoader;
 
 public class MainMenuController {
 
@@ -184,10 +181,8 @@ public class MainMenuController {
     List<File> files = db.getFiles().stream()
         .filter(file -> ArchiveHelper.detectedArchive(file.getName()) != null).toList();
 
-    // Mock: Toggle this to test modal. In real app, check content of archive.
     boolean mockMultipleExecutables = true;
 
-    // #1 розархівовувати папку або створювати папку і туди контент (archive)
     CompletableFuture<List<File>> extractionFuture = CompletableFuture.supplyAsync(() -> {
       return files.stream().findFirst().map(file -> {
         try {
