@@ -4,12 +4,8 @@ import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +18,14 @@ import ua.notion.utils.OsUtils;
 
 public class GameLauncher {
 
-  private final SteamPathResolver steamPathResolver = new SteamPathResolver();
+  private final SteamService steamService = new SteamService();
 
-  private static final String STEAM_PROCESS = "steam";
+  private static final Pattern ARG_PATTERN = Pattern.compile("([^\"]\\S*|\".+?\")\\s*");
   private static final Logger LOGGER = System.getLogger(GameLauncher.class.getName());
 
   public void play(Game game, User user) {
     if (!user.getLauncherSettings().isSteamDisabled()) {
-      launchSteam();
+      steamService.launchSteam();
     } else {
       LOGGER.log(INFO, "Auto steam launch is disabled via settings");
     }
@@ -100,45 +96,9 @@ public class GameLauncher {
       return;
     }
 
-    Matcher matcher = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(arguments);
+    Matcher matcher = ARG_PATTERN.matcher(arguments);
     while (matcher.find()) {
       command.add(matcher.group(1).replace("\"", ""));
     }
-  }
-
-
-
-  private void launchSteam() {
-    if (isSteamRunning()) {
-      LOGGER.log(INFO, "Steam is already running.");
-      return;
-    }
-
-    LOGGER.log(INFO, "Attempting to launch Steam...");
-    List<String> command = new ArrayList<>();
-
-    if (OsUtils.isWindows()) {
-      command.add(steamPathResolver.resolveWindowsSteamPath());
-    } else {
-      command.add(STEAM_PROCESS);
-    }
-    try {
-      new ProcessBuilder(command).start();
-      LOGGER.log(INFO, "Steam launch command sent!");
-    } catch (IOException e) {
-      LOGGER.log(ERROR, "Error launching Steam: " + e.getMessage());
-    }
-  }
-
-  private boolean isSteamRunning() {
-    return isProcessRunning(STEAM_PROCESS);
-  }
-
-  private boolean isProcessRunning(String processName) {
-    return ProcessHandle.allProcesses()
-        .map(ProcessHandle::info)
-        .flatMap(info -> info.command().stream())
-        .map(String::toLowerCase)
-        .anyMatch(cmd -> cmd.contains(processName.toLowerCase()));
   }
 }

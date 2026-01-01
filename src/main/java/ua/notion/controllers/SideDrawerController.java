@@ -1,5 +1,6 @@
 package ua.notion.controllers;
 
+import java.util.concurrent.CompletableFuture;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -167,7 +168,9 @@ public class SideDrawerController {
   private void onPlayAction() {
     User user = userData.findAll();
 
+    CompletableFuture.runAsync(() -> {
     gameLauncher.play(currentGame, user);
+    });
   }
 
   @FXML
