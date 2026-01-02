@@ -321,10 +321,12 @@ public class GameSelectController {
         int gameId = steamGridDB.getGameIdByName(title);
         if (gameId != -1) {
           var gridsResponse = steamGridDB.getGridsByGameId(gameId);
-          String coverUrl = steamGridDB.getFirstImageUrl(gridsResponse);
+          // String coverUrl = steamGridDB.getFirstImageUrl(gridsResponse);
+          String coverUrl = steamGridDB.getRandomImageUrl(gridsResponse);
 
           var iconsResponse = steamGridDB.getIconsByGameId(gameId);
-          String iconUrl = steamGridDB.getFirstImageUrl(iconsResponse);
+          // String iconUrl = steamGridDB.getFirstImageUrl(iconsResponse);
+          String iconUrl = steamGridDB.getRandomImageUrl(iconsResponse);
 
           if (coverUrl != null) {
             imageService.checkUriImage(coverUrl);

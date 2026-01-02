@@ -211,8 +211,7 @@ public class ProtonsPageController {
       boolean needsUpdate = cachedProtons.isEmpty()
           || !remoteProtons.get(0).version().equals(cachedProtons.get(0).version());
       if (needsUpdate) {
-        System.out.println("New Proton version found! Updating JSON...");
-
+        LOGGER.log(INFO, "New Proton version found! Updating JSON..");
         protonRepository.save(remoteProtons);
 
         List<Proton> updatedList = remoteProtons.stream().map(DataMapper::toEntity).toList();

@@ -1,5 +1,6 @@
 package ua.notion.controllers;
 
+import static java.lang.System.Logger.Level.INFO;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -44,6 +45,8 @@ public class MainMenuController {
   private WindowHandler windowHandler;
 
   private User user;
+
+  private static final System.Logger LOGGER = System.getLogger(MainMenuController.class.getName());
 
   private final UserRepository userData = new UserData();
   private final IconService iconService = new IconService();
@@ -319,30 +322,35 @@ public class MainMenuController {
 
       resultFuture.thenAccept(selectedFile -> {
         Platform.runLater(() -> {
-          System.out.println("Selected file: " + selectedFile);
-
-          File file = new File(selectedFile);
-          String fileName = file.getName();
-          int lastDot = fileName.lastIndexOf('.');
-          String gameName = (lastDot == -1) ? fileName : fileName.substring(0, lastDot);
-
-          Parent gameSelectRoot = (Parent) WINDOW_HELPER.navigateAdd(Views.GAME_SELECT);
-          if (gameSelectRoot != null) {
-            GameSelectController gameSelectController =
-                WINDOW_HELPER.getLastLoader().getController();
-
-            gameSelectView = gameSelectRoot;
-            centerLayer.getChildren().add(gameSelectRoot);
-            gameService.hidePanelVisible(bottomAnchorGroup);
-
-            gameSelectController.setExecutablePathField(selectedFile);
-            gameSelectController.setGameTitleField(gameName);
-          }
+          LOGGER.log(INFO, "Select file {0}", archiveFile);
+          String gameName = handleArhiveSelection(selectedFile, '.');
+          navigateToGameSelect(selectedFile, gameName);
         });
       });
-
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
+    }
+  }
+
+  private String handleArhiveSelection(String targetFile, Character findChar) {
+    File file = new File(targetFile);
+    String fileName = file.getName();
+
+    int lastIndex = fileName.lastIndexOf(findChar);
+    return (lastIndex == -1) ? fileName : fileName.substring(0, lastIndex);
+  }
+
+  private void navigateToGameSelect(String selectedFile, String gameName) {
+    Parent gameSelectRoot = (Parent) WINDOW_HELPER.navigateAdd(Views.GAME_SELECT);
+    if (gameSelectRoot != null) {
+      GameSelectController gameSelectController = WINDOW_HELPER.getLastLoader().getController();
+
+      gameSelectView = gameSelectRoot;
+      centerLayer.getChildren().add(gameSelectRoot);
+      gameService.hidePanelVisible(bottomAnchorGroup);
+
+      gameSelectController.setExecutablePathField(selectedFile);
+      gameSelectController.setGameTitleField(gameName);
     }
   }
 

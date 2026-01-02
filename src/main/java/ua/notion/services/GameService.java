@@ -2,8 +2,6 @@ package ua.notion.services;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,15 +17,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.stage.Window;
 import ua.notion.components.Game;
 import ua.notion.components.User;
 import ua.notion.controllers.GameCardController;
 import ua.notion.controllers.MainMenuController;
-import ua.notion.controllers.SideDrawerController;
-import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
-import ua.notion.utils.Constants.Data;
 import ua.notion.utils.Constants.Views;
 
 public class GameService {

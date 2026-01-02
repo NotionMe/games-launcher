@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SteamGridDB {
     private static final String BASE_URL = "https://www.steamgriddb.com/api/v2";
@@ -55,6 +56,17 @@ public class SteamGridDB {
             JsonArray data = response.getAsJsonArray("data");
             if (data != null && data.size() > 0) {
                 return data.get(0).getAsJsonObject().get("url").getAsString();
+            }
+        }
+        return null;
+    }
+
+    public String getRandomImageUrl(JsonObject response) {
+        if (response != null && response.has("success") && response.get("success").getAsBoolean()) {
+            JsonArray data = response.getAsJsonArray("data");
+            if (data != null && data.size() > 0) {
+                return data.get(ThreadLocalRandom.current().nextInt(data.size())).getAsJsonObject()
+                        .get("url").getAsString();
             }
         }
         return null;
