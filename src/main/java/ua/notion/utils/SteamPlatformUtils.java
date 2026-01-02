@@ -29,17 +29,20 @@ public class SteamPlatformUtils {
     }
 
     String hkcu = getRegistryValue("HKEY_CURRENT_USER\\Software\\Valve\\Steam", "SteamExe");
-    if (hkcu != null)
+    if (hkcu != null) {
       return new File(hkcu).getAbsolutePath();
+    }
 
     String hklm =
         getRegistryValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Valve\\Steam", "InstallPath");
-    if (hklm != null)
+    if (hklm != null) {
       return new File(hklm, "steam.exe").getAbsolutePath();
+    }
 
     String hklm32 = getRegistryValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Valve\\Steam", "InstallPath");
-    if (hklm32 != null)
+    if (hklm32 != null) {
       return new File(hklm32, "steam.exe").getAbsolutePath();
+    }
 
     LOGGER.log(WARNING, "Steam path not found in Registry. Using fallback 'steam'.");
     return "steam";
@@ -104,7 +107,6 @@ public class SteamPlatformUtils {
     return false;
   }
 
-  // Windows
   private String getRegistryValue(String path, String key) {
     try {
       ProcessBuilder pb = new ProcessBuilder("REG", "QUERY", path, "/v", key);
@@ -121,8 +123,9 @@ public class SteamPlatformUtils {
               return line.substring(index + REG_TOKEN.length()).trim();
             } else {
               String[] parts = line.trim().split("\\s+");
-              if (parts.length > 0)
+              if (parts.length > 0) {
                 return parts[parts.length - 1];
+              }
             }
           }
         }
