@@ -2,6 +2,7 @@ package ua.notion.controllers;
 
 import java.util.concurrent.CompletableFuture;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -166,11 +167,22 @@ public class SideDrawerController {
 
   @FXML
   private void onPlayAction() {
-    User user = userData.findAll();
+    String originalText = playButton.getText();
+    playButton.setDisable(true);
+    playButton.setText("Launch...");
 
     CompletableFuture.runAsync(() -> {
-    gameLauncher.play(currentGame, user);
-    });
+      try {
+        User user = userData.findAll();
+        gameLauncher.play(currentGame, user);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }).whenComplete((result, error) ->
+        Platform.runLater(() -> {
+          playButton.setDisable(false);
+          playButton.setText(originalText);
+        }));
   }
 
   @FXML
