@@ -1,5 +1,8 @@
 package ua.notion.controllers;
 
+import static java.lang.System.Logger.Level.ERROR;
+
+import java.lang.System.Logger;
 import java.util.concurrent.CompletableFuture;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -28,12 +31,14 @@ import ua.notion.utils.Constants.Views;
 
 public class SideDrawerController {
 
+  private static final Logger LOGGER = System.getLogger(SideDrawerController.class.getName());
+
   @FXML
   private ImageView headerImageView;
   @FXML
   private Button playButton;
   @FXML
-  private Label timeLable;
+  private Label timeLabel;
   @FXML
   private GridPane actionsGrid;
   @FXML
@@ -192,7 +197,7 @@ public class SideDrawerController {
         User user = userData.findAll();
         gameLauncher.play(currentGame, user);
       } catch (Exception e) {
-        e.printStackTrace();
+        LOGGER.log(ERROR, "Failed to launch game: " + currentGame.title(), e);
       }
     }).whenComplete((result, error) ->
         Platform.runLater(() -> {

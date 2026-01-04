@@ -29,8 +29,8 @@
                   <Region HBox.hgrow="ALWAYS"/>
                   <VBox alignment="CENTER_RIGHT" spacing="2">
                     <children>
-                      <Label text="Time in game" styleClass="time-lable"/>
-                      <Label fx:id="timeLable" text="15min" styleClass="time-lable"/>
+                      <Label text="Time in game" styleClass="time-label"/>
+                      <Label fx:id="timeLabel" text="15min" styleClass="time-label"/>
                     </children>
                   </VBox>
                 </children>

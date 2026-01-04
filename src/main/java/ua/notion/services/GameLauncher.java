@@ -80,14 +80,12 @@ public class GameLauncher {
 
       LOGGER.log(INFO, "Started game: " + game.title());
 
-      process.onExit().thenAccept(p -> {
+      process.onExit().thenAccept(p ->
         LOGGER.log(INFO,
-            "Game closed: " + game.title() + " (Exit code: " + p.exitValue() + ")");
-      });
+            "Game closed: " + game.title() + " (Exit code: " + p.exitValue() + ")"));
     } catch (IOException e) {
       LOGGER.log(ERROR,
           "Error launching " + game.title() + ": " + e.getMessage(), e);
-      e.printStackTrace();
     }
   }
 
