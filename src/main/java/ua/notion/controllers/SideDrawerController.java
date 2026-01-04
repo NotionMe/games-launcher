@@ -74,7 +74,6 @@ public class SideDrawerController {
   ImageService imageService = new ImageService();
   private static Game currentGame;
 
-
   @FXML
   private AnchorPane drawerRoot;
   @FXML
@@ -134,17 +133,24 @@ public class SideDrawerController {
     drawerRoot.setVisible(true);
     drawerRoot.setManaged(true);
 
+    boolean isAnimationDisabled = userData.findAll().getLauncherSettings().isAnimationDisabled();
+
     if (game != null) {
       animationHelper.transitionToBackground(game.coverPath(),
-          mainMenuController.getBackgroundImageView());
+          mainMenuController.getBackgroundImageView(), isAnimationDisabled);
       headerImageView.setImage(
           imageService.loadImage(game.coverPath(), UI.DEFAULT_COVER_PATH, getClass()));
     }
 
-    TranslateTransition tt = new TranslateTransition(Duration.millis(150), sideDrawer);
-    tt.setFromX(sideDrawer.getPrefWidth());
-    tt.setToX(0);
-    tt.play();
+    if (isAnimationDisabled) {
+      sideDrawer.setTranslateX(0);
+    } else {
+
+      TranslateTransition tt = new TranslateTransition(Duration.millis(150), sideDrawer);
+      tt.setFromX(sideDrawer.getPrefWidth());
+      tt.setToX(0);
+      tt.play();
+    }
   }
 
   public static void closeDrawer() {
@@ -152,17 +158,27 @@ public class SideDrawerController {
       return;
     }
 
-    animationHelper.restoreDefaultBackground(mainMenuController.getBackgroundImageView());
+    boolean isAnimationDisabled = sDrawerController.userData.findAll().getLauncherSettings()
+        .isAnimationDisabled();
 
-    TranslateTransition tt =
-        new TranslateTransition(Duration.millis(150), sDrawerController.sideDrawer);
-    tt.setFromX(0);
-    tt.setToX(sDrawerController.sideDrawer.getPrefWidth());
-    tt.setOnFinished(event -> {
+    animationHelper.restoreDefaultBackground(mainMenuController.getBackgroundImageView(),
+        isAnimationDisabled);
+
+    if (isAnimationDisabled) {
+      sDrawerController.sideDrawer.setTranslateX(sDrawerController.sideDrawer.getPrefWidth());
       sDrawerController.drawerRoot.setVisible(false);
       sDrawerController.drawerRoot.setManaged(false);
-    });
-    tt.play();
+    } else {
+      TranslateTransition tt =
+          new TranslateTransition(Duration.millis(150), sDrawerController.sideDrawer);
+      tt.setFromX(0);
+      tt.setToX(sDrawerController.sideDrawer.getPrefWidth());
+      tt.setOnFinished(event -> {
+        sDrawerController.drawerRoot.setVisible(false);
+        sDrawerController.drawerRoot.setManaged(false);
+      });
+      tt.play();
+    }
   }
 
   @FXML

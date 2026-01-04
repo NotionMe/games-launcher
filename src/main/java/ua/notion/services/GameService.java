@@ -99,14 +99,21 @@ public class GameService {
       return;
     }
 
-    anchorPane.setOpacity(0);
+    boolean isAnimationDisabled = repository.findAll().getLauncherSettings().isAnimationDisabled();
+
     anchorPane.setVisible(true);
     anchorPane.setManaged(true);
 
-    FadeTransition ft = new FadeTransition(Duration.millis(250), anchorPane);
-    ft.setFromValue(0);
-    ft.setToValue(1);
-    ft.play();
+    if(isAnimationDisabled){
+      anchorPane.setOpacity(1);
+    } else {
+      anchorPane.setOpacity(0);
+
+      FadeTransition ft = new FadeTransition(Duration.millis(250), anchorPane);
+      ft.setFromValue(0);
+      ft.setToValue(1);
+      ft.play();
+    }
   }
 
   public void loadGames(User user, AnchorPane anchorPane, FlowPane flowPane) {
