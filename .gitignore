@@ -40,6 +40,8 @@ user.json
 
 # User images
 /images/
-src/main/resources/script
 /cache/
 .env
+
+# python venv
+venv/

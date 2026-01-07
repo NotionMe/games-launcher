@@ -16,6 +16,7 @@ import ua.notion.data.UserData;
 import ua.notion.data.UserRepository;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
+import ua.notion.utils.DiscordRPCManager;
 import ua.notion.utils.GEProtonAPI;
 import ua.notion.utils.StageUtils;
 
@@ -65,6 +66,11 @@ public class App extends Application {
     GEProtonAPI protonAPI = new GEProtonAPI();
     CompletableFuture.runAsync(() -> {
       protonAPI.getProtonVersion();
+    });
+    
+    DiscordRPCManager ds = new DiscordRPCManager();
+    CompletableFuture.runAsync(() -> {
+      ds.injectPythonRPC();
     });
   }
 
