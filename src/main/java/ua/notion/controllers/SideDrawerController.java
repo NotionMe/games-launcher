@@ -8,10 +8,12 @@ import java.util.concurrent.CompletableFuture;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -253,15 +255,36 @@ public class SideDrawerController {
 
   @FXML
   private void onFoldersAction() {
+
     if (currentGame == null || currentGame.targetPath() == null) {
       return;
     }
+
     File parentDir = new File(currentGame.targetPath()).getParentFile();
+    String pfxPath = currentGame.pfx();
 
     if (OsUtils.isLinux()) {
-      // TODO On Linux, a menu appears near the button with "Game" and "Prefix" options.
+      ContextMenu contextMenu = new ContextMenu();
+
+      MenuItem game = new MenuItem("Game");
+      MenuItem prefix = new MenuItem("Prefix");
+
+      game.setOnAction(event -> OsUtils.openPath(parentDir));
+      prefix.setOnAction(event -> {
+        if (pfxPath != null && !pfxPath.isEmpty()) {
+          OsUtils.openPath(new File(pfxPath));
+          contextMenu.hide();
+        } else {
+          LOGGER.log(ERROR, "Error! Path to prefix not set!");
+        }
+      });
+
+      contextMenu.getItems().addAll(game, prefix);
+      contextMenu.show(foldersButton, Side.BOTTOM, 0, 0);
     }
-    OsUtils.openPath(parentDir);
+    else{
+      OsUtils.openPath(parentDir);
+    }
   }
 
   @FXML

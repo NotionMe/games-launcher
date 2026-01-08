@@ -45,12 +45,12 @@ public final class OsUtils {
       return;
     }
 
-    CompletableFuture.runAsync(() -> { // todo переробити бо лінукс..
+    CompletableFuture.runAsync(() -> {
       try {
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.OPEN)) {
-          Desktop.getDesktop().open(file);
-        } else if (isLinux()) {
+        if (isLinux()) {
           new ProcessBuilder("xdg-open", file.getAbsolutePath()).start();
+        } else if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.OPEN)) {
+          Desktop.getDesktop().open(file);
         } else {
           LOGGER.log(ERROR, "Opening files is not supported on this platform.");
         }
