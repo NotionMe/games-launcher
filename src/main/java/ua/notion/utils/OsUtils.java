@@ -1,5 +1,14 @@
 package ua.notion.utils;
 
+import static java.lang.System.Logger.Level.ERROR;
+
+import java.awt.Desktop;
+import java.awt.Desktop.Action;
+import java.io.File;
+import java.io.IOException;
+import java.lang.System.Logger;
+import java.util.concurrent.CompletableFuture;
+
 public final class OsUtils {
 
   public enum OS {
@@ -10,6 +19,7 @@ public final class OsUtils {
   }
 
   private static final OS CURRENT_OS = determineOS();
+  private static final Logger LOGGER = System.getLogger(OsUtils.class.getName());
 
   private OsUtils() {
     throw new UnsupportedOperationException("Utility class cannot be instantiated");
@@ -27,6 +37,27 @@ public final class OsUtils {
     } else {
       return OS.OTHER;
     }
+  }
+
+  public static void openPath(File file) {
+    if (file == null || !file.exists()) {
+      LOGGER.log(ERROR, "Path is null or does not exist");
+      return;
+    }
+
+    CompletableFuture.runAsync(() -> {
+      try {
+        if (isLinux()) {
+          new ProcessBuilder("xdg-open", file.getAbsolutePath()).start();
+        } else if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.OPEN)) {
+          Desktop.getDesktop().open(file);
+        } else {
+          LOGGER.log(ERROR, "Opening files is not supported on this platform.");
+        }
+      } catch (IOException e) {
+        LOGGER.log(ERROR, "Failed to open path: " + e.getMessage(), e);
+      }
+    });
   }
 
   public static OS getCurrentOs() {
