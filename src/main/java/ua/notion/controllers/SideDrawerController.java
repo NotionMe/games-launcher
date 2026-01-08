@@ -271,7 +271,7 @@ public class SideDrawerController {
 
       game.setOnAction(event -> OsUtils.openPath(parentDir));
       prefix.setOnAction(event -> {
-        if (pfxPath != null && !pfxPath.isEmpty()) {
+        if (pfxPath != null && !pfxPath.isBlank()) {
           OsUtils.openPath(new File(pfxPath));
           contextMenu.hide();
         } else {
