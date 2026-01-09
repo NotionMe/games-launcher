@@ -76,6 +76,8 @@ public class SideDrawerController {
   @FXML
   private ToggleButton nonSteamButton;
 
+  private ContextMenu contextMenu;
+
   private double xOffset = 0;
   private double yOffset = 0;
 
@@ -264,10 +266,18 @@ public class SideDrawerController {
     String pfxPath = currentGame.pfx();
 
     if (OsUtils.isLinux()) {
-      ContextMenu contextMenu = new ContextMenu();
+      if(contextMenu != null && contextMenu.isShowing()){
+        contextMenu.hide();
+        return;
+      }
+      contextMenu = new ContextMenu();
+      contextMenu.getStyleClass().add("context-menu");
 
       MenuItem game = new MenuItem("Game");
       MenuItem prefix = new MenuItem("Prefix");
+
+      game.getStyleClass().add("menu-item");
+      prefix.getStyleClass().add("menu-item");
 
       game.setOnAction(event -> OsUtils.openPath(parentDir));
       prefix.setOnAction(event -> {

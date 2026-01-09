@@ -188,7 +188,7 @@
         <children>
           <HBox spacing="12" alignment="CENTER_LEFT" prefWidth="320.0">
             <children>
-              <Label text="Desktop shortcut" styleClass="bottom-lable"/>
+              <Label text="Desktop shortcut" styleClass="bottom-label"/>
               <Region HBox.hgrow="ALWAYS"/>
               <ToggleButton fx:id="desktopButton" onAction="#onDesktopAction" mnemonicParsing="false" styleClass="side-toggle">
                 <graphic>
@@ -199,7 +199,7 @@
           </HBox>
           <HBox spacing="12" alignment="CENTER_LEFT" prefWidth="320.0">
             <children>
-              <Label text="App menu shortcut" styleClass="bottom-lable"/>
+              <Label text="App menu shortcut" styleClass="bottom-label"/>
               <Region HBox.hgrow="ALWAYS"/>
               <ToggleButton fx:id="appMenuButton" onAction="#onAppMenuAction" mnemonicParsing="false" styleClass="side-toggle">
                 <graphic>
@@ -210,7 +210,7 @@
           </HBox>
           <HBox spacing="12" alignment="CENTER_LEFT" prefWidth="320.0">
             <children>
-              <Label text="Non-steam shortcut" styleClass="bottom-lable"/>
+              <Label text="Non-steam shortcut" styleClass="bottom-label"/>
               <Region HBox.hgrow="ALWAYS"/>
               <ToggleButton fx:id="nonSteamButton" onAction="#onNonSteamAction" mnemonicParsing="false" styleClass="side-toggle">
                 <graphic>
