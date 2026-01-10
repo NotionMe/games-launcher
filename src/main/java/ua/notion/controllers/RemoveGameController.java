@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import ua.notion.utils.Constants.UI;
+import ua.notion.utils.OsUtils;
 import ua.notion.utils.WindowHandler;
 
 public class RemoveGameController {
@@ -39,6 +40,7 @@ public class RemoveGameController {
     rootPane.getStylesheets()
         .addAll(getClass().getResource(UI.REMOVE_GAME_POPUP_CSS).toExternalForm());
 
+    setRemovePrefixCb();
     windowHandler = new WindowHandler(rootPane);
   }
 
@@ -60,7 +62,12 @@ public class RemoveGameController {
   @FXML
   private void onYesButtonPressed() {
     System.out.println("YES BUTTON PRESSED!");
+  }
 
-    windowHandler.close(rootPane);
+  private void setRemovePrefixCb(){
+    if(OsUtils.isLinux()){
+      removePrefixCb.setVisible(true);
+      removePrefixCb.setManaged(true);
+    }
   }
 }

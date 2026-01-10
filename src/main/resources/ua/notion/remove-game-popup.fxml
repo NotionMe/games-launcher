@@ -28,13 +28,14 @@
           </VBox.margin>
         </AnchorPane>
 
-        <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefWidth="300.0" spacing="11">
+        <VBox alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="300.0" spacing="11"
+          minHeight="75.0">
           <children>
             <CheckBox fx:id="removeFromLauncherCb" mnemonicParsing="false"
               styleClass="default-check-box"
               text="Remove game from launcher"/>
             <CheckBox fx:id="removePrefixCb" mnemonicParsing="false" styleClass="default-check-box"
-              text="Remove game prefix"/>
+              text="Remove game prefix" visible="false" managed="false"/>
             <CheckBox fx:id="removeFromDiskCb" mnemonicParsing="false"
               styleClass="default-check-box"
               text="Remove game from disk"/>
