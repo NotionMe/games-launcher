@@ -1,0 +1,11 @@
+.root-pane{
+  -fx-background-color: #3D3D3D;
+}
+.remove-game-label{
+  -fx-font-family: "Fira Sans Medium";
+  -fx-text-fill: #FFFFFF;
+}
+.default-check-box{
+  -fx-font-family: "Fira Sans Medium";
+  -fx-text-fill: #FFFFFF;
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="rootPane" styleClass="root-pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.RemoveGameController">
+  <children>
+    <VBox alignment="CENTER" layoutX="146.0" layoutY="90.0" prefHeight="400.0" prefWidth="300.0">
+      <children>
+        <Label prefHeight="17.0" prefWidth="300.0" styleClass="remove-game-label" text="Remove (name game) from launcher" />
+        <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="96.0" prefWidth="300.0">
+          <children>
+            <CheckBox mnemonicParsing="false" text="Remove game from launcher" styleClass="default-check-box"/>
+            <CheckBox mnemonicParsing="false" text="Remove game prefix" styleClass="default-check-box"/>
+            <CheckBox mnemonicParsing="false" text="Remove game from disk" styleClass="default-check-box"/>
+          </children>
+        </VBox>
+        <HBox alignment="CENTER" prefHeight="55.0" prefWidth="300.0">
+          <children>
+            <Button mnemonicParsing="false" text="No" />
+            <Button mnemonicParsing="false" text="Yes" />
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
+</StackPane>

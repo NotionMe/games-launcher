@@ -1,8 +1,6 @@
 package ua.notion.utils;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 public final class Constants {
@@ -21,6 +19,7 @@ public final class Constants {
     public static final String MAIN_MENU_CSS = "/css/main-menu.css";
     public static final String SETTINGS_MENU_CSS = "/css/settings-menu.css";
     public static final String SIDE_DRAWER_CSS = "/css/side-drawer.css";
+    public static final String REMOVE_GAME_POPUP_CSS = "/css/remove-game-popup.css";
 
     // Settings CSS
     public static final String GRAPHICS_PAGE_CSS = "/css/settings/graphics-page.css";
@@ -52,6 +51,7 @@ public final class Constants {
     public static final String SETTINGS_BASE_DIR = "/ua/notion/settings/";
     public static final String PROTON_ITEM = "/ua/notion/settings/proton-item.fxml";
     public static final String ARCHIVE_SELECTOR = "/ua/notion/archive-selector.fxml";
+    public static final String REMOVE_GAME_POPUP = "/ua/notion/remove-game-popup.fxml";
 
     private Views() {
       throw new UnsupportedOperationException("Utility class cannot be instantiated");
