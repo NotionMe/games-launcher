@@ -30,7 +30,6 @@ public class GameService {
   private final IconService iconService;
   private static MainMenuController mainMenuController;
 
-
   public GameService(UserRepository repository, IconService iconService) {
     this.repository = repository;
     this.iconService = iconService;
@@ -39,7 +38,6 @@ public class GameService {
   public static void setMainMenuController(MainMenuController mainMenuController) {
     GameService.mainMenuController = mainMenuController;
   }
-
 
   public File getFilePath(List<String> data, String description) {
     Stage stage = (Stage) mainMenuController.getRootPane().getScene().getWindow();
@@ -104,7 +102,7 @@ public class GameService {
     anchorPane.setVisible(true);
     anchorPane.setManaged(true);
 
-    if(isAnimationDisabled){
+    if (isAnimationDisabled) {
       anchorPane.setOpacity(1);
     } else {
       anchorPane.setOpacity(0);
@@ -166,5 +164,11 @@ public class GameService {
       return file.isDirectory() && name.toLowerCase().startsWith("ge-proton");
     });
     return files != null ? files : new File[0];
+  }
+
+  public static void refreshLibraryInMenu() {
+    if (mainMenuController != null) {
+      mainMenuController.refreshLibrary();
+    }
   }
 }

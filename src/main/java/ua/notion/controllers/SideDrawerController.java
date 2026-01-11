@@ -250,21 +250,29 @@ public class SideDrawerController {
 
   @FXML
   private void onRemoveAction() {
-    Node root = WINDOW_HELPER.navigateAdd(Views.REMOVE_GAME_POPUP);
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.REMOVE_GAME_POPUP));
+      Node root = loader.load();
 
-    Stage popupStage = new Stage();
-    popupStage.initStyle(StageStyle.UNDECORATED);
-    popupStage.initStyle(StageStyle.TRANSPARENT);
+      RemoveGameController removeGameController = loader.getController();
+      removeGameController.setCurrentGame(currentGame);
 
-    popupStage.initModality(Modality.APPLICATION_MODAL);
-    popupStage.initOwner(drawerRoot.getScene().getWindow());
+      Stage popupStage = new Stage();
+      popupStage.initStyle(StageStyle.UNDECORATED);
+      popupStage.initStyle(StageStyle.TRANSPARENT);
 
-    Scene scene = new Scene((Parent) root, 300, 170);
-    scene.setFill(Color.TRANSPARENT);
+      popupStage.initModality(Modality.APPLICATION_MODAL);
+      popupStage.initOwner(drawerRoot.getScene().getWindow());
 
-    popupStage.setScene(scene);
+      Scene scene = new Scene((Parent) root, 300, 170);
+      scene.setFill(Color.TRANSPARENT);
 
-    popupStage.showAndWait();
+      popupStage.setScene(scene);
+
+      popupStage.showAndWait();
+    } catch (IOException e){
+      LOGGER.log(ERROR, "Could not load remove popup " + e.getMessage());
+    }
   }
 
   @FXML
