@@ -1,11 +1,23 @@
 package ua.notion.controllers;
 
+import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.lang.System.Logger;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -92,7 +104,7 @@ public class RemoveGameController {
       removePrefix();
     }
     if (removeFromDiskCb.isSelected()) {
-      System.out.println("Select from disk");
+      removeFromDisk();
     }
     System.out.println("YES BUTTON PRESSED!");
     windowHandler.close(rootPane);
@@ -110,6 +122,35 @@ public class RemoveGameController {
     GameService.refreshLibraryInMenu();
 
     LOGGER.log(INFO, "Game: " + currentGame.title() + " removed!");
+  }
+
+  private void removeFromDisk() {
+    Path folderPath = Path.of(currentGame.targetPath()).getParent();
+
+    if (folderPath == null || folderPath.toString().isBlank()) {
+      LOGGER.log(WARNING, "Directory not found! " + currentGame.targetPath());
+      return;
+    }
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+    Optional<ButtonType> result = alert.showAndWait();
+
+    if (result.isEmpty() || result.get() != ButtonType.OK) {
+      LOGGER.log(INFO, "Canceled to remove game from disk");
+      return;
+    }
+    LOGGER.log(INFO, "Deleting game folder: " + folderPath);
+    CompletableFuture.runAsync(() -> {
+      try {
+        try (var walk = Files.walk(folderPath)) {
+          walk.sorted(Comparator.reverseOrder())
+              .map(Path::toFile)
+              .forEach(File::delete);
+        }
+      } catch (IOException e) {
+        LOGGER.log(ERROR, "Cannot delete folder! " + e.getMessage());
+      }
+    }).thenRun(() ->
+        LOGGER.log(INFO, "Game folder deleted successfully."));
   }
 
   // todo, доробити, поки що чисто беремо шлях з current game, що вже результат :)
