@@ -1,0 +1,41 @@
+.remove-game-alert{
+  -fx-background-color: #3D3D3D;
+  -fx-background-radius: 10;
+  -fx-border-radius: 10;
+}
+.remove-game-alert .header-panel {
+  -fx-background-color: transparent;
+  -fx-background-radius: 10 10 0 0;
+  -fx-padding: 15 15 10 15;
+}
+.remove-game-alert .header-panel .label {
+  -fx-text-fill: #FFFFFF;
+  -fx-font-size: 16;
+  -fx-font-family: "Fira Sans Medium";
+}
+.remove-game-alert .label.content {
+  -fx-text-fill: #FFFFFF;
+  -fx-font-size: 12;
+  -fx-font-family: "Fira Sans Medium";
+  -fx-padding: 10 15 10 15;
+}
+.remove-game-alert .button-bar {
+  -fx-background-color: transparent;
+  -fx-background-radius: 0 0 10 10;
+  -fx-padding: 10 15 15 15;
+}
+
+
+.remove-game-alert .button {
+  -fx-background-color: #565656;
+  -fx-text-fill: #FFFFFF;
+  -fx-background-radius: 0;
+  -fx-font-size: 12;
+}
+.remove-game-alert .button:hover {
+  -fx-background-color: #707070;
+  -fx-cursor: hand;
+}
+.remove-game-alert .button:pressed {
+  -fx-background-color: #8a8a8a;
+}

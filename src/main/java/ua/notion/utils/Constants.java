@@ -20,6 +20,7 @@ public final class Constants {
     public static final String SETTINGS_MENU_CSS = "/css/settings-menu.css";
     public static final String SIDE_DRAWER_CSS = "/css/side-drawer.css";
     public static final String REMOVE_GAME_POPUP_CSS = "/css/remove-game-popup.css";
+    public static final String REMOVE_GAME_ALERT_CSS = "/css/remove-game-alert.css";
 
     // Settings CSS
     public static final String GRAPHICS_PAGE_CSS = "/css/settings/graphics-page.css";
