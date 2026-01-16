@@ -1,17 +1,14 @@
 package ua.notion.controllers;
 
-import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.System.Logger;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -26,10 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 import ua.notion.components.Game;
-import ua.notion.components.User;
-import ua.notion.data.UserData;
-import ua.notion.data.UserRepository;
-import ua.notion.services.GameService;
+import ua.notion.services.RemoveGameService;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.OsUtils;
 import ua.notion.utils.WindowHandler;
@@ -60,7 +54,7 @@ public class RemoveGameController {
 
   private Game currentGame;
 
-  private final UserRepository userData = new UserData();
+  private final RemoveGameService removeGameService = new RemoveGameService();
 
   private static final Logger LOGGER = System.getLogger(RemoveGameController.class.getName());
 
@@ -71,6 +65,15 @@ public class RemoveGameController {
 
     removePrefixVisible();
     windowHandler = new WindowHandler(rootPane);
+
+    removeFromDiskCb.selectedProperty().addListener(observable -> {
+      if (removeFromDiskCb.isSelected()) {
+        removeFromLauncherCb.setSelected(true);
+        removeFromLauncherCb.setDisable(true);
+      } else {
+        removeFromLauncherCb.setDisable(false);
+      }
+    });
   }
 
   public void setCurrentGame(Game currentGame) {
@@ -97,92 +100,128 @@ public class RemoveGameController {
     windowHandler.close(rootPane);
   }
 
+  // FIXME TO LARGE METHOD!!!
   @FXML
   private void onYesButtonPressed() {
     LOGGER.log(INFO, "Yes button pressed!");
-    if (!removeFromLauncherCb.isSelected() && !removePrefixCb.isSelected() && !removeFromDiskCb.isSelected()) {
+
+    boolean deleteFromLauncher = removeFromLauncherCb.isSelected();
+    boolean deleteFromDisk = removeFromDiskCb.isSelected();
+    boolean deletePrefix = removePrefixCb.isSelected();
+
+    if (!deleteFromLauncher && !deleteFromDisk && !deletePrefix) {
       LOGGER.log(WARNING, "Nothing selected for removal.");
       return;
     }
 
-    if (removeFromLauncherCb.isSelected()) {
-      LOGGER.log(INFO, "Remove from launcher selected!");
-      removeFromLauncher();
+    if (deleteFromDisk) {
+      Path folderPath = Path.of(currentGame.targetPath()).getParent();
+      if (folderPath != null && !folderPath.toString().isBlank()) {
+        Optional<ButtonType> result = showConfirmationAlert(
+            "Delete this Game Files?",
+            "This will permanently delete the folder: " + folderPath);
+
+        if (result.isEmpty() || result.get() != ButtonType.OK) {
+          LOGGER.log(INFO, "Deletion canceled by user.");
+          return;
+        }
+      }
+      deleteFromLauncher = true;
     }
-    if (removePrefixCb.isSelected()) {
-      LOGGER.log(INFO, "Remove prefix selected!");
-      removePrefix();
+
+    if (deletePrefix) {
+      String pfx = currentGame.pfx();
+      if (pfx != null && !pfx.isBlank() && Files.exists(Path.of(pfx))) {
+        Optional<ButtonType> result = showConfirmationAlert(
+            "Delete Wine Prefix?",
+            "This will remove all Wine settings and saves for this game at: " + pfx);
+
+        if (result.isEmpty() || result.get() != ButtonType.OK) {
+          LOGGER.log(INFO, "Prefix deletion canceled by user.");
+          return;
+        }
+      }
     }
-    if (removeFromDiskCb.isSelected()) {
-      LOGGER.log(INFO, "Remove from disk selected!");
-      removeFromDisk();
-    }
-    windowHandler.close(rootPane);
+
+    final boolean finalDeleteFromLauncher = deleteFromLauncher;
+
+    yesButton.setDisable(true);
+    noButton.setDisable(true);
+    rootPane.setCursor(javafx.scene.Cursor.WAIT);
+
+    CompletableFuture<Void> diskTask = deleteFromDisk
+        ? removeFromDisk()
+        : CompletableFuture.completedFuture(null);
+    CompletableFuture<Void> prefixTask = deletePrefix
+        ? removePrefix()
+        : CompletableFuture.completedFuture(null);
+
+    CompletableFuture.allOf(diskTask, prefixTask)
+        .thenRun(() -> Platform.runLater(() -> {
+          if (finalDeleteFromLauncher) {
+            removeFromLauncher();
+          }
+          LOGGER.log(INFO, "All tasks finished. Closing window.");
+          windowHandler.close(rootPane);
+        }))
+        .exceptionally(ex -> {
+          Platform.runLater(() -> {
+
+            LOGGER.log(System.Logger.Level.ERROR, "Error removing game files", ex);
+
+            yesButton.setDisable(false);
+            noButton.setDisable(false);
+            rootPane.setCursor(javafx.scene.Cursor.DEFAULT);
+          });
+          return null;
+        });
   }
 
   private void removeFromLauncher() {
-    if (currentGame == null) {
-      LOGGER.log(WARNING, "Game not exists!");
-      return;
-    }
-    User user = userData.findAll();
-    user.removeGame(currentGame);
-
-    userData.save(user);
-    GameService.refreshLibraryInMenu();
-
-    LOGGER.log(INFO, "Game: " + currentGame.title() + " removed!");
+    LOGGER.log(INFO, "Remove from launcher selected!");
+    removeGameService.removeGameFromLibrary(currentGame);
   }
 
-  private void removeFromDisk() {
-    if (currentGame == null) {
-      LOGGER.log(WARNING, "Game not exists!");
-      return;
+  private CompletableFuture<Void> removeFromDisk() {
+    if (!removeFromDiskCb.isSelected()) {
+      return CompletableFuture.completedFuture(null);
     }
+
+    LOGGER.log(INFO, "Remove from disk selected!");
     Path folderPath = Path.of(currentGame.targetPath()).getParent();
 
     if (folderPath == null || folderPath.toString().isBlank()) {
       LOGGER.log(WARNING, "Directory not found! " + currentGame.targetPath());
-      return;
+      return CompletableFuture.completedFuture(null);
     }
 
-    Optional<ButtonType> result = showConfirmationAlert(
-        "Delete this Game Files?",
-        "This will permanently delete the folder: " + folderPath
-    );
-
-    if (result.isEmpty() || result.get() != ButtonType.OK) {
-      LOGGER.log(INFO, "Canceled to remove game from disk");
-      return;
-    }
-    deleteFolderAsync(folderPath, "Game folder");
+    return removeGameService.deleteDirectoryAsync(folderPath, "Game folder");
   }
 
-  private void removePrefix() {
+  private CompletableFuture<Void> removePrefix() {
+    LOGGER.log(INFO, "Remove prefix selected!");
     String pfx = currentGame.pfx();
+
+    if (!removePrefixCb.isSelected()) {
+      return CompletableFuture.completedFuture(null);
+    }
+
     if (pfx == null || pfx.isBlank()) {
       LOGGER.log(WARNING, "Prefix path is not set for game: " + currentGame.title());
-      return;
+      return CompletableFuture.completedFuture(null);
     }
+
     Path pfxPath = Path.of(pfx);
     if (!Files.exists(pfxPath)) {
       LOGGER.log(WARNING, "Prefix directory does not exist: " + pfx);
-      return;
+      return CompletableFuture.completedFuture(null);
     }
-    Optional<ButtonType> result = showConfirmationAlert(
-        "Delete Wine Prefix?",
-        "This will remove all Wine settings and saves for this game at: " + pfxPath
-    );
 
-    if (result.isEmpty() || result.get() != ButtonType.OK) {
-      LOGGER.log(INFO, "Canceled to remove game from disk");
-      return;
-    }
-    deleteFolderAsync(pfxPath, "Game prefix");
+    return removeGameService.deleteDirectoryAsync(pfxPath, "Game prefix");
   }
 
   private void removePrefixVisible() {
-    if (OsUtils.isWindows()) { // FIXME don`t forget switch isWindows to isLinux
+    if (OsUtils.isLinux()) {
       removePrefixCb.setVisible(true);
       removePrefixCb.setManaged(true);
     }
@@ -204,22 +243,7 @@ public class RemoveGameController {
     dialogPane.getScene().setFill(Color.TRANSPARENT);
 
     dialogPane.getStylesheets().add(
-        getClass().getResource(UI.REMOVE_GAME_ALERT_CSS).toExternalForm()
-    );
+        getClass().getResource(UI.REMOVE_GAME_ALERT_CSS).toExternalForm());
     return alert.showAndWait();
-  }
-
-  private void deleteFolderAsync(Path folderPath, String description) {
-    LOGGER.log(INFO, "Starting async deletion of " + description + ": " + folderPath);
-
-    CompletableFuture.runAsync(() -> {
-      try (var walk = Files.walk(folderPath)) {
-        walk.sorted(Comparator.reverseOrder())
-            .map(Path::toFile)
-            .forEach(File::delete);
-      } catch (IOException e) {
-        LOGGER.log(ERROR, "Failed to delete " + description + "! " + e.getMessage());
-      }
-    }).thenRun(() -> LOGGER.log(INFO, description + " deleted successfully."));
   }
 }
