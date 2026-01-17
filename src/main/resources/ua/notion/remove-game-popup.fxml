@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="rootPane" styleClass="root-pane" xmlns="http://javafx.com/javafx/17.0.12"
+  xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.notion.controllers.RemoveGameController">
+  <children>
+    <VBox alignment="CENTER_LEFT" maxWidth="300.0" spacing="10">
+      <padding>
+        <Insets bottom="10" left="16" right="12"/>
+      </padding>
+      <children>
+        <AnchorPane prefHeight="30.0" prefWidth="300.0" fx:id="topPane"
+          onMouseDragged="#handleMovementAction" onMousePressed="#handlePressAction">
+          <children>
+            <Label fx:id="removeGameLabel" styleClass="remove-game-label"
+              text="Remove (name game) from launcher"
+              textAlignment="CENTER" wrapText="true" mouseTransparent="true"
+              AnchorPane.topAnchor="15.0"
+              AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0">
+            </Label>
+          </children>
+          <VBox.margin>
+            <Insets bottom="5.0" top="10.0"/>
+          </VBox.margin>
+        </AnchorPane>
+
+        <VBox alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="300.0" spacing="11"
+          minHeight="75.0">
+          <children>
+            <CheckBox fx:id="removeFromLauncherCb" mnemonicParsing="false"
+              styleClass="default-check-box"
+              text="Remove game from launcher"/>
+            <CheckBox fx:id="removePrefixCb" mnemonicParsing="false" styleClass="default-check-box"
+              text="Remove game prefix" visible="false" managed="false"/>
+            <CheckBox fx:id="removeFromDiskCb" mnemonicParsing="false"
+              styleClass="default-check-box"
+              text="Remove game from disk"/>
+          </children>
+        </VBox>
+
+        <HBox alignment="CENTER" spacing="20">
+          <VBox.margin>
+            <Insets top="5.0"/>
+          </VBox.margin>
+          <children>
+            <Button fx:id="noButton" alignment="CENTER" minHeight="24" minWidth="98"
+              mnemonicParsing="false" onAction="#onNoButtonPressed" styleClass="default-button"
+              text="No"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="yesButton" alignment="CENTER" minHeight="24" minWidth="98"
+              mnemonicParsing="false" onAction="#onYesButtonPressed" styleClass="default-button"
+              text="Yes"/>
+          </children>
+          <padding>
+            <Insets bottom="5.0"/>
+          </padding>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
+</StackPane>

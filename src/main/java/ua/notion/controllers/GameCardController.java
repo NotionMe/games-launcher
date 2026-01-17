@@ -29,9 +29,9 @@ public class GameCardController {
 
     public void setGame(Game game) {
         this.game = game;
-        setTitle(game.title());
-        setCover(game.coverPath());
-        setIcon(game.iconPath());
+        setTitle(game.getTitle());
+        setCover(game.getCoverPath());
+        setIcon(game.getIconPath());
     }
 
     private void setCover(String resourcePath) {
@@ -53,8 +53,8 @@ public class GameCardController {
     @FXML
     private void cardPressAction() {
         if (game != null) {
-            String path = game.targetPath();
-            LOGGER.log(INFO, "choice game: " + game.title());
+            String path = game.getTargetPath();
+            LOGGER.log(INFO, "choice game: " + game.getTitle());
             LOGGER.log(INFO, "path to game: " + path);
         }
         SideDrawerController.show(game);

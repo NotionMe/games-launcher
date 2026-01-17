@@ -1,0 +1,47 @@
+.root-pane{
+  -fx-background-color: #3D3D3D;
+  -fx-background-radius: 10;
+}
+.remove-game-label{
+  -fx-font-family: "Fira Sans Medium";
+  -fx-text-fill: #FFFFFF;
+  -fx-font-size: 12;
+}
+.default-check-box{
+  -fx-font-family: "Fira Sans Medium";
+  -fx-text-fill: #FFFFFF;
+  -fx-font-size: 12;
+}
+.default-check-box .box{
+  -fx-background-color: #D9D9D9;
+  -fx-background-radius: 0;
+
+  -fx-border-color: transparent;
+  -fx-border-width: 1;
+}
+.default-check-box:hover .box {
+  -fx-border-color: #FFFFFF;
+  -fx-cursor: hand;
+}
+.default-check-box:selected .box {
+  -fx-background-color: #FFFFFF;
+  -fx-border-color: #FFFFFF;
+}
+.default-check-box:selected .mark {
+  -fx-background-color: #3D3D3D;
+  -fx-shape: "M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z";
+  -fx-scale-shape: true;
+}
+.default-button {
+  -fx-background-color: #565656;
+  -fx-text-fill: #FFFFFF;
+  -fx-background-radius: 0;
+  -fx-font-size: 12;
+}
+.default-button:hover {
+  -fx-background-color: #707070;
+  -fx-cursor: hand;
+}
+.default-button:pressed {
+  -fx-background-color: #8a8a8a;
+}

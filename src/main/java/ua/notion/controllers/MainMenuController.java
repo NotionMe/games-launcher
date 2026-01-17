@@ -269,7 +269,6 @@ public class MainMenuController {
 
     SideDrawerController.setMainMenuController(this);
     GameSelectController.setMainMenuController(this);
-    GameSelectController.setUser(user);
     GameSelectController.setGameService(gameService);
     GameService.setMainMenuController(this);
 
@@ -279,6 +278,13 @@ public class MainMenuController {
         windowHandler.initHandler(stage);
       }
     });
+
+    loadGames();
+  }
+
+  public void refreshLibrary(){
+    cardContainer.getChildren().clear();
+    this.user = userData.findAll();
 
     loadGames();
   }

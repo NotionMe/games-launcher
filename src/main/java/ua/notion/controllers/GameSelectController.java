@@ -36,14 +36,11 @@ import java.util.concurrent.CompletableFuture;
 import ua.notion.utils.Config;
 import ua.notion.utils.OsUtils;
 
-
 public class GameSelectController {
-
 
   private final WindowHelper windowHelper = new WindowHelper();
   private final SteamGridDB steamGridDB = new SteamGridDB(Config.getSteamGridDBApiKey());
   private final UserRepository userRepository = new UserData();
-  private static User user;
   private static final Logger LOGGER = System.getLogger(GameSelectController.class.getName());
   private static MainMenuController mainMenuController;
   private static GameService gameService;
@@ -76,7 +73,6 @@ public class GameSelectController {
   private TextField wineDllOverridesField;
   @FXML
   private TextField executablePathField;
-
 
   @FXML
   private TextField argumentsField;
@@ -187,10 +183,6 @@ public class GameSelectController {
     GameSelectController.mainMenuController = mainMenuController;
   }
 
-  public static void setUser(User user) {
-    GameSelectController.user = user;
-  }
-
   public static void setGameService(GameService gameService) {
     GameSelectController.gameService = gameService;
   }
@@ -271,16 +263,14 @@ public class GameSelectController {
   }
 
   private void setupGames() {
-    Image iconPath =
-        imageService.loadImage(iconPathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
-    Image coverPath =
-        imageService.loadImage(imagePathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
+    User user = userRepository.findAll();
 
-    String protonPath =
-        new File(Data.PROTON_PATH, wineVersionComboBox.getValue()).getAbsolutePath();
+    Image iconPath = imageService.loadImage(iconPathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
+    Image coverPath = imageService.loadImage(imagePathField.getText(), UI.DEFAULT_COVER_PATH, getClass());
 
-    String wineDllOverrides =
-        wineDllOverridesCheckBox.isSelected() ? wineDllOverridesField.getText() : "";
+    String protonPath = new File(Data.PROTON_PATH, wineVersionComboBox.getValue()).getAbsolutePath();
+
+    String wineDllOverrides = wineDllOverridesCheckBox.isSelected() ? wineDllOverridesField.getText() : "";
 
     String launchArguments = (argumentsField != null) ? argumentsField.getText() : "";
 

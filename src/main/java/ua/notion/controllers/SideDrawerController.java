@@ -3,13 +3,17 @@ package ua.notion.controllers;
 import static java.lang.System.Logger.Level.ERROR;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.System.Logger;
 import java.util.concurrent.CompletableFuture;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Side;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -20,7 +24,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import ua.notion.components.User;
 import ua.notion.data.UserData;
@@ -30,6 +37,7 @@ import ua.notion.services.ImageService;
 import ua.notion.ui.animation.AnimationHelper;
 import ua.notion.ui.fx.WindowHelper;
 import ua.notion.components.Game;
+import ua.notion.utils.Constants;
 import ua.notion.utils.Constants.UI;
 import ua.notion.utils.Constants.Views;
 import ua.notion.utils.OsUtils;
@@ -165,10 +173,10 @@ public class SideDrawerController {
     boolean isAnimationDisabled = userData.findAll().getLauncherSettings().isAnimationDisabled();
 
     if (game != null) {
-      animationHelper.transitionToBackground(game.coverPath(),
+      animationHelper.transitionToBackground(game.getCoverPath(),
           mainMenuController.getBackgroundImageView(), isAnimationDisabled);
       headerImageView.setImage(
-          imageService.loadImage(game.coverPath(), UI.DEFAULT_COVER_PATH, getClass()));
+          imageService.loadImage(game.getCoverPath(), UI.DEFAULT_COVER_PATH, getClass()));
     }
 
     if (isAnimationDisabled) {
@@ -221,7 +229,7 @@ public class SideDrawerController {
         User user = userData.findAll();
         gameLauncher.play(currentGame, user);
       } catch (Exception e) {
-        LOGGER.log(ERROR, "Failed to launch game: " + currentGame.title(), e);
+        LOGGER.log(ERROR, "Failed to launch game: " + currentGame.getTitle(), e);
       }
     }).whenComplete((result, error) ->
         Platform.runLater(() -> {
@@ -242,7 +250,29 @@ public class SideDrawerController {
 
   @FXML
   private void onRemoveAction() {
-    System.out.println("you press button Remove");
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(Views.REMOVE_GAME_POPUP));
+      Node root = loader.load();
+
+      RemoveGameController removeGameController = loader.getController();
+      removeGameController.setCurrentGame(currentGame);
+
+      Stage popupStage = new Stage();
+      popupStage.initStyle(StageStyle.UNDECORATED);
+      popupStage.initStyle(StageStyle.TRANSPARENT);
+
+      popupStage.initModality(Modality.APPLICATION_MODAL);
+      popupStage.initOwner(drawerRoot.getScene().getWindow());
+
+      Scene scene = new Scene((Parent) root, 300, 170);
+      scene.setFill(Color.TRANSPARENT);
+
+      popupStage.setScene(scene);
+
+      popupStage.showAndWait();
+    } catch (IOException e){
+      LOGGER.log(ERROR, "Could not load remove popup " + e.getMessage());
+    }
   }
 
   @FXML
@@ -258,15 +288,15 @@ public class SideDrawerController {
   @FXML
   private void onFoldersAction() {
 
-    if (currentGame == null || currentGame.targetPath() == null) {
+    if (currentGame == null || currentGame.getTargetPath() == null) {
       return;
     }
 
-    File parentDir = new File(currentGame.targetPath()).getParentFile();
-    String pfxPath = currentGame.pfx();
+    File parentDir = new File(currentGame.getTargetPath()).getParentFile();
+    String pfxPath = currentGame.getPfx();
 
     if (OsUtils.isLinux()) {
-      if(contextMenu != null && contextMenu.isShowing()){
+      if (contextMenu != null && contextMenu.isShowing()) {
         contextMenu.hide();
         return;
       }
@@ -291,8 +321,7 @@ public class SideDrawerController {
 
       contextMenu.getItems().addAll(game, prefix);
       contextMenu.show(foldersButton, Side.BOTTOM, 0, 0);
-    }
-    else{
+    } else {
       OsUtils.openPath(parentDir);
     }
   }
