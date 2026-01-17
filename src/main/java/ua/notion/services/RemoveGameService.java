@@ -30,7 +30,7 @@ public class RemoveGameService {
     userRepository.save(user);
 
     GameService.refreshLibraryInMenu();
-    LOGGER.log(INFO, "Game removed from library: " + game.title());
+    LOGGER.log(INFO, "Game removed from library: " + game.getTitle());
   }
 
   public CompletableFuture<Void> deleteDirectoryAsync(Path path, String description) {
@@ -46,5 +46,18 @@ public class RemoveGameService {
         throw new RuntimeException("Deletion failed", e);
       }
     });
+  }
+
+  public void clearPrefixData(Game game){
+    User user = userRepository.findAll();
+
+    user.getLibrary().stream()
+        .filter(g -> g.equals(game))
+        .findFirst()
+        .ifPresent(storedGame -> {
+          storedGame.setPfx("");
+          LOGGER.log(INFO, "Pfx path cleared for game: " + storedGame.getTitle());
+        });
+    userRepository.save(user);
   }
 }

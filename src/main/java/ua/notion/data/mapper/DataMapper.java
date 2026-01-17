@@ -37,8 +37,8 @@ public class DataMapper {
 
   public static UserDTO toDTO(User user) {
     List<GameDTO> gameDTOs = user.getLibrary().stream()
-        .map(g -> new GameDTO(g.title(), g.targetPath(), g.launchArguments(), g.pfx(),
-            g.dllWineOverride(), g.defaultProtonVersion(), g.iconPath(), g.coverPath()))
+        .map(g -> new GameDTO(g.getTitle(), g.getTargetPath(), g.getLaunchArguments(), g.getPfx(),
+            g.getDllWineOverride(), g.getDefaultProtonVersion(), g.getIconPath(), g.getCoverPath()))
         .collect(Collectors.toList());
     return new UserDTO(user.getId(), user.getPaths(), user.getLauncherSettings(), gameDTOs);
   }

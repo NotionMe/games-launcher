@@ -173,10 +173,10 @@ public class SideDrawerController {
     boolean isAnimationDisabled = userData.findAll().getLauncherSettings().isAnimationDisabled();
 
     if (game != null) {
-      animationHelper.transitionToBackground(game.coverPath(),
+      animationHelper.transitionToBackground(game.getCoverPath(),
           mainMenuController.getBackgroundImageView(), isAnimationDisabled);
       headerImageView.setImage(
-          imageService.loadImage(game.coverPath(), UI.DEFAULT_COVER_PATH, getClass()));
+          imageService.loadImage(game.getCoverPath(), UI.DEFAULT_COVER_PATH, getClass()));
     }
 
     if (isAnimationDisabled) {
@@ -229,7 +229,7 @@ public class SideDrawerController {
         User user = userData.findAll();
         gameLauncher.play(currentGame, user);
       } catch (Exception e) {
-        LOGGER.log(ERROR, "Failed to launch game: " + currentGame.title(), e);
+        LOGGER.log(ERROR, "Failed to launch game: " + currentGame.getTitle(), e);
       }
     }).whenComplete((result, error) ->
         Platform.runLater(() -> {
@@ -288,12 +288,12 @@ public class SideDrawerController {
   @FXML
   private void onFoldersAction() {
 
-    if (currentGame == null || currentGame.targetPath() == null) {
+    if (currentGame == null || currentGame.getTargetPath() == null) {
       return;
     }
 
-    File parentDir = new File(currentGame.targetPath()).getParentFile();
-    String pfxPath = currentGame.pfx();
+    File parentDir = new File(currentGame.getTargetPath()).getParentFile();
+    String pfxPath = currentGame.getPfx();
 
     if (OsUtils.isLinux()) {
       if (contextMenu != null && contextMenu.isShowing()) {

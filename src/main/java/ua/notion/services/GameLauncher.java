@@ -38,36 +38,36 @@ public class GameLauncher {
 
   private void launchLinux(Game game) {
     String script = Data.SCRIPT_PATH.getAbsolutePath();
-    String protonPath = game.defaultProtonVersion();
+    String protonPath = game.getDefaultProtonVersion();
 
     List<String> command = new ArrayList<>();
     command.add(script);
     command.add(protonPath);
-    command.add(game.targetPath());
-    command.add(game.pfx());
-    command.add(game.dllWineOverride());
+    command.add(game.getTargetPath());
+    command.add(game.getPfx());
+    command.add(game.getDllWineOverride());
 
-    addArguments(command, game.launchArguments());
+    addArguments(command, game.getLaunchArguments());
 
     executeProcess(command, game);
   }
 
   private void launchWindows(Game game) {
     List<String> command = new ArrayList<>();
-    command.add(game.targetPath());
+    command.add(game.getTargetPath());
 
-    addArguments(command, game.launchArguments());
+    addArguments(command, game.getLaunchArguments());
 
     executeProcess(command, game);
   }
 
   private void executeProcess(List<String> command, Game game) {
-    if (game.targetPath() == null) {
+    if (game.getTargetPath() == null) {
       LOGGER.log(ERROR, "Error: Game target path is null");
       return;
     }
 
-    File workDir = new File(game.targetPath()).getParentFile();
+    File workDir = new File(game.getTargetPath()).getParentFile();
 
     LOGGER.log(DEBUG, "DEBUG COMMAND: " + command);
 
@@ -78,14 +78,14 @@ public class GameLauncher {
 
       Process process = pb.start();
 
-      LOGGER.log(INFO, "Started game: " + game.title());
+      LOGGER.log(INFO, "Started game: " + game.getTitle());
 
       process.onExit().thenAccept(p ->
         LOGGER.log(INFO,
-            "Game closed: " + game.title() + " (Exit code: " + p.exitValue() + ")"));
+            "Game closed: " + game.getTitle() + " (Exit code: " + p.exitValue() + ")"));
     } catch (IOException e) {
       LOGGER.log(ERROR,
-          "Error launching " + game.title() + ": " + e.getMessage(), e);
+          "Error launching " + game.getTitle() + ": " + e.getMessage(), e);
     }
   }
 
