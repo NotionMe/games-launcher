@@ -251,7 +251,7 @@ public class RemoveGameController {
   }
 
   private void removePrefixVisible() {
-    if (OsUtils.isWindows()) {
+    if (OsUtils.isLinux()) {
       removePrefixCb.setVisible(true);
       removePrefixCb.setManaged(true);
     }
